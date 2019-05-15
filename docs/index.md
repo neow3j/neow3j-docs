@@ -9,4 +9,7 @@ to NEO nodes/clients.
 
 ## Contents
 
-[How-To](how-to.md)
+### How-To
+[How to build a contract transaction](how-to-contract-transaction.md)
+
+[How to build a claim transaction](how-to-claim-transaction.md)

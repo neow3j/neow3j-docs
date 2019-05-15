@@ -1,6 +1,6 @@
-# How-to
+# How to build a contract transaction
 
-## Build a raw asset transaction
+> Since neow3j v1.0.9
 
 Even though the RPC call `sendtoaddress` allows for convenient and intuitive
 sending of NEO or GAS to an address, it is not always an option. If the caller
