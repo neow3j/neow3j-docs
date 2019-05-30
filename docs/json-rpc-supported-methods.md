@@ -20,14 +20,14 @@ The following NEO JSON-RPC methods are implemented in neow3j:
 - [x] `getconnectioncount`: Gets the current number of connections for the node.
 - [x] `getcontractstate <script_hash>`: Returns information about the contract based on the specified script hash.
 - [ ] `getmetricblocktimestamp <blockNumbers> <endHeight>`: Returns timestamps of the specified block and its previous n blocks.
-- [ ] `getnep5balances <address>`: Returns the balance of all NEP-5 assets in the specified address.
+- [x] `getnep5balances <address>`: Returns the balance of all NEP-5 assets in the specified address.
 - [ ] `getnep5transfers <address>`: Returns all the NEP-5 transaction information occurred in the specified address.
 - [x] `getnewaddress`: Creates a new address. **Needs to open the wallet**.
 - [x] `getrawmempool`: Gets a list of unconfirmed transactions in memory.
 - [x] `getrawtransaction <txid> [verbose=0]`: Returns the corresponding transaction information based on the specified hash value.
 - [ ] `getunclaimed <address>`: Returns unclaimed GAS amount of the specified address.
 - [ ] `getunclaimedgas`: Gets the amount of unclaimed GAS in the wallet. **Needs to open the wallet**.
-- [ ] `getunspents <address>`: Returns information of the unspent UTXO assets at the specified address.
+- [x] `getunspents <address>`: Returns information of the unspent UTXO assets at the specified address.
 - [x] `getstorage <script_hash> <key>`: Returns the stored value based on the contract script hash and key.
 - [ ] `gettransactionheight <txid>`: Returns the block index in which the transaction is found.
 - [x] `gettxout <txid> <n>`: Returns the corresponding transaction output (change) information based on the specified hash and index.
