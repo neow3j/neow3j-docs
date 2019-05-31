@@ -16,7 +16,7 @@ The following NEO JSON-RPC methods are implemented in neow3j:
 - [x] `getblockhash <index>`: Returns the hash value of the corresponding block based on the specified index.
 - [x] `getblockheader <hash> [verbose=0]`: Returns the corresponding block header information according to the specified script hash.
 - [x] `getblocksysfee <index>`: Returns the system fees before the block according to the specified index.
-- [ ] `getclaimable <address>`: Returns claimable GAS information of the specified address.
+- [x] `getclaimable <address>`: Returns claimable GAS information of the specified address.
 - [x] `getconnectioncount`: Gets the current number of connections for the node.
 - [x] `getcontractstate <script_hash>`: Returns information about the contract based on the specified script hash.
 - [ ] `getmetricblocktimestamp <blockNumbers> <endHeight>`: Returns timestamps of the specified block and its previous n blocks.
