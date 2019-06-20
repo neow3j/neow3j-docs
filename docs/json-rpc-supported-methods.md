@@ -40,7 +40,7 @@ The following NEO JSON-RPC methods are implemented in neow3j:
 - [x] `invokefunction <script_hash> <operation> <params>`: Invokes a smart contract at specified script hash, passing in an operation and its params.
 - [x] `invokescript <script>`: Runs a script through the virtual machine and returns the results.
 - [x] `listaddress`: Lists all the addresses in the current wallet.	**Needs to open the wallet**.
-- [ ] `listplugins`: Returns a list of plugins loaded by the node.
+- [x] `listplugins`: Returns a list of plugins loaded by the node.
 - [x] `sendrawtransaction <hex>`: Broadcast a transaction over the network. See the network protocol documentation.
 - [ ] `sendfrom <asset_id> <address> <value> [fee=0]`: Transfers from the specified address to the destination address. **Needs to open the wallet**.
 - [x] `sendtoaddress <asset_id> <address> <value> [fee=0] [change_address]`: Transfer to specified address. **Needs to open the wallet**.

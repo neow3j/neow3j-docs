@@ -9,9 +9,13 @@ Besides finding your answers here, you can also reach the neow3j community on:
 
 ## Table of Contents
 
-1. [Introduction](https://github.com/neow3j/neow3j-docs/tree/master/docs/introduction.md)
-2. [Basic Java project with neow3j](https://github.com/neow3j/neow3j-docs/tree/master/docs/basic-java-project-with-neow3j.md)
+1. [Introduction](docs/introduction.md)
+2. [Basic Java project with neow3j](docs/basic-java-project-with-neow3j.md)
 3. [Addresses](https://github.com/neow3j/neow3j-docs/tree/master/docs/keypairs-and-neo-addresses.md)
-4. Raw Transactions
-  * [Claim Transactions](https://github.com/neow3j/neow3j-docs/blob/master/docs/how-to-claim-transaction.md)
-  * [Contract Transactions](https://github.com/neow3j/neow3j-docs/blob/master/docs/how-to-contract-transaction.md)
+4. Wallet
+    - [Wallet and Accounts](docs/wallet/wallet_and_accounts.md)
+    - [Asset Transfer](docs/wallet/asset_transfer.md)
+5. Raw Transactions
+    - [Claim Transactions](docs/raw_transactions/how-to-claim-transaction.md)
+    - [Contract Transactions](docs/raw_transactions/how-to-contract-transaction.md)
+
