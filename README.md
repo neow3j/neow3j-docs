@@ -1,4 +1,4 @@
-__Please note:__ The documentation here are currently outdated and does not represent the recent state of Neow3j. We are working on documentation and examples. Meanwhile, please ask any quenstions directly in the NEO Discord Java channel.
+__Please note:__ The documentation here is currently outdated and does not represent the recent state of Neow3j. We are working on documentation and examples. Meanwhile, please ask any questions directly in the NEO Discord Java channel.
 
 # neow3j Documentation
 
