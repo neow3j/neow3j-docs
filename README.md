@@ -1,3 +1,5 @@
+__Please note:__ The documentation here are currently outdated and does not represent the recent state of Neow3j. We are working on documentation and examples. Meanwhile, please ask any quenstions directly in the NEO Discord Java channel.
+
 # neow3j Documentation
 
 Welcome to the documentation of the [neow3j](https://neow3j.io) project.
