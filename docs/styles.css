@@ -1,0 +1,11 @@
+/* ---------- */
+/* Cover Page */
+/* ---------- */
+
+section.cover {
+  background: #fff !important;
+}
+
+section.cover img {
+  width: 400px;
+}
