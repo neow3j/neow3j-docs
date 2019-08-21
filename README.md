@@ -1,23 +1,10 @@
-__Please note:__ The documentation here is currently outdated and does not represent the recent state of Neow3j. We are working on documentation and examples. Meanwhile, please ask any questions directly in the NEO Discord Java channel.
-
 # neow3j Documentation
 
-Welcome to the documentation of the [neow3j](https://neow3j.io) project.
+Welcome to the repository that hosts the documentation the [neow3j](https://neow3j.io) Java library. 
 
-Besides finding your answers here, you can also reach the neow3j community on:
+The documentation website runs at http://docs.neow3j.io/.
 
-* [Discord](https://discord.io/neo), #java channel
-* [GitHub issues](https://github.com/neow3j/neow3j/issues)
+Besides this documentation you can also get answers and help through:
 
-## Table of Contents
-
-1. [Introduction](docs/introduction.md)
-2. [Basic Java project with neow3j](docs/basic-java-project-with-neow3j.md)
-3. [Addresses](https://github.com/neow3j/neow3j-docs/tree/master/docs/keypairs-and-neo-addresses.md)
-4. Wallet
-    - [Wallet and Accounts](docs/wallet/wallet_and_accounts.md)
-    - [Asset Transfer](docs/wallet/asset_transfer.md)
-5. Raw Transactions
-    - [Claim Transactions](docs/raw_transactions/how-to-claim-transaction.md)
-    - [Contract Transactions](docs/raw_transactions/how-to-contract-transaction.md)
-
+* [NEO Discord](https://discord.io/neo) (#java channel)
+* [neow3j GitHub issues](https://github.com/neow3j/neow3j/issues)
