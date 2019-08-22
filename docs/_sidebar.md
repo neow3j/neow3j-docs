@@ -9,6 +9,7 @@
 
   - [Monitoring the blockchain](guides/monitoring.md)
   - [Wallets and Accounts](guides/wallets_and_accounts.md)
+  - [Transfering assets](guides/asset_transfer.md)
 
 - Advanced Topics
 

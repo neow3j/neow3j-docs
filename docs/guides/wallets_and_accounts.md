@@ -100,9 +100,16 @@ Account a2 = Account.fromMultiSigKeys(publicKeys, 2)
         .build();
 ```
 
-An important part of an account are its asset and token balances. When you use 
-an account in transactions that require assets or tokens you need to make sure 
-that the balances are up to date before making the transaction.
-This can be done with the methods `updateAssetBalances(Neow3j neow3j)` and
-`updateTokenBalances(Neow3j neow3j)`, which call an RPC node for the 
-balance information.
+
+### Account Balances
+
+An important part of an account are its asset and token balances. Be aware that
+an account's balances are not constantly synced with the blockchain state.
+When you use an account for example in a transaction that requires assets or
+tokens, you need to make sure that the local balance information is up to date
+before making the transaction. This can be done with the methods
+`updateAssetBalances(Neow3j neow3j)` and `updateTokenBalances(Neow3j neow3j)`,
+which execute an RPC to retrieve the balance information.
+
+Updating the balances is left to the developer because that gives her the
+control of how often these RPCs are made.

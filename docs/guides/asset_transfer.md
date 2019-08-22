@@ -1,48 +1,58 @@
 ## Asset Transfers
 
-> Mention that the  RpcSystemAssetTracker plugin is needed in the node
-
-An transfer of global assets is easiest done by using the `AssetTransfer` class.
-
-In the simplest case you have an `Account` with a public and private key, e.g.
-obtained from a fresh key pair (`ecKeyPair` in the example). 
-You will also need an RPC node that has the RpcSystemAssetTrackerPlugin
-installed. It is needed for retrieving an accounts unspent transactino outputs
-(UTXOs).
+Asset transfers are handled by the `AssetTransfer` class. In any scenario you 
+will need a connection to an RPC node via a `Neow3j` instance.
 
 ```java
-Account fromAccount = Account.fromECKeyPair(ecKeyPair).build();
-Neow3j neow3j = Neow3j.build(new HttpService("http://nucbox.axlabs.com:30333"));
+Neow3j neow3j = Neow3j.build(new HttpService("http://seed7.ngd.network:10332"));
 ```
 
-In order that Neow3j knows the balances of your account you need to update them.
-Use the following line. This makes a call to the RPC node. It is up to the
-developer to make this updates. Neow3j will not do them on its own. This way the
-developer has full control over how often these balance updates should happen. 
+Because in an asset transfer neow3j needs to pick approproate inputs from an
+account according to the intended outputs, the connected RPC node needs to have
+the `RpcSystemAssetTrackerPlugin` installed (see the 
+[Requirements](overview/requirements.md) section).
+<!-- TODO: Finish the Requiremnts section. -->
+
+
+### Simple Asset Transfer
+
+In the simplest scenario you have an `Account` with a public and private key,
+e.g. a newly created one, as in the example below, or one from a wallet that you
+loaded from a NEP-6 file. If you instantiated the wallet from a NEP-6 file, make
+sure that the account you want to use has been decrypted either with
+`Account.decryptPrivateKey(...)` or `Wallet.decryptAllAccounts(...)`. This is
+necessary for automatically creating the transaction signature.
+
+In order that neow3j can pick the apporpriate inputs for your transfer you need
+to update your account's balances before building the asset transfer Use the
+`Account.updateAssetBalances()` method for this.
+
+What remains is to specify how much of what asset you want to transfer to whom.
+These three things together represent a transaction output.
+
+After building the `AssetTransfer` object you can sign and send it. The `send()` 
+method does not return any information about the state of the transaction, but
+it will throw an exception in case the RPC node returns an error.
+
+In the example below a fee is added to the transfer. This is the network fee
+which helps give the transfer priority in the network.
 
 ```java
+Neow3j neow3j = Neow3j.build(new HttpService("http://seed7.ngd.network:10332"));
+
+Account fromAccount = Account.createAccount();
 fromAccount.updateAssetBalances(neow3j);
-```
 
-Now specify what you want to send to whom. This is done by creating a
-Transactino Output. In the example we send 10 NEO.
-
-```java
-String toAddress = "AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y";
-RawTransactionOutput output = new RawTransactionOutput(NEOAsset.HASH_ID, "10", toAddress);
-```
-
-All that remains is building the AssetTransfer object with the above arguments
-and sending it. 
-You can voluntarily specify a fee for your transaction, for higher priority.
-
-```java
-AssetTransfer transfer = new AssetTransfer.Builder()
-        .neow3j(neow3j)
+AssetTransfer transfer = new AssetTransfer.Builder(neow3j)
         .account(fromAccount)
-        .output(output)
-        .fee(new BigDecimal("0.001")
-        .build();
-
-transfer.send();
+        .output(NEOAsset.HASH_ID, 10, "AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y")
+        .networkFee(0.001)
+        .build()
+        .sign()
+        .send()
 ```
+
+### Asset Transfer from multi-sig account
+
+
+
