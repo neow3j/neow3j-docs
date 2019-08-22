@@ -6,6 +6,7 @@ Guides:
 - Contract invocation 
   - single address example
   - multi-sig example
+- Sending tokens
 - Contract deployment
 - Creating an Android application
 - Creating a backend application using Spring Boot 

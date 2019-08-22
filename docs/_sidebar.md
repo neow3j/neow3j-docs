@@ -2,8 +2,7 @@
 - Overview
 
   - [Getting Started](overview/getting_started.md)
-  - [Concepts](overview/concepts.md)
-  - [Modules](overview/modules.md)
+  - [Concepts & Structure](overview/concepts_and_structure.md)
   - [Requirements](overview/requirements.md)
 
 - Guides

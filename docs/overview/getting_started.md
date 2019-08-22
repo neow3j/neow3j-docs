@@ -1,8 +1,5 @@
 ## Getting started
 
-Neow3j is based on Java 8 and is therefore for Java applications that use Java
-version >= 8 and Android applications that use API level >= 24.
-
 To get all neow3j features add the `io.neow3j:contract` project to your
 dependencies. Because neow3j is split into multiple project modules you can also
 depend on a subset of the functionality for example if you only require certain

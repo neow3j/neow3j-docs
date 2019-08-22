@@ -1,21 +1,57 @@
-# Modules
+# Concepts and Structure
+
+Neow3j attempts to provide a high abstraction layer that reliefs the developer
+from tricky details of the NEO blockchain. At the same time it gives the
+possibility to use less abstract concepts for sepcial case where more control is
+needed.
+
+The abstract activites in which neow3j supports you are:
+- Transfering assets like NEO and GAS
+- Transfering tokens
+- Invoking smart contracts
+- Deploying smart contracts
+- Claiming GAS (work in progress)
+- Monitoring the blockchain
+
+
+## Modules
 
 Neow3j is separated into multiple modules to make commonly useful functionality
-separately available without imposing dependencies on more specific 
+separately available without imposing dependency on more specific 
 functionionality. The "top-level" modules that provide the most abstract and
 convenient API are _wallet_ and _contract_. In fact, if you add _contract_
-as a dependency you will get all other modules as well.
+as a dependency you will get all other modules as well because it has all of 
+them as dependencies. The whole dependency graph between the modules is depicted 
+here.
+
+```
+model 
+  ^
+  |--- utils 
+  |      ^
+  |      |
+  |------+--- crypto 
+  |      |      ^
+  |      |      |
+  |------+------+--- core 
+  |      |      |      ^
+  |      |      |      |
+  |------+------+------+--- wallet 
+  |      |      |      |      ^
+  |      |      |      |      |
+  `------+------+------+------+--- contract 
+```
 
 In the following subsection each module is briefly described.
 
 
-## io.neow3j:model
+### io.neow3j:model
 
 The _model_ module contains mostly enums that define types like the different
 transaction types that exist in NEO 2. This module is used in all other modules.
 
 
-## io.neow3j:utils
+### io.neow3j:utils
 
 The _utils_ module holds utility methods.
 The most notable classes here are:
@@ -39,14 +75,14 @@ These classess are
 -->
 
 
-## io.neow3j:crypto
+### io.neow3j:crypto
 
 The _crypto_ module provides the basics for the cryptography used in neow3j.
 Everything related to key pairs (class `ECKeyPairs`) and signatures (class 
 `Sign`) resides in this module.
 
 
-## io.neow3j:core
+### io.neow3j:core
 
 The _core_ module implements the basics for interacting with the NEO 
 blockchain. The most prominent class here is `Neow3j`, which is used for making 
@@ -58,7 +94,7 @@ It also holds specific classes representing some of NEO's transaction types
 (`ContractTransaction`, `InvocationTransaction`, `ClaimTransaction`).
 
 
-## io.neow3j:wallet
+### io.neow3j:wallet
 
 The _wallet_ module introduces the concept of accounts and wallets. It for 
 example provides functionality to read and write from NEP-6 wallet files and 
@@ -68,32 +104,11 @@ This module also provides the `AssetTransfer` class, which does everything
 related to transfering global assets like NEO and GAS.
 
 
-## io.neow3j:contract
+### io.neow3j:contract
 
 The _contract_ module contains functionality related to smart contracts. It
 handles smart contract deployment, invocation, and loading of a contract's ABI.
 
 
-## Dependencies
+### Module dependency
 
-The dependencies between the modules is represented by the order of appearence
-above. Each module depends on all modules mentioned before. The dependency tree 
-is depicted below. 
-
-```
-model 
-  ^
-  |--- utils 
-  |      ^
-  |      |
-  |------+--- crypto 
-  |      |      ^
-  |      |      |
-  |------+------+--- core 
-  |      |      |      ^
-  |      |      |      |
-  |------+------+------+--- wallet 
-  |      |      |      |      ^
-  |      |      |      |      |
-  `------+------+------+------+--- contract 
-```

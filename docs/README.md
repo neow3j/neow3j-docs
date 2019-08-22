@@ -27,7 +27,7 @@ __Neow3j__ is an open-source project developed by the community and maintained b
 * Retry on node errors
 * Android support from API 24, which covers [~49%](https://developer.android.com/about/dashboards/) of **all active** Android devices ([~1 billion devices](https://www.youtube.com/watch?v=vWLcyFtni6U#t=2m46s))
 
-### Upcoming Features/Enhancements
+## Upcoming Features/Enhancements
 
 * Documentation and example Android apps
 * GAS claiming
