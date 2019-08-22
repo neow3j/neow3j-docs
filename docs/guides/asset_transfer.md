@@ -1,8 +1,8 @@
-# Asset Transfers
+## Asset Transfers
 
-An transfer of global assets can be done by using the `AssetTransfer` class. It
-can also be done manually by constructing a `ContractTransaction` and sending it
-to an RPC node but the `AssetTransfer` works at a higher abstraction layer.
+> Mention that the  RpcSystemAssetTracker plugin is needed in the node
+
+An transfer of global assets is easiest done by using the `AssetTransfer` class.
 
 In the simplest case you have an `Account` with a public and private key, e.g.
 obtained from a fresh key pair (`ecKeyPair` in the example). 
