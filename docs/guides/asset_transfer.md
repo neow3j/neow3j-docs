@@ -1,4 +1,4 @@
-## Transferring assets
+## Transferring Assets
 
 Asset transfers are handled by the `AssetTransfer` class. In any scenario you 
 will need a connection to an RPC node via a `Neow3j` instance.

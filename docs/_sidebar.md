@@ -7,9 +7,10 @@
 
 - Guides
 
-  - [Monitoring the blockchain](guides/monitoring.md)
+  - [Monitoring the Blockchain](guides/monitoring.md)
   - [Wallets and Accounts](guides/wallets_and_accounts.md)
-  - [Transfering assets](guides/asset_transfer.md)
+  - [Transferring Assets](guides/asset_transfer.md)
+  - [Invoking Smart Contracts](guides/contract_invocation.md)
 
 - Advanced Topics
 

@@ -1,8 +1,10 @@
 Guides:
 
-- Asset transfer
-  - single address example
-  - multi-sig example
+- [x] Asset transfer
+  - [x] single address example
+  - [x] transferring with specific UTXOs
+  - [x] transferring from a smart contract
+  - [x] multi-sig example
 - Contract invocation 
   - single address example
   - multi-sig example
