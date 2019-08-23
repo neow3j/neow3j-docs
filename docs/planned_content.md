@@ -16,6 +16,8 @@ Guides:
 
 Advanced topics:
 
+- script hashes
+- input selection strategy in all transactions that require inputs
 - observable pattern in JSON-RPC API
 - create key pair from WIF.
 - get WIF from key pair.

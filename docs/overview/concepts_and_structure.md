@@ -13,6 +13,10 @@ The abstract activites in which neow3j supports you are:
 - Claiming GAS (work in progress)
 - Monitoring the blockchain
 
+## UTXO model
+
+<!-- TODO: Explain the UTXO model -->
+
 
 ## Modules
 
