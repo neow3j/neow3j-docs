@@ -7,11 +7,10 @@ will need a connection to an RPC node via a `Neow3j` instance.
 Neow3j neow3j = Neow3j.build(new HttpService("http://seed7.ngd.network:10332"));
 ```
 
-Because in an asset transfer neow3j needs to pick approproate inputs from an
-account according to your intended outputs, the connected RPC node needs to have
-the `RpcSystemAssetTrackerPlugin` installed (see the 
+In an asset transfer, neow3j needs to select appropriate transaction inputs
+according to your intended transaction outputs. Therefore, the RPC node in use
+needs to have the `RpcSystemAssetTrackerPlugin` installed (see the
 [Requirements](overview/requirements.md) section).
-<!-- TODO: Finish the Requiremnts section. -->
 
 
 ### Simple Asset Transfer
