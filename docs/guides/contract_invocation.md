@@ -192,3 +192,4 @@ SignatureData sig2 = Sign.signMessage(unsignedTxHex, keyPair2);
 RawScript witness = RawScript.createMultiSigWitness(2, Arrays.asList(sig1, sig2), keys);
 
 at.addWitness(witness).invoke();
+```
