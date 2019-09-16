@@ -4,7 +4,7 @@
 
 It's possible to either generate a brand new key pair -- which will give a new NEO address -- or, yet, load an existing key pair.
 
-The `neow3j` library provides several classes that acts as convenience wrappers to perform operations related to key pais and NEO addresses.
+The `neow3j` library provides several classes that act as convenience wrappers to perform operations related to key pairs and NEO addresses.
 
 You can find running examples related to key pairs and addresses, [here](https://github.com/neow3j/neow3j-examples/tree/master/src/main/java/io/neow3j/examples/keys).
 
@@ -46,9 +46,9 @@ String neoAddress = Keys.getAddress(ecKeyPair);
 System.out.println("NEO Address: " + neoAddress);
 ```
 
-## Create a multisig NEO Address
+## Create a multi-sig NEO Address
 
-The whole concept of a multi-signature address, or in short "multisig", is to create an address that is controlled by several parties. The parties, in this context, are key pairs holders.
+The whole concept of a multi-signature address, or in short "multi-sig", is to create an address that is controlled by several parties. The parties, in this context, are key pairs holders.
 
 Thus, it's possible in `neow3j` to create an address from multiple `ECKeyPair` instances -- which, in the NEO blockchain, would require the signature of all `ECKeyPair` instances to unlock transactions.
 

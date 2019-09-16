@@ -1,9 +1,6 @@
 # Getting started
 
-To get all neow3j features add the `io.neow3j:contract` project to your
-dependencies. Because neow3j is split into multiple project modules you can also
-depend on a subset of the functionality for example if you only require certain
-utility methods.
+To get all neow3j features, add the `io.neow3j:contract` project to your dependencies. Because neow3j is split into multiple project modules you can also depend on a subset of the functionality, for example, if you only require certain utility methods.
 
 
 ## Releases
@@ -26,8 +23,7 @@ __Maven__
 
 ## Development Snapshots
 
-If you would like to test `SNAPSHOT` versions, which preview the most recent
-features but are unstable and not ready for production, use the following
+If you would like to test `SNAPSHOT` versions, which preview the most recent features but are unstable and not ready for production, use the following
 repository.
 
 __Gradle__

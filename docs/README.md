@@ -21,7 +21,7 @@ __Neow3j__ is an open-source project developed by the community and maintained b
 * Passphrase-protected private keys (NEP-2)
 * Wallet and Account model supporting NEP-6
 * NEO-compatible Mnemonic utilities (BIP-39)
-* Multisig address utilities
+* Multi-sig address utilities
 * Building, signing, and sending raw transactions
 * Sync and async interface
 * Retry on node errors
