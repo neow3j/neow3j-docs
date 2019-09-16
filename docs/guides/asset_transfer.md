@@ -1,4 +1,4 @@
-## Transferring Assets
+# Transferring Assets
 
 Asset transfers are handled by the `AssetTransfer` class. In any scenario you 
 will need a connection to an RPC node via a `Neow3j` instance.
@@ -7,13 +7,10 @@ will need a connection to an RPC node via a `Neow3j` instance.
 Neow3j neow3j = Neow3j.build(new HttpService("http://seed7.ngd.network:10332"));
 ```
 
-In an asset transfer, neow3j needs to select appropriate transaction inputs
-according to your intended transaction outputs. Therefore, the RPC node in use
-needs to have the `RpcSystemAssetTrackerPlugin` installed (see the
-[Requirements](overview/requirements.md) section).
+In an asset transfer, neow3j needs to select appropriate transaction inputs according to your intended transaction outputs. Therefore, the RPC node in use needs to have the `RpcSystemAssetTrackerPlugin` installed (see the [Requirements](overview/requirements?id=rpc-nodes) section).
 
 
-### Simple Asset Transfer
+## Basic Asset Transfer
 
 In the simplest scenario you have an `Account` with a public and private key,
 e.g. a newly created one, as in the example below, or one from a wallet that you
@@ -57,7 +54,7 @@ In the example a fee is also added to the transfer. This is the network fee
 that give the transfer priority in the network.
 
 
-### Asset Transfer with specific Inputs
+## Asset Transfer with specific Inputs
 
 Instead of letting neow3j automatically select the inputs for an asset transfer 
 you can also tell it which inputs it should use. Use the `Utxo` class to specify 
@@ -92,7 +89,7 @@ AssetTransfer at = new AssetTransfer.Builder(neow3j)
 ```
 
 
-### Asset Transfer from a Smart Contract
+## Asset Transfer from a Smart Contract
 
 Instead of transferring assets directly from one of your accounts you can
 'withdraw' assets from a smart contract. Of course, your account must be
@@ -123,7 +120,7 @@ AssetTransfer at = new AssetTransfer.Builder(neow3j)
 ```
 
 
-### Asset Transfer from Multi-sig address
+## Asset Transfer from Multi-sig address
 
 Multi-sig addresses are usually not controlled by one single entity. Meaning the
 private keys of the involved key pairs are not all available to sign a 
@@ -176,8 +173,8 @@ AssetTransfer at = new AssetTransfer.Builder(neow3j)
         .build();
 
 byte[] unsignedTxHex = at.getTransaction().toArrayWithoutScripts();
-SignatureData sig1 = Sign.signMessage(unsignedTxHex, SampleKeys.KEY_PAIR_1);
-SignatureData sig2 = Sign.signMessage(unsignedTxHex, SampleKeys.KEY_PAIR_2);
+SignatureData sig1 = Sign.signMessage(unsignedTxHex, keyPair1);
+SignatureData sig2 = Sign.signMessage(unsignedTxHex, keyPair2);
 RawScript witness = RawScript.createMultiSigWitness(2, Arrays.asList(sig1, sig2), keys);
 
 at.addWitness(witness).send();

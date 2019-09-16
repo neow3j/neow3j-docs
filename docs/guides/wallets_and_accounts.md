@@ -1,4 +1,4 @@
-## Wallets and Accounts
+# Wallets and Accounts
 
 The concept of wallets and accounts is as follows. An account entails a
 cryptographic key pair and the address that corresponds to the keys. It has a
@@ -8,7 +8,7 @@ distributed over multiple accounts, a wallet is a useful abstraction when
 spending does assets without caring from which account they are taken.
 
 
-### Creating a wallet
+## Creating a wallet
 
 The easiest way to create a new wallet is by using one of the static creation 
 methods. 
@@ -53,7 +53,7 @@ Wallet w = new Wallet.Builder()
 ```
 
 
-### Creating an account
+## Creating an account
 
 The easiest way to create a new account is by using the static creation method
 that bypasses the builder pattern. This account holds a fresh key pair.
@@ -101,7 +101,7 @@ Account a2 = Account.fromMultiSigKeys(publicKeys, 2)
 ```
 
 
-### Account Balances
+## Account Balances
 
 An important part of an account are its asset and token balances. Be aware that
 an account's balances are not constantly synced with the blockchain state.

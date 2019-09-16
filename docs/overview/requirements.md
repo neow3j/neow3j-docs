@@ -1,6 +1,6 @@
 # Requirements
 
-## System requirements
+## System Requirements
 
 Neow3j is based on Java 8 and therefore requires applications to use Java
 version >= 8. For Android applications this implies use of API level >= 24.
