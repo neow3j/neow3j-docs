@@ -6,8 +6,11 @@ Guides:
   - [x] transferring from a smart contract
   - [x] multi-sig example
 - Contract invocation 
-  - single address example
-  - multi-sig example
+  - [x] single address example
+  - [x] test invocation
+  - [x] transaction fees
+  - [x] adding attributes and scripts
+  - [x] manually signing the transaction
 - Sending tokens
 - Contract deployment
 - Creating an Android application
