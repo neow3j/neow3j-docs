@@ -11,6 +11,7 @@
   - [Wallets and Accounts](guides/wallets_and_accounts.md)
   - [Transferring Assets](guides/asset_transfer.md)
   - [Invoking Smart Contracts](guides/contract_invocation.md)
+  - [NEP-5 Token Contracts](guides/token_contracts.md)
 
 - Advanced Topics
 
