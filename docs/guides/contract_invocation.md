@@ -9,6 +9,17 @@ Neow3j neow3j = Neow3j.build(new HttpService("http://seed7.ngd.network:10332"));
 If a fee is added to an invocation, neow3j needs to select appropriate transaction inputs to cover that fee. Therefore, the RPC node in use needs to have the `RpcSystemAssetTrackerPlugin` installed (see the [Requirements](overview/requirements?id=rpc-nodes) section).
 
 
+## Contract Parameters
+
+When invoking a smart contract, you will most likely use parameters. For example, when invoking a contract that follows the NEP-3 standard, we will need to provide the desired method that we want to call as a parameter. If that method takes arguments, then we add these arguments in an additional parameter to the invocation. 
+
+For parameter definition in neow3j, use the `ContractParameter` class. It provides many static construction methods that cover all possible parameter types. If you use those methods neow3j will make sure that the parameter is sent to the contract in the correct encoding and the correct type declaration.
+
+When creating a parameter of the type byte array, make sure to read the method documentation which indicates with which endianness the value has to be provided.
+
+If you need to pass a script hash of a NEO address as a parameter, you can use the method `ContractParameter.byteArrayFromAddress(...)`. It converts the address to its script hash in byte array form.
+
+
 ## Basic Contract Invocation
 
 First, you have to specify which contract you want to invoke. Use the `ScriptHash` class for this and pass it the script hash of the contract you want to call.
@@ -17,7 +28,7 @@ First, you have to specify which contract you want to invoke. Use the `ScriptHas
 ScriptHash scriptHash = new ScriptHash("1a70eac53f5882e40dd90f55463cce31a9f72cd4");
 ```
 
-Then you need to define the parameters that will be passed to the contract. If the contract follows the NEP-3 standard you will have to pass one parameter defining the method to call and a second parameter that defines the arguments for that method. In this example, the method `register` is called with a domain name and an address that should be registered under that domain name. The arguments have to be packed together in an array parameter.
+Then you need to define the parameters that will be passed to the contract.  In this example, the method `register` is called with a domain name and an address that should be registered under that domain name. The method arguments have to be packed together in an array parameter.
 
 ```java
 ContractParameter methodParam = ContractParameter.string("register");
