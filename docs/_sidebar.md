@@ -15,5 +15,6 @@
   - [Deploying Smart Contracts](guides/contract_deployment.md)
 
 - Advanced Topics
+  - [Key Pairs and NEO Addresses](adv_topics/keypairs_and_neo_addresses.md)
 
 - [Contributing](contributing.md)
