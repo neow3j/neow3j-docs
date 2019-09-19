@@ -23,14 +23,14 @@ Guides:
 
 Advanced topics:
 
-- script hashes
-- input selection strategy in all transactions that require inputs
-- observable pattern in JSON-RPC API
-- Key Pair related (create key pair from WIF, get WIF from key pair, creating addresses from key pairs.
-- signing and creating witnesses
-- create claim transaction
-- create contract transaction using multi-sig address
-- send raw transactions
-- BIP-39 wallets (creating, loading, etc.)
-- processing InvocationResults (StackItem)
-- loading contracts (ABI)
+- [ ] script hashes
+- [x] input selection strategy in all transactions that require inputs
+- [ ] observable pattern in JSON-RPC API
+- [x] Key Pair related (create key pair from WIF, get WIF from key pair, creating addresses from key pairs.
+- [ ] signing and creating witnesses
+- [ ] create claim transaction
+- [ ] create contract transaction using multi-sig address
+- [ ] send raw transactions
+- [ ] BIP-39 wallets (creating, loading, etc.)
+- [ ] processing InvocationResults (StackItem)
+- [ ] loading contracts (ABI)

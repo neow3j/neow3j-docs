@@ -16,5 +16,6 @@
 
 - Advanced Topics
   - [Key Pairs and NEO Addresses](adv_topics/keypairs_and_neo_addresses.md)
+  - [Input Selection Strategy](adv_topics/input_selection_strategy.md)
 
 - [Contributing](contributing.md)
