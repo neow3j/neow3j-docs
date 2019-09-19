@@ -5,18 +5,19 @@ Guides:
   - [x] transferring with specific UTXOs
   - [x] transferring from a smart contract
   - [x] multi-sig example
-- Contract invocation 
+- [x] Contract invocation 
   - [x] single address example
   - [x] test invocation
   - [x] transaction fees
   - [x] adding attributes and scripts
   - [x] manually signing the transaction
-- Sending tokens
-- Contract deployment
-- Creating an Android application
-- Creating a backend application using Spring Boot 
-- Create an application using Kotlin
-- How to test a smart contract (from AVM file) with Neow3j
+- [x] Sending tokens
+- [x] Contract deployment
+- [ ] Reading the application log from a contract invocation 
+- [ ] Creating an Android application
+- [ ] Creating a backend application using Spring Boot
+- [ ] Create an application using Kotlin
+- [ ] How to test a smart contract (from AVM file) with Neow3j
 
 
 Advanced topics:
