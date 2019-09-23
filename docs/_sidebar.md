@@ -1,4 +1,3 @@
-
 - Overview
 
   - [Getting Started](overview/getting_started.md)
@@ -17,5 +16,6 @@
 - Advanced Topics
   - [Key Pairs and NEO Addresses](adv_topics/keypairs_and_neo_addresses.md)
   - [Input Selection Strategy](adv_topics/input_selection_strategy.md)
+  - [Reading Application Logs](adv_topics/application_log.md)
 
 - [Contributing](contributing.md)
