@@ -14,7 +14,6 @@ Guides:
   - [x] manually signing the transaction
 - [x] Sending tokens
 - [x] Contract deployment
-- [ ] Reading the application log from a contract invocation 
 - [ ] Creating an Android application
 - [ ] Creating a backend application using Spring Boot
 - [ ] Create an application using Kotlin
@@ -27,6 +26,7 @@ Advanced topics:
 - [x] input selection strategy in all transactions that require inputs
 - [ ] observable pattern in JSON-RPC API
 - [x] Key Pair related (create key pair from WIF, get WIF from key pair, creating addresses from key pairs.
+- [x] Reading the application log from a contract invocation 
 - [ ] signing and creating witnesses
 - [ ] create claim transaction
 - [ ] create contract transaction using multi-sig address
