@@ -111,7 +111,7 @@ ContractInvocation invoc = new ContractInvocation.Builder(neow3j)
 
 Usually, a smart contract provides a standard entry point that takes a parameter that specifies which function of the contract should be called. If this is not the case you can also call a function directly. Use `ContractInvocation.function(...)` for this.
 
-The parameters that are passed to the function are defined differently in comparison to the [simple example](guides/contract_invocation?id=simple-contract-invocation). They are not combined in an array but added separately. This is correct if the specific function takes two separate parameters. You need to know the method signatures of the contract well, to be able to construct valid invocations.
+The parameters that are passed to the function are defined differently in comparison to the [basic example](guides/contract_invocation?id=basic-contract-invocation). They are not combined in an array but added separately. This is correct if the specific function takes two separate parameters. You need to know the method signatures of the contract well, to be able to construct valid invocations.
 
 ```java
 Neow3j neow3j = Neow3j.build(new HttpService("http://seed7.ngd.network:10332"));
