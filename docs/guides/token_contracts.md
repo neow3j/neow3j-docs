@@ -70,8 +70,8 @@ Note that the methods `name` and `symbol` return a String, whereas the methods `
 To transfer tokens from one account to another, you can use the `transfer` method in the `Nep5` class.
 The following example shows how to setup a transfer of tokens.
 
-Let us assume that you are holding the private key of the fromAccount and want to transfer 10 tokens to the address
-AThahtT85bNZj9VKPVBet7SF1aXJ7jw3RY.
+Let us assume that you are holding the private key of the `fromAccount` and want to transfer 10 tokens to the address
+`AThahtT85bNZj9VKPVBet7SF1aXJ7jw3RY`.
 
 ```java
 Neow3j neow3j = Neow3j.build(new HttpService("http://seed7.ngd.network:10332"));
