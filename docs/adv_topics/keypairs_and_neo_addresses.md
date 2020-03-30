@@ -4,7 +4,7 @@ In neow3j the concept of a cryptographic "key pair" is represented by the `ECKey
 
 Neow3j provides many convenient methods to perform operations related to key pairs and NEO addresses.
 
-You can find running code examples related to key pairs and addresses [here](https://github.com/neow3j/neow3j-examples/tree/master/src/main/java/io/neow3j/examples/keys).
+You can find running code examples related to key pairs and addresses [here](https://github.com/neow3j/neow3j-examples-java/tree/master/src/main/java/io/neow3j/examples/keys).
 
 
 ## Create a new Key Pair
