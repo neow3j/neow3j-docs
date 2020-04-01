@@ -59,4 +59,3 @@ Well... then, it was simply natural to imagine [Bongo Cat](https://knowyourmeme.
 * This project was strongly based on [web3j](https://web3j.io),
 a library originally developed by [Conor Svensson](http://conorsvensson.com), latest on [this commit](https://github.com/web3j/web3j/commit/2a259ece9736c0338fbb66b1be4c04aba0855254).
 We are really thankful for it. :-)
-
