@@ -1,12 +1,14 @@
 # Monitoring the blockchain 
 
-For the retrieval of information about the blockchain and the network's state, neow3j relies on NEO's RPC nodes. You can initialize the connection to such a node with the following line.
+For the retrieval of information about the blockchain and the network's state, neow3j relies on NEO's RPC nodes. You
+can initialize the connection to such a node with the following line.
 
 ```java
 Neow3j neow3j = Neow3j.build(new HttpService("http://seed1.ngd.network:10332"));
 ```
 
-Depending on what RPC methods you want to use you have to make sure that the node has the appropriate plugins installed. E.g. the 
+Depending on what RPC methods you want to use you have to make sure that the node has the appropriate plugins installed.
+E.g. the 
 
 * Get all blocks starting from, e.g. `2889367`, and subscribe to also get newly generated NEO blocks:
 

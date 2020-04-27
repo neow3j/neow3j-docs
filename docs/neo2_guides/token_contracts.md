@@ -87,5 +87,5 @@ nep5.transfer(from, to, "10");
 The transfer method can take the amount to be transferred as a BigInteger, as well as a String for better
 developer experience.
 
-Further, note that in a correctly implemented token contract the account used to initiate the transfer must be the owner of
-the transferred tokens.
+Further, note that in a correctly implemented token contract the account used to initiate the transfer must be the owner
+of the transferred tokens.

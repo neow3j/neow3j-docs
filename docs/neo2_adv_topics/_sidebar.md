@@ -13,7 +13,7 @@
     - [NEP-5 Token Contracts](neo2_guides/token_contracts.md)
     - [Deploying Smart Contracts](neo2_guides/contract_deployment.md)
     
-    <details>
+    <details open>
      <summary><b>Advanced Topics</b></summary>
      
        - [Key Pairs and NEO Addresses](neo2_adv_topics/keypairs_and_neo_addresses.md)
@@ -29,7 +29,7 @@
     
     - [Monitoring the Blockchain](neo3_guides/monitoring.md)
     - [Wallets and Accounts](neo3_guides/wallets_and_accounts.md)
-    - [Transferring Assets](neo3_guides/asset_transfer.md)
+    - [Transferring Assets](asset_transfer.md)
     - [Invoking Smart Contracts](neo3_guides/contract_invocation.md)
     - [NEP-5 Token Contracts](neo3_guides/token_contracts.md)
     - [Deploying Smart Contracts](neo3_guides/contract_deployment.md)
