@@ -13,11 +13,6 @@ The abstract activities in which neow3j supports you are:
 - Monitoring the blockchain
 
 
-## UTXO model
-
-?> _TODO_ Explanation of NEO's UTXO model
-
-
 ## Modules
 
 Neow3j is separated into multiple modules to make commonly useful functionality separately available without imposing
