@@ -32,6 +32,7 @@
     - [Transferring Assets](neo3_guides/asset_transfer.md)
     - [Invoking Smart Contracts](neo3_guides/contract_invocation.md)
     - [NEP-5 Token Contracts](neo3_guides/token_contracts.md)
+    - [Smart Contract Development](neo3_guides/contract_development.md)
     - [Deploying Smart Contracts](neo3_guides/contract_deployment.md)
     
     <details open>

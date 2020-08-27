@@ -3,7 +3,7 @@
   - [Concepts & Structure](overview/concepts_and_structure.md)
   - [Requirements](overview/requirements.md)
 
-  <details open>
+  <details>
     <summary><b>Neo 2 Guides</b></summary>
     
     - [Monitoring the Blockchain](neo2_guides/monitoring.md)
@@ -32,6 +32,7 @@
     - [Transferring Assets](neo3_guides/asset_transfer.md)
     - [Invoking Smart Contracts](neo3_guides/contract_invocation.md)
     - [NEP-5 Token Contracts](neo3_guides/token_contracts.md)
+    - [Smart Contract Development](neo3_guides/contract_development.md)
     - [Deploying Smart Contracts](neo3_guides/contract_deployment.md)
     
     <details>
