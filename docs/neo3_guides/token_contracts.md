@@ -1,1 +1,1 @@
-?> _TODO_ Explanation of how to interact with token contracts
+?> Coming soon!
