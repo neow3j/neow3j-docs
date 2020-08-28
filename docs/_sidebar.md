@@ -16,9 +16,9 @@
     <details>
      <summary><b>Advanced Topics</b></summary>
      
-       - [Key Pairs and NEO Addresses](neo2_adv_topics/keypairs_and_neo_addresses.md)
-       - [Input Selection Strategy](neo2_adv_topics/input_selection_strategy.md)
-       - [Reading Application Logs](neo2_adv_topics/application_log.md)
+       - [Key Pairs and NEO Addresses](neo2_guides/neo2_adv_topics/keypairs_and_neo_addresses.md)
+       - [Input Selection Strategy](neo2_guides/neo2_adv_topics/input_selection_strategy.md)
+       - [Reading Application Logs](neo2_guides/neo2_adv_topics/application_log.md)
      
      </details>
     
