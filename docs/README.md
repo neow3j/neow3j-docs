@@ -1,38 +1,53 @@
 # neow3j 
 
-[![Build Status](https://travis-ci.org/neow3j/neow3j.svg?branch=master)](https://travis-ci.org/neow3j/neow3j)
-![Maven metadata URI](https://img.shields.io/maven-metadata/v/http/central.maven.org/maven2/io/neow3j/core/maven-metadata.xml.svg)
-[![Discord](https://img.shields.io/discord/382937847893590016?label=discord)](https://discord.io/neo)
+Neow3j is a development toolkit that provides easy and reliable tools to build Neo dApps and Smart
+Contracts using the Java platform (Java, Kotlin, Android).
 
-__Neow3j__ is a Java library that aims at providing an easy and reliable integration of Java programs with the NEO blockchain. You can focus on building Java/Android applications that interact with the NEO blockchain and its nodes, without being concerned about the low-level details.
+By using neow3j, you will happily play with Neo and end up neow'ing around like [Bongo
+Cat](https://knowyourmeme.com/memes/bongo-cat).
 
-By using **neow3j**, you will happily play with NEO and end up neow'ing around like [Bongo Cat](https://knowyourmeme.com/memes/bongo-cat).
+Neow3j is an open-source project developed by the community and maintained by
+[AxLabs](https://axlabs.com).
 
-__Neow3j__ is an open-source project developed by the community and maintained by [AxLabs](https://axlabs.com).
+The neow3j development toolkit is composed of:
+- neow3j SDK
+- neow3j devpack
+- neow3j compiler
+
+> Note that there are two versions of neow3j. One for [Neo 2](https://docs.neo.org/docs/en-us/index.html) 
+> and one for [Neo 3](https://docs.neo.org/v3/docs/en-us/index.html). It is expected that neow3j for
+> Neo 3 will undergo many changes in the near future until a stable version of Neo 3 is released.
 
 ## Features
 
-* Support for NEO RPC [API version 2.10.2](https://docs.neo.org/docs/en-us/reference/rpc/latest-version/api.html)
-* (see [list of supported RPC methods](/?id=supported-api-methods))
+* Support for NEO JSON-RPC API version
+    [2.10.3](https://docs.neo.org/docs/en-us/reference/rpc/latest-version/api.html) and
+    [3.0.0](https://docs.neo.org/v3/docs/en-us/index.html)
 * Observable pattern for monitoring the NEO blockchain
-* Asset transfers
-* Smart contract invocations
-* Smart contract deployments
-* Passphrase-protected private keys (NEP-2)
-* Wallet and Account model supporting NEP-6
-* NEO-compatible Mnemonic utilities (BIP-39)
-* Multi-sig address utilities
-* Building, signing, and sending raw transactions
 * Sync and async interface
-* Retry on node errors
-* Android support from API 24, which covers [~49%](https://developer.android.com/about/dashboards/) of **all active** Android devices ([~1 billion devices](https://www.youtube.com/watch?v=vWLcyFtni6U#t=2m46s))
+* Token transfers
+* Smart contract invocation
+* Smart contract deployment
+* Building, signing, and sending raw transactions
+* Wallet and Account model supporting NEP-6
+* Multi-sig address utilities
+* Passphrase-protected private keys (NEP-2)
+* Mnemonic utilities (BIP-39)
+* Android support from API 24, which covers [~49%](https://developer.android.com/about/dashboards/) 
+    of all active Android devices ([~1 billion devices](https://www.youtube.com/watch?v=vWLcyFtni6U#t=2m46s))
+* Smart contract development and compilation in Java
 
-## Upcoming Features/Enhancements
 
-* Documentation and example Android apps
-* GAS claiming
-* NEP5 token contract interaction (already possible via normal contract invocation API)
-* Select best seed NEO node based on some metrics (e.g., latency)
+## Versioning
+
+First of all, don't be confused by the _3_ in neow3j. It is not related to the version of Neo. Its
+meaning is explained below.
+
+Versioning of neow3j partially follows an adapted variant of semantic versioning. To be consistent
+with Neo's major versions, neow3j keeps its major version fixed to the current Neo version. E.g.
+neow3j 3.x.x for Neo 3. The semantics of the version number is therefore shifted to the right.
+Incrementing the minor number means that breaking changes were applied. Incrementing the patch
+version implies backward-compatible features and bug fixes were added.
 
 
 ## Donate
