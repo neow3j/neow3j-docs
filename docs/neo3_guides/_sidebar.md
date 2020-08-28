@@ -29,21 +29,12 @@
     
     - [Monitoring the Blockchain](neo3_guides/monitoring.md)
     - [Wallets and Accounts](neo3_guides/wallets_and_accounts.md)
-    - [Transferring Assets](neo3_guides/asset_transfer.md)
+    - [Transferring Tokens](neo3_guides/token_transfer.md)
     - [Invoking Smart Contracts](neo3_guides/contract_invocation.md)
     - [NEP-5 Token Contracts](neo3_guides/token_contracts.md)
     - [Smart Contract Development](neo3_guides/contract_development.md)
     - [Deploying Smart Contracts](neo3_guides/contract_deployment.md)
-    
-    <details>
-      <summary><b>Advanced Topics</b></summary>
-              
-       - [Key Pairs and NEO Addresses](neo3_adv_topics/keypairs_and_neo_addresses.md)
-       - [Input Selection Strategy](neo3_adv_topics/input_selection_strategy.md)
-       - [Reading Application Logs](neo3_adv_topics/application_log.md)
-            
-    </details>
-        
+
   </details>
   
   [**Contributing**](../contributing.md)
