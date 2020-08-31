@@ -72,7 +72,7 @@ Add the `io.neow3j:compiler` to your smart contract project and call the compile
 
 Gradle:
 ```groovy
-implementation 'io.neow3j:compiler:3.1.0',
+implementation 'io.neow3j:compiler:3.2.0',
 ```
 
 Maven:
@@ -80,7 +80,7 @@ Maven:
 <dependency>
     <groupId>io.neow3j</groupId>
     <artifactId>compiler</artifactId>
-    <version>3.1.0</version>
+    <version>3.2.0</version>
 </dependency>
 ```
 

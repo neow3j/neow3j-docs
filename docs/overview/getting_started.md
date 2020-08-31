@@ -41,7 +41,7 @@ If you only want to play around with the devpack add the following dependency to
 
 Gradle:
 ```groovy
-implementation 'io.neow3j:devpack:3.1.0',
+implementation 'io.neow3j:devpack:3.2.0',
 ```
 
 Maven:
@@ -49,7 +49,7 @@ Maven:
 <dependency>
     <groupId>io.neow3j</groupId>
     <artifactId>compiler</artifactId>
-    <version>3.1.0</version>
+    <version>3.2.0</version>
 </dependency>
 ```
 
