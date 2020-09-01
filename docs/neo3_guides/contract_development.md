@@ -269,12 +269,6 @@ public static byte[] doSomething() {
 }
 ```
 
-> Note: The compilation of array initialization for byte arrays is currently faulty. The
-> neow3j compiler uses the `NEWARRAY` opcode to initializes such an array, but that doesn't create a
-> `Buffer` in the NeoVM. It additionally does not help to add `CONVERT 30` to convert the created
-> array to a `Buffer`. Therefore, there is currently no way to setup, e.g., a script hash byte 
-> array. 
-
 
 ### Inheritance
 
