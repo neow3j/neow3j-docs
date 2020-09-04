@@ -90,9 +90,6 @@ contract deployment.
 
 
 ### Gradle Plugin
-
-> Note that the plugin is in an early development stage and currently doesn't output a contract 
-> manifest. This prevents deployment of the compiled contract when using the plugin for compilation.
  
 The `io.neow3j.gradle-plugin` can be used inside your Gradle project to launch contract compilation
 as a Gradle task. Add the following few lines to your `build.gradle`.
@@ -117,7 +114,9 @@ neow3jCompiler {
 
 With this setup Gradle should fetch the plugin and a task `neow3jCompile` becomes available.
 Running that task with `./gradlw neow3jCompile` from the project root will compile the smart
-contract class and output a NEF file the directory to `./build/neow3j`. 
+contract class, and output the NEF and contract manifest file to your project's build directory,
+e.g.,`./build/neow3j`. 
+
 
 __Plugin Snapshot Versions__
 
