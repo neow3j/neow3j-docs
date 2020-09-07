@@ -66,7 +66,7 @@ Add the `io.neow3j:compiler` to your smart contract project and call the compile
 
 Gradle:
 ```groovy
-implementation 'io.neow3j:compiler:3.2.1',
+implementation 'io.neow3j:compiler:3.2.2',
 ```
 
 Maven:
@@ -74,7 +74,7 @@ Maven:
 <dependency>
     <groupId>io.neow3j</groupId>
     <artifactId>compiler</artifactId>
-    <version>3.2.1</version>
+    <version>3.2.2</version>
 </dependency>
 ```
 
@@ -98,12 +98,12 @@ as a Gradle task. Add the following few lines to your `build.gradle`.
 // Add the neow3j gradle plugin to the plugins section.
 plugins {
     id 'java'
-    id 'io.neow3j.gradle-plugin' version "3.2.1"
+    id 'io.neow3j.gradle-plugin' version "3.2.2"
 }
 
 // Add the devpack to the dependencies.
 dependencies {
-    compile("io.neow3j:devpack:3.2.1")
+    compile("io.neow3j:devpack:3.2.2")
 }
 
 //Configure the fully qualified name of the class you want to compile.

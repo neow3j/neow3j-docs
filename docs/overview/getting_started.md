@@ -9,7 +9,7 @@ For example, if you only need the passphrase-protected private key feature (NEP-
 
 Gradle:
 ```groovy
-compile 'io.neow3j:contract:3.2.1'
+compile 'io.neow3j:contract:3.2.2'
 ```
 
 Maven:
@@ -17,7 +17,7 @@ Maven:
 <dependency>
     <groupId>io.neow3j</groupId>
     <artifactId>contract</artifactId>
-    <version>3.2.1</version>
+    <version>3.2.2</version>
 </dependency>
 ```
 
@@ -41,7 +41,7 @@ If you only want to play around with the devpack add the following dependency to
 
 Gradle:
 ```groovy
-implementation 'io.neow3j:devpack:3.2.1',
+implementation 'io.neow3j:devpack:3.2.2',
 ```
 
 Maven:
@@ -49,7 +49,7 @@ Maven:
 <dependency>
     <groupId>io.neow3j</groupId>
     <artifactId>compiler</artifactId>
-    <version>3.2.1</version>
+    <version>3.2.2</version>
 </dependency>
 ```
 
