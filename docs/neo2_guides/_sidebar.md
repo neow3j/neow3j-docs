@@ -1,7 +1,8 @@
 - Overview
-  - [Getting Started](../overview/getting_started.md)
-  - [Concepts & Structure](../overview/concepts_and_structure.md)
-  - [Requirements](../overview/requirements.md)
+
+  - [Getting Started](overview/getting_started.md)
+  - [Concepts & Structure](overview/concepts_and_structure.md)
+  - [Requirements](overview/requirements.md)
 
   <details open>
     <summary><b>Neo 2 Guides</b></summary>
@@ -23,7 +24,7 @@
     </details>
     
   </details>
-  
+
   <details>
     <summary><b>Neo 3 Guides</b></summary>
     
@@ -35,5 +36,5 @@
     - [Smart Contract Development](neo3_guides/contract_development.md)
 
   </details>
-  
-  [**Contributing**](../contributing.md)
+
+  [**Contributing**](contributing.md)
