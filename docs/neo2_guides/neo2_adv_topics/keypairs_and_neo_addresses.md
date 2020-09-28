@@ -9,7 +9,6 @@ Neow3j provides many convenient methods to perform operations related to key pai
 You can find running code examples related to key pairs and addresses
 [here](https://github.com/neow3j/neow3j-examples-java/tree/master/src/main/java/io/neow3j/examples/keys).
 
-
 ## Create a new Key Pair
 
 To simply create a new key you can perform the following.
@@ -17,7 +16,6 @@ To simply create a new key you can perform the following.
 ```java
 ECKeyPair ecKeyPair = Keys.createEcKeyPair();
 ```
-
 
 ## Get the WIF from a Key Pair
 
@@ -41,7 +39,6 @@ System.out.println("Private Key (Hex): " + Numeric.toHexStringNoPrefix(ecKeyPair
 System.out.println("Public Key (Hex): " + Numeric.toHexStringNoPrefix(ecKeyPair.getPublicKey()));
 ```
 
-
 ## Get the NEO Address from a Key Pair
 
 Once you have the `ECKeyPair` instance, you can derive the corresponding NEO address from it. Check out the NEO
@@ -51,7 +48,6 @@ from the public key.
 ```java
 String neoAddress = Keys.getAddress(ecKeyPair);
 ```
-
 
 ## Create a multi-sig NEO Address
 
