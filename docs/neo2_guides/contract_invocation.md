@@ -11,12 +11,11 @@ If a fee is added to an invocation, neow3j needs to select appropriate transacti
 the RPC node in use needs to have the `RpcSystemAssetTrackerPlugin` installed (see the
 [Requirements](overview/requirements?id=rpc-nodes) section).
 
-
 ## Contract Parameters
 
 When invoking a smart contract, you will most likely use parameters. For example, when invoking a contract that follows
 the NEP-3 standard, we will need to provide the desired method that we want to call as a parameter. If that method takes
-arguments, then we add these arguments in an additional parameter to the invocation. 
+arguments, then we add these arguments in an additional parameter to the invocation.
 
 For parameter definition in neow3j, use the `ContractParameter` class. It provides many static construction methods that
 cover all possible parameter types. If you use those methods neow3j will make sure that the parameter is sent to the
@@ -28,7 +27,6 @@ endianness the value has to be provided.
 If you need to pass a script hash of a NEO address as a parameter, you can use the method
 `ContractParameter.byteArrayFromAddress(...)`. It converts the address to its script hash in byte array form.
 
-
 ## Basic Contract Invocation
 
 First, you have to specify which contract you want to invoke. Use the `ScriptHash` class for this and pass it the script
@@ -38,7 +36,7 @@ hash of the contract you want to call.
 ScriptHash scriptHash = new ScriptHash("1a70eac53f5882e40dd90f55463cce31a9f72cd4");
 ```
 
-Then you need to define the parameters that will be passed to the contract.  In this example, the method `register` is
+Then you need to define the parameters that will be passed to the contract. In this example, the method `register` is
 called with a domain name and an address that should be registered under that domain name. The method arguments have to
 be packed together in an array parameter.
 
@@ -48,6 +46,7 @@ ContractParameter argumetnsParam = ContractParameter.array(
             ContractParameter.string("neo.com"),
             ContractParameter.byteArrayFromAddress("AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y"));
 ```
+
 Observe that the address to register is not passed to the contract as it is (i.e. as a string), but is converted to a
 byte array. More precisely, it is the script hash of that address that is sent to the contract. That's what the contract
 expects. The static creation method `ContractParameter.byteArrayFromAddress(...)` does all that for you.
@@ -81,7 +80,6 @@ The `invoke()` method does not return information about the state of the invocat
 case the invocation ran into an error while executing on the RPC node. More information about the error can be retrieved
 from the thrown `ErrorResponseException`.
 
-
 ## Testing the Invocation before propagating it
 
 If you need to know the effect of your invocation before actually propagating it through the network, you can do a test
@@ -113,7 +111,6 @@ The `InvocationResult` holds information about the GAS amount consumed in the co
 fail because the witness is not correctly validated. Refer to the related
 [Github issue](https://github.com/neo-project/neo/pull/335).
 
-
 ## Calling a Contract without Parameters
 
 Of course, it is also possible to call a smart contract that doesn't take any parameters. For example, a contract that
@@ -131,8 +128,7 @@ ContractInvocation invoc = new ContractInvocation.Builder(neow3j)
         .invoke();
 ```
 
-
-## Calling a specific Contract Function 
+## Calling a specific Contract Function
 
 Usually, a smart contract provides a standard entry point that takes a parameter that specifies which function of the
 contract should be called. If this is not the case you can also call a function directly.
@@ -157,13 +153,12 @@ ContractInvocation invoc = new ContractInvocation.Builder(neow3j)
         .invoke();
 ```
 
-
 ## Adding Transaction Fees
 
 As in any other transaction, you can add a network fee to your invocation. This will give it priority in the network.
 Additionally, you might need to add a system fee. The system fee depends on the GAS consumption of your invocation.
 When you invoke a contract, the contract execution consumes a certain amount of GAS. You can check that amount with a
-test invocation as described [above](guides/contract_invocation?id=testing-the-invocation-before-propagating-it). 
+test invocation as described [above](guides/contract_invocation?id=testing-the-invocation-before-propagating-it).
 
 In each invocation, the first 10 GAS is for free. If more GAS is consumed, the additional amount has to be added in the
 form of the system fee as shown in the example below.
@@ -186,7 +181,6 @@ ContractInvocation invoc = new ContractInvocation.Builder(neow3j)
         .sign()
         .invoke();
 ```
-
 
 ## Adding Transaction Attributes and Scripts
 
@@ -217,7 +211,6 @@ ContractInvocation invoc = new ContractInvocation.Builder(neow3j)
         .sign()
         .invoke();
 ```
-
 
 ## Manually signing the Invocation
 
