@@ -238,23 +238,29 @@ If you want to compare two strings use the `==` operator. The neow3j compiler cu
 support the `equals()` method but uses the `==` operator instead for equality checks. The compiled
 NeoVM code will not perform a reference comparison but an actual object comparison when using `==`.
 
+String concatenation with the `+` is supported but it cannot be mixed with other types. For example,
+you cannot do `"hello, " + "world!"` + 5. This is because the compiler does not support arbitrary 
+`toString()` methods which are called in such an expression.
+
 
 ### Classes, objects, methods, and variables
 
-A Java-based smart contract consists of one class. Because the NeoVM does not support the concept of
-objects the usage of classes is restricted to their static methods, with some exceptions. This might
-change in the future if we can introduce a reasonable compromise to translate Java objects into
-NeoVM structs.  
-Thus, all methods in your smart contract class have to be static. 
-Class variables are also restricted to static ones. Moverover, static constructors are not
-supported. You can initialize static class variables right where they are defined. The
-initialization can be more complex (e.g., include method calls) than just a simple constant value
-assignment.
+A Java-based smart contract consists of one class. Because the NeoVM does not support objects in the
+same way as the JVM does, the support for objects is limited. First, all methods in your smart
+contract class have to be static. Class variables are also restricted to static ones. Moverover,
+static constructors are not supported. You can initialize static class variables right where they
+are defined. The initialization can be more complex (e.g., include method calls) than just a simple
+constant value assignment.
 
-Constructing new objects with the `new` keyword is unsupported. Exceptions are the primitive type
-wrapper classes (e.g., `Byte`) and arrays. This restriction implies that you cannot use common
-objects like `java.lang.List` or `java.lang.Map`. Use the related classes from the neow3j devpack
-instead, e.g., `io.neow3j.devpack.framework.Enumerator`.
+Constructing new objects with the `new` keyword is, nonetheless, partially supported. You can make
+use of simple objects that do not inherit from any class else than `Object` (e.g.,
+`io.neow3j.devpack.neo.StorageMap`) or are annotated with a neow3j-specific annotation (e.g.
+`io.neow3j.devpack.neo.Map`).
+Object instances are mapped to arrays or structs in the NeoVM. That means that instance field
+variables are indexed like in an array.
+In conclusion, if a type constructor can be used or not, depends on inheritance (not supported) and
+the code that is executed in that constructor. If all of the code in the constructor is supported by
+the neow3j then the object can successfully be instantiated.
 
 
 ### Arrays
