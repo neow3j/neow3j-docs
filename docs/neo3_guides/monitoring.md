@@ -1,1 +1,40 @@
-?> Coming soon!
+**Consider that there is no testnet for Neo 3 yet!** To use neow3j versions `3.+`, you need a local node of Neo 3 running. You can find one [here](http://github.com/axlabs/neo3-privatenet-docker).
+
+# Monitoring the Blockchain
+
+For the retrieval of information about the blockchain and the network's state, neow3j relies on NEO's RPC nodes. You
+can initialize the connection to such a node with the following line.
+
+```java
+Neow3j neow3j = Neow3j.build(new HttpService("http://localhost:40332"));
+```
+
+- Get all blocks starting from, e.g. `2889367`, and subscribe to also get newly generated NEO blocks:
+
+```java
+neow3j.catchUpToLatestAndSubscribeToNewBlocksObservable(new BlockParameterIndex(2889367), true)
+        .subscribe((blockReqResult) -> {
+            System.out.println("#######################################");
+            System.out.println("blockIndex: " + blockReqResult.getBlock().getIndex());
+            System.out.println("hashId: " + blockReqResult.getBlock().getHash());
+            System.out.println("confirmations: " + blockReqResult.getBlock().getConfirmations());
+            System.out.println("transactions: " + blockReqResult.getBlock().getTransactions());
+        });
+
+```
+
+Or, you can just subscribe to the newly generated NEO blocks:
+
+```java
+neow3j.catchUpToLatestAndSubscribeToNewBlocksObservable(BlockParameterName.LATEST, true)
+        .subscribe((blockReqResult) -> {
+            System.out.println("#######################################");
+            System.out.println("blockIndex: " + blockReqResult.getBlock().getIndex());
+            System.out.println("hashId: " + blockReqResult.getBlock().getHash());
+            System.out.println("confirmations: " + blockReqResult.getBlock().getConfirmations());
+            System.out.println("transactions: " + blockReqResult.getBlock().getTransactions());
+        });
+```
+
+<!-- Mention that certain calls require plugins or sufficient node version
+Depending on what RPC methods you want to use you have to make sure that the node has the appropriate plugins installed. -->
