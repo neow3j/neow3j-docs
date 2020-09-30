@@ -16,6 +16,8 @@ Check out the [Getting Started](overview/getting_started.md?id=neow3j-devpack-an
 for information on how to setup a project for smart contract development.
 
 The following shows a basic smart contract making use of some of the devpack features.
+More examples of Java smart contracts can be found in the `io.neow3j.examples.sc.contracts` package
+in the [neow3j-examples repository](https://github.com/neow3j/neow3j-examples-java).
 
 ```java
 import io.neow3j.devpack.framework.Storage;
@@ -37,17 +39,3 @@ public class ExampleContract {
 }
 ```
 
-## Smart Contract API
-
-Neo's smart contract API provides methods to retrieve blockchain information, access a contract's
-storage area, and interact with the execution environment in which a contract is run.
-That API is reproduced in the `io.neow3j:devpack`.
-For the API documentation, refer to the [Neo
-documentation](https://docs.neo.org/v3/docs/en-us/reference/scapi/fw/dotnet/neo.html).
-
-<!-- ## Annotations
-
-Besides the smart contract API, the devpack offers several annotations that can be used on a smart
-contract class.
-
-### @Appcall -->

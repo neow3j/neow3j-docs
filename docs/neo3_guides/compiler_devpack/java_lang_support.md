@@ -1,9 +1,10 @@
-# Limitations
+# Java language support 
 
 Because the NeoVM and the Java virtual machine differ in capabilitites, the neow3j compiler cannot
-support the full feature set of the Java language. Therefore, when you write a smart contract in
-Java be aware of the following limitations. This list is not exhaustive because the compiler is
-still under development.
+support the full feature set of the Java language. The following sections describe what Java
+features are supported and which aren't.
+This list is not exhaustive because the compiler is still under development.
+
 
 ## Number Types
 

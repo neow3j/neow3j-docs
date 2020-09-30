@@ -39,7 +39,8 @@
       - [Introduction](neo3_guides/compiler_devpack/introduction.md#smart-contract-development)
       - [Compilation](neo3_guides/compiler_devpack/compilation.md#compilation)
       - [Deployment](neo3_guides/compiler_devpack/deployment.md#deployment)
-      - [Limitations](neo3_guides/compiler_devpack/limitations.md#limitations)
+      - [Capabilities](neo3_guides/compiler_devpack/capabilities.md)
+      - [Java language support](neo3_guides/compiler_devpack/java_lang_support.md)
 
      </details>
 
