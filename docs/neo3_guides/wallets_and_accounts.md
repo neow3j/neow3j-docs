@@ -1,9 +1,12 @@
 # Wallets and Accounts
 
-The concept of wallets and accounts in Neo is as follows. An account entails a cryptographic key pair and the address that
-corresponds to the keys. It has a balance of global assets and tokens and can interact with smart contracts. A wallet is
-just a collection of accounts. For example, if one has assets distributed over multiple accounts, a wallet is a useful
-abstraction when spending assets without caring from which account they are taken.
+The concept of wallets and accounts in Neo is as follows. An account is made up of a EC key pair.
+From the public key an address is derived which is used to identify the account. An account can be
+used to interact with smart contracts, e.g., the native NEO contract on which the account has a NEO
+token balance.
+The wallet contains one or multiple accounts and can be used as an abstraction if one has multiple
+accounts and doesn't care which account(s) is used in a transaction.
+
 
 ## Creating a Wallet
 
@@ -64,19 +67,19 @@ address and a NEP-6 contract object with the corresponding verification script. 
 private keys of the involved accounts and can therefore not automatically sign transactions.
 
 ```java
-List<BigInteger> publicKeys = Arrays.asList(
+List<ECPublicKey> publicKeys = Arrays.asList(
         ECKeyPair.createEcKeyPair().getPublicKey(),
         ECKeyPair.createEcKeyPair().getPublicKey(),
         ECKeyPair.createEcKeyPair().getPublicKey()
 );
 
-Account a2 = Account.fromMultiSigKeys(publicKeys, 2)
+Account a2 = Account.createMultiSigAccount(publicKeys, 2)
         .label("MyMultiSigAccount");
 ```
 
 ## Account Balances
 
-To check the balances of an account, use the following method.
+To check the NEP-5 balances of an account, use the following method.
 
 ```java
 Neow3j neow3j = Neow3j.build(new HttpService("http://localhost:40332"));
@@ -85,5 +88,4 @@ Account a = Account.createAccount();
 Map<ScriptHash, BigInteger> nep5Balances = a.getNep5Balances(neow3j);
 ```
 
-This returns a map of Nep-5 contracts to the respective balance of the account `a`.
-Checking the balances is left to the developer because that gives her the control of how often these RPCs are made.
+This returns a map of NEP-5 token contracts to the respective balance of the account.

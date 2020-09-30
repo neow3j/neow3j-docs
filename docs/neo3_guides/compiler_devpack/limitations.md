@@ -58,7 +58,7 @@ the neow3j then the object can successfully be instantiated.
 
 ## Arrays
 
-The NeoVM does not support array initialization with non-constant length. Thus the following example
+The NeoVM does not support array initialization with non-constant length. Thus, the following example
 will not work.
 
 ```java
