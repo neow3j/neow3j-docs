@@ -30,8 +30,8 @@
 
   - [Monitoring the Blockchain](neo3_guides/monitoring.md#monitoring-the-blockchain)
   - [Wallets and Accounts](neo3_guides/wallets_and_accounts.md#wallets-and-accounts)
+  - [Invoking Smart Contracts](neo3_guides/contract_invocation.md#invoking-smart-contracts)
   - [Transferring Tokens / Assets](neo3_guides/token_transfer.md#transferring-tokens-assets)
-  - [Invoking Smart Contracts](neo3_guides/contract_invocation.md#contract-invocation)
 
     <details>
       <summary><b>Smart Contract Development</b></summary>
