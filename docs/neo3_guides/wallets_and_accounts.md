@@ -1,11 +1,11 @@
 # Wallets and Accounts
 
-The concept of wallets and accounts in Neo is as follows. An account is made up of a EC key pair.
-From the public key an address is derived which is used to identify the account. An account can be
+The concept of wallets and accounts in Neo is as follows. An account is made up of an EC key pair.
+From the public key an address is derived, which is used to identify the account. An account can be
 used to interact with smart contracts, e.g., the native NEO contract on which the account has a NEO
 token balance.
 The wallet contains one or multiple accounts and can be used as an abstraction if one has multiple
-accounts and doesn't care which account(s) is used in a transaction.
+accounts and doesn't care which account is used in a transaction.
 
 
 ## Creating a Wallet
@@ -19,8 +19,8 @@ Wallet w = Wallet.createWallet();
 This creates a wallet with a new account (new key pair). There are other versions of this method that allow us to
 immediately encrypt the new private key or directly write the wallet to a file after creation.
 
-There are multiple static creation methods. E.g. you can use `fromNEP6Wallet(...)` which reads the wallet information
-from a NEP-6 wallet file.
+If you have a NEP-6 wallet file exported from some other wallet software, you can use
+`fromNEP6Wallet(...)` which reads the wallet information from the NEP-6 file.
 
 ```java
 String absoluteFileName = "/path/to/your/NEP6.wallet";
@@ -50,7 +50,7 @@ You can use multiple static methods to create a new account. The following accou
 Account a = Account.createAccount();
 ```
 
-If you already have a key pair and its wif, you can use the following method.
+If you already have a key pair and its WIF, you can use the following method.
 
 ```java
 Account a = Account.fromWIF("L1WMhxazScMhUrdv34JqQb1HFSQmWeN2Kpc1R9JGKwL7CDNP21uR")
@@ -62,9 +62,10 @@ that in case of an address the account does not have any key pair with which it 
 therefore not automatically sign transactions made with this account. In those cases, the signature has to be provided
 manually.
 
-You can also create a multi-sig account with the `createMultiSigAccount(...)` method. The account will hold the multi-sig
-address and a NEP-6 contract object with the corresponding verification script. It will not hold the public keys nor
-private keys of the involved accounts and can therefore not automatically sign transactions.
+You can also create a multi-sig account with the `createMultiSigAccount(...)` method. The account
+will hold the multi-sig address and the corresponding verification script. It will not hold the key
+pairs of the involved accounts. For automatic signing of transactions issued from a multi-sig
+account all the involved accounts need to be in the wallet as well.
 
 ```java
 List<ECPublicKey> publicKeys = Arrays.asList(
@@ -88,4 +89,4 @@ Account a = Account.createAccount();
 Map<ScriptHash, BigInteger> nep5Balances = a.getNep5Balances(neow3j);
 ```
 
-This returns a map of NEP-5 token contracts to the respective balance of the account.
+This returns a map containing all NEP-5 contract balances of the account.

@@ -57,7 +57,7 @@ Maven:
 
 ### Compiler
 
-Hop over to the [Contract Development](../neo3_guides/contract_development.md?id=compilation)
+Hop over to the [Contract Development](neo3_guides/compiler_devpack/compilation.md)
 section for information on how to use the neow3j compiler.
 
 ## Snapshots

@@ -4,32 +4,30 @@
 
 > For invocations of NEP-5 contracts, check out the documentation in the [next Section](neo3_guides/token_transfer.md#transferring-tokens-assets).
 
-In the following graph the structure concerning general smart contract invocations with neow3j is illustrated.
-To deploy, invoke or just retrieve information about any contract's state on the blockchain, the class `SmartContract` can be used.
+To deploy, invoke or just retrieve information about any contract's state on the blockchain, the
+class `SmartContract` can be used. For example, by calling `invokeFunction(...)` a script is built
+based on the provided parameters and is handed to a `TransactionBuilder`. In the
+`TransactionBuilder` signers can be configured, a sender can be set or an additional network fee
+can be added. The transaction can then be signed and built, and the resulting `Transaction` can
+be sent to a neo-node. Alternatively, an unsigned `Transaction` can be created for later signing
+(e.g. when using a multi-sig account, see
+[here](neo3_guides/token_transfer.md#transfer-from-a-multi-sig-account)).
+
+The above process is visualized in the following figure.
 
 ```
-     Build invocation script    ->     Specify Tx Signers, etc.     ->   Tx ready to sign and send
+         Build script           ->      Configure transaction       ->   Tx ready to sign and send
 
         ---------------                  --------------------                -------------
        | SmartContract |        ->      | TransactionBuilder |      ->      | Transaction |
         ---------------                  --------------------                -------------
 ```
 
-The class `SmartContract` provides a wrapper to build the invocation script for a transaction.
-
-> **Note:** The invocation script of a transaction can consist of multiple smart contract invocations.
-
-When the invocation script has been fully built, a `TransactionBuilder` is returned.
-In the `TransactionBuilder` the signers can be specified, a sender can be set or a additional network fee can be added.
-The transaction can then be signed and built, such that the returned `Transaction`
-can be sent. Or an unsigned `Transaction` can be created for later signing (e.g. when using a multi-sig account, see
-[here](neo3_guides/token_transfer.md#transfer-from-a-multi-sig-account)).
-
 To invoke any contract, you will need a connection to an RPC node via a `Neow3j` instance.
-
 ```java
 Neow3j neow3j = Neow3j.build(new HttpService("http://localhost:40332"));
 ```
+
 
 ## Contract Parameters
 
@@ -40,11 +38,11 @@ For parameter definition in neow3j, use the `ContractParameter` class. It provid
 cover all possible parameter types. If you use those methods, neow3j will make sure that the parameter is sent to the
 contract in the correct encoding and the correct type declaration.
 
+For example, if you need to pass a script hash of a NEO address as a parameter, you can use the method
+`ContractParameter.hash160(...)`. It converts the script hash to the required byte array form.
+
 When creating a parameter of the type byte array, make sure to read the method documentation which indicates with which
 endianness the value has to be provided.
-
-E.g. if you need to pass a script hash of a NEO address as a parameter, you can use the method
-`ContractParameter.hash160(...)`. It converts the script hash to the required byte array form.
 
 ## Basic Contract Invocation
 
@@ -52,7 +50,7 @@ First, you have to specify which contract you want to invoke. Use the `ScriptHas
 hash of the contract you want to call.
 
 ```java
-ScriptHash contract = new ScriptHash("0x1a70eac53f5882e40dd90f55463cce31a9f72cd4");
+ScriptHash scriptHash = new ScriptHash("0x1a70eac53f5882e40dd90f55463cce31a9f72cd4");
 ```
 
 Then you need to define the parameters that will be passed to the contract. In this example, the method `register` is
@@ -75,11 +73,11 @@ Neow3j neow3j = Neow3j.build(new HttpService("http://localhost:40332"));
 Account account = Account.createAccount();
 Wallet wallet = Wallet.withAccounts(account);
 
-ScriptHash contract = new ScriptHash("0x1a70eac53f5882e40dd90f55463cce31a9f72cd4");
+ScriptHash scriptHash = new ScriptHash("0x1a70eac53f5882e40dd90f55463cce31a9f72cd4");
 ContractParameter functionArg1 = ContractParameter.string("neo.com");
 ContractParameter functionArg2 = ContractParameter.hash160(account.getScriptHash());
 
-NeoSendRawTransaction response = new SmartContract(contract, neow3j)
+NeoSendRawTransaction response = new SmartContract(scriptHash, neow3j)
         .invokeFunction("register", functionArg1, functionArg2)
         .wallet(wallet)
         .signers(Signer.calledByEntry(account.getScriptHash()))
@@ -87,13 +85,14 @@ NeoSendRawTransaction response = new SmartContract(contract, neow3j)
         .send();
 ```
 
-To visualize how the classes `SmartContract`, `TransactionBuilder` and `Transaction` are used, we split the above invocation
+To make it more clear how the classes `SmartContract`, `TransactionBuilder` and `Transaction` are used, we split the above invocation
 in their individual parts below. The method `invokeFunction()` builds an invocation script and passes it to a `TransactionBuilder`,
 there the wallet and the signers are specified, the transaction is signed and the built `Transaction` is returned, which is then sent.
 
 ```java
-TransactionBuilder builder = new SmartContract(contract, neow3j)
-        .invokeFunction("register", functionArg1, functionArg2);
+SmartContract contract = new SmartContract(contract, neow3j);
+
+TransactionBuilder builder = contract.invokeFunction("register", functionArg1, functionArg2);
 
 Transaction tx = builder.wallet(wallet)
         .signers(Signer.calledByEntry(account.getScriptHash()))
@@ -104,9 +103,9 @@ NeoSendRawTransaction response = tx.send();
 
 > **Note:** When the method `sign()` is called in the `TransactionBuilder`, the following two steps are executed:
 >
-> - A `Transaction` object is initialized.
-> - For each signer, its according account is fetched from the wallet, the signature for the invocation script
->   is created and added to the `Transaction` object.
+> - A `Transaction` object is constructed.
+> - For each signer, its corresponding account is fetched from the wallet, the signature for the
+>   invocation script is created and added to the `Transaction` object.
 
 ## Testing the Invocation before propagating it
 
