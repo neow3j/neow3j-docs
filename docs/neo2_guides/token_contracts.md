@@ -12,7 +12,7 @@ to initialize the token. This can be done as follows.
 
 ```java
 Neow3j neow3j = Neow3j.build(new HttpService("http://seed7.ngd.network:10332"));
-Account acct = Account.createAccount();
+Account acct = Account.create();
 ScriptHash scriptHash = new ScriptHash("3cd311b1c6cd8963e55cd8285740977c722b7b61");
 
 List<ContractParameter> params = Arrays.asList(
@@ -37,7 +37,7 @@ assume that any account can deploy the token.
 ## Getting Token Information
 
 To fetch information about a token, you can use the provided methods in the `Nep5` class. The naming of these methods
-is identical to the naming in the NEP-5 standard (name, totalSupply, symbol, decimals, balanceOf). 
+is identical to the naming in the NEP-5 standard (name, totalSupply, symbol, decimals, balanceOf).
 
 For example, if you need to know the number of decimals that the token has, you can do the following.
 
@@ -84,6 +84,7 @@ Nep5 nep5 = new nep5.Builder(neow3j)
 
 nep5.transfer(from, to, "10");
 ```
+
 The transfer method can take the amount to be transferred as a BigInteger, as well as a String for better
 developer experience.
 

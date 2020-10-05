@@ -11,7 +11,6 @@ In an asset transfer, neow3j needs to select appropriate transaction inputs acco
 outputs. Therefore, the RPC node in use needs to have the `RpcSystemAssetTrackerPlugin` installed (see the
 [Requirements](overview/requirements?id=rpc-nodes) section).
 
-
 ## Basic Asset Transfer
 
 In the simplest scenario, you have an `Account` with a public and private key, e.g. a newly created one, as in the
@@ -26,12 +25,12 @@ What remains is to specify how much of what asset you want to transfer to whom. 
 transaction output. You can specify multiple outputs in the same transfer, they will all show up in the same
 transaction.
 
-After building the `AssetTransfer` object you can sign and send it. 
+After building the `AssetTransfer` object you can sign and send it.
 
 ```java
 Neow3j neow3j = Neow3j.build(new HttpService("http://seed7.ngd.network:10332"));
 
-Account fromAccount = Account.createAccount();
+Account fromAccount = Account.create();
 fromAccount.updateAssetBalances(neow3j);
 
 AssetTransfer transfer = new AssetTransfer.Builder(neow3j)
@@ -50,12 +49,11 @@ case the RPC node returns an error.
 In the example, a fee is also added to the transfer. This is the network fee that gives the transfer priority in the
 network.
 
-
 ## Asset Transfer with specific Inputs
 
 Instead of letting neow3j automatically select the inputs for an asset transfer you can also tell it which inputs it
 should use. Use the `Utxo` class to specify which unspent transaction outputs (UTXOs) you want to be consumed by the
-transfer. 
+transfer.
 
 ```java
 Utxo utxo1 = new Utxo(NEOAsset.HASH_ID, "ea8f4ea77370f317c3ea1529e10c60869d7ac9193b953e903a91e3dbeb188ac5", 0, 10);
@@ -73,7 +71,7 @@ It is not necessary to update the accounts balances with
 
 ```java
 Neow3j neow3j = Neow3j.build(new HttpService("http://seed7.ngd.network:10332"));
-Account fromAccount = Account.createAccount();
+Account fromAccount = Account.create();
 AssetTransfer at = new AssetTransfer.Builder(neow3j)
         .account(fromAccount)
         .output(NEOAsset.HASH_ID, "15", "AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y")
@@ -82,7 +80,6 @@ AssetTransfer at = new AssetTransfer.Builder(neow3j)
         .sign()
         .send();
 ```
-
 
 ## Asset Transfer from a Smart Contract
 
@@ -102,7 +99,7 @@ because it is the balances of the contract that are needed here. Neow3j automati
 
 ```java
 Neow3j neow3j = Neow3j.build(new HttpService("http://seed7.ngd.network:10332"));
-Account fromAccount = Account.createAccount();
+Account fromAccount = Account.create();
 AssetTransfer at = new AssetTransfer.Builder(neow3j)
         .account(fromAccount)
         .output(NEOAsset.HASH_ID, 1, "AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y")
@@ -111,7 +108,6 @@ AssetTransfer at = new AssetTransfer.Builder(neow3j)
         .sign()
         .send();
 ```
-
 
 ## Asset Transfer from Multi-sig address
 
@@ -134,7 +130,7 @@ Account multiSigAcct = Account.fromAddress("ATcWffQV1A7NMEsqQ1RmKfS7AbSqcAp2hd")
 This account does not own the key material to properly sign a transaction. Neow3j can only fetch the address's/account's
 balances and pick the appropriate UTXOs for the transfer. Signing the transaction is up to you. It is the raw
 transaction byte array that needs to be signed by the required number of keys. Then the signatures are combined in a
-witness script. 
+witness script.
 
 ```java
 byte[] unsignedTxHex = at.getTransaction().toArrayWithoutScripts();

@@ -7,13 +7,12 @@ token balance.
 The wallet contains one or multiple accounts and can be used as an abstraction if one has multiple
 accounts and doesn't care which account is used in a transaction.
 
-
 ## Creating a Wallet
 
 The easiest way to create a new wallet is by using one of the static creation methods.
 
 ```java
-Wallet w = Wallet.createWallet();
+Wallet w = Wallet.create();
 ```
 
 This creates a wallet with a new account (new key pair). There are other versions of this method that allow us to
@@ -37,7 +36,7 @@ to initialize a wallet. Further, you can manually set a name, version and scrypt
 set, default values are used.
 
 ```java
-Wallet w = Wallet.withAccounts(Account.createAccount())
+Wallet w = Wallet.withAccounts(Account.create())
         .name("MyWallet")
         .version(1);
 ```
@@ -47,7 +46,7 @@ Wallet w = Wallet.withAccounts(Account.createAccount())
 You can use multiple static methods to create a new account. The following account holds a fresh key pair.
 
 ```java
-Account a = Account.createAccount();
+Account a = Account.create();
 ```
 
 If you already have a key pair and its WIF, you can use the following method.
@@ -84,7 +83,7 @@ To check the NEP-5 balances of an account, use the following method.
 
 ```java
 Neow3j neow3j = Neow3j.build(new HttpService("http://localhost:40332"));
-Account a = Account.createAccount();
+Account a = Account.create();
 
 Map<ScriptHash, BigInteger> nep5Balances = a.getNep5Balances(neow3j);
 ```

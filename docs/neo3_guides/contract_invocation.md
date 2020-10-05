@@ -24,10 +24,10 @@ The above process is visualized in the following figure.
 ```
 
 To invoke any contract, you will need a connection to an RPC node via a `Neow3j` instance.
+
 ```java
 Neow3j neow3j = Neow3j.build(new HttpService("http://localhost:40332"));
 ```
-
 
 ## Contract Parameters
 
@@ -57,7 +57,7 @@ Then you need to define the parameters that will be passed to the contract. In t
 called with a domain name and an address that should be registered under that domain name.
 
 ```java
-Account account = Account.createAccount();
+Account account = Account.create();
 ContractParameter functionArg1 = ContractParameter.string("neo.com");
 ContractParameter functionArg2 = ContractParameter.hash160(account.getScriptHash());
 ```
@@ -70,7 +70,7 @@ Here's the complete code.
 ```java
 Neow3j neow3j = Neow3j.build(new HttpService("http://localhost:40332"));
 
-Account account = Account.createAccount();
+Account account = Account.create();
 Wallet wallet = Wallet.withAccounts(account);
 
 ScriptHash scriptHash = new ScriptHash("0x1a70eac53f5882e40dd90f55463cce31a9f72cd4");
@@ -162,7 +162,6 @@ NeoSendRawTransaction response = new SmartContract(contract, neow3j)
 
 You can check how high the system fee of a transaction will be with a test invocation call as
 described [above](neo3_guides/contract_invocation.md#testing-the-invocation-before-propagating-it).
-
 
 <!-- ## Adding Transaction Attributes and Scripts
 Extend as soon as transaction attributes are defined for Neo 3 -->

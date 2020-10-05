@@ -64,7 +64,7 @@ ContractParameter methodParam = ContractParameter.string("register");
 ContractParameter argumetnsParam = ContractParameter.array(
             ContractParameter.string("neo.com"),
             ContractParameter.byteArrayFromAddress("AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y"));
-Account account = Account.createAccount();
+Account account = Account.create();
 
 ContractInvocation invoc = new ContractInvocation.Builder(neow3j)
         .contractScriptHash(scriptHash)
@@ -122,7 +122,7 @@ Neow3j neow3j = Neow3j.build(new HttpService("http://seed7.ngd.network:10332"));
 
 ContractInvocation invoc = new ContractInvocation.Builder(neow3j)
         .contractScriptHash(new ScriptHash("bff561a41a780fa0a4771d03bcc924e90c04fc8e"))
-        .account(Account.createAccount())
+        .account(Account.create())
         .build()
         .sign()
         .invoke();
@@ -147,7 +147,7 @@ ContractInvocation invoc = new ContractInvocation.Builder(neow3j)
         .function("register")
         .parameter(ContractParameter.string("neo.com"))
         .parameter(ContractParameter.byteArrayFromAddress("AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y"))
-        .account(Account.createAccount())
+        .account(Account.create())
         .build()
         .sign()
         .invoke();
@@ -169,7 +169,7 @@ might need to update the account's balances before invoking.
 ```java
 Neow3j neow3j = Neow3j.build(new HttpService("http://seed7.ngd.network:10332"));
 
-Account account = Account.createAccount();
+Account account = Account.create();
 account.updateAssetBalances(neow3j);
 
 ContractInvocation invoc = new ContractInvocation.Builder(neow3j)
@@ -196,7 +196,7 @@ Custom attributes, as well as witnesses, can be added when building a `ContractI
 
 ```java
 Neow3j neow3j = Neow3j.build(new HttpService("http://seed7.ngd.network:10332"));
-Account account = Account.createAccount();
+Account account = Account.create();
 
 RawTransactionAttribute attr = new RawTransactionAttribute(TransactionAttributeUsageType.SCRIPT, account.getScriptHash().toArray())
 

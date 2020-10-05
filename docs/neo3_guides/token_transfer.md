@@ -38,7 +38,7 @@ e.g. `registerValidator`, `getRegisteredValidators` or `vote` (for more, see
    ----------      ----------
 ```
 
-These classes provide convenient methods to build a script and transaction for contract invocation. 
+These classes provide convenient methods to build a script and transaction for contract invocation.
 The methods return a `TransactionBuilder` that can be used to further configure the transaction,
 e.g., specify signers or an additional network fee. The transaction can then be signed and built,
 such that the returned `Transaction` can be sent. Or an unsigned `Transaction` can be created for

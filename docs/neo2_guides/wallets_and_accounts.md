@@ -5,10 +5,9 @@ corresponds to the keys. It has a balance of global assets and tokens and can in
 just a collection of accounts. For example, if one has assets distributed over multiple accounts, a wallet is a useful
 abstraction when spending does assets without caring from which account they are taken.
 
-
 ## Creating a wallet
 
-The easiest way to create a new wallet is by using one of the static creation methods. 
+The easiest way to create a new wallet is by using one of the static creation methods.
 
 ```java
 Wallet w = Wallet.createGenericWallet();
@@ -29,9 +28,9 @@ Wallet w = Wallet.fromNEP6Wallet(absoluteFileName)
         .build();
 ```
 
-> __Note__: When reading the wallet from a NEP-6 wallet file the private keys of the contained accounts will be
->encrypted until you call `decryptAllAccounts(String password)` on the wallet. An encrypted account cannot be used for
->signing transactions.
+> **Note**: When reading the wallet from a NEP-6 wallet file the private keys of the contained accounts will be
+> encrypted until you call `decryptAllAccounts(String password)` on the wallet. An encrypted account cannot be used for
+> signing transactions.
 
 If you don't want to load from a NEP-6 wallet file, then use the builder directly. Every attribute that you don't set on
 the builder is populated by a default value. Except for the accounts. If you don't specify one or more accounts the
@@ -41,10 +40,9 @@ wallet will not contain any.
 Wallet w = new Wallet.Builder()
         .name("MyWallet")
         .version(1)
-        .account(Account.createAccount())
+        .account(Account.create())
         .build();
 ```
-
 
 ## Creating an account
 
@@ -52,7 +50,7 @@ The easiest way to create a new account is by using the static creation method t
 account holds a fresh key pair.
 
 ```java
-Account a = Account.createAccount();
+Account a = Account.create();
 ```
 
 The other static creation methods return a builder for further configuration. You are forced to use one of these and
@@ -74,7 +72,7 @@ manually.
 
 You can also create a multi-sig account with the `fromMultiSigKeys(...)` method. The account will hold the multi-sig
 address and a NEP-6 contract object with the corresponding verification script. It will not hold the public keys nor
-private keys of the involved accounts and can therefore not automatically sign transactions. 
+private keys of the involved accounts and can therefore not automatically sign transactions.
 
 ```java
 List<BigInteger> publicKeys = Arrays.asList(
@@ -87,7 +85,6 @@ Account a2 = Account.fromMultiSigKeys(publicKeys, 2)
         .label("MyMultiSigAccount")
         .build();
 ```
-
 
 ## Account Balances
 
