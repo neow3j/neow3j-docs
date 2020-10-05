@@ -196,7 +196,7 @@ Transaction tx = new SmartContract(contract, neow3j)
 byte[] txBytes = tx.getHashData();
 ECKeyPair keyPair account.getECKeyPair();
 
-tx.addWitness(Witness.createWitness(txBytes, keyPair));
+tx.addWitness(Witness.create(txBytes, keyPair));
 ```
 
 ## Signing a Transaction with a multi-sig Account

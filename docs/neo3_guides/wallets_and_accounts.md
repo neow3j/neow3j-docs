@@ -68,9 +68,9 @@ account all the involved accounts need to be in the wallet as well.
 
 ```java
 List<ECPublicKey> publicKeys = Arrays.asList(
-        ECKeyPair.createEcKeyPair().getPublicKey(),
-        ECKeyPair.createEcKeyPair().getPublicKey(),
-        ECKeyPair.createEcKeyPair().getPublicKey()
+        ECKeyPair.create().getPublicKey(),
+        ECKeyPair.create().getPublicKey(),
+        ECKeyPair.create().getPublicKey()
 );
 
 Account a2 = Account.createMultiSigAccount(publicKeys, 2)

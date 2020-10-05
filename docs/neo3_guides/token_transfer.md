@@ -54,14 +54,14 @@ transaction signature.
 
 ```java
 Account account1 = Account.fromWif("L1WMhxazScMhUrdv34JqQb1HFSQmWeN2Kpc1R9JGKwL7CDNP21uR");
-Wallet w = Wallet.withAccounts(account1);
+Wallet wallet = Wallet.withAccounts(account1);
 
-ScriptHash toAccount = ScriptHash.fromAddress("AJunErzotcQTNWP2qktA7LgkXZVdHea97H");
+ScriptHash to = ScriptHash.fromAddress("AJunErzotcQTNWP2qktA7LgkXZVdHea97H");
 BigDecimal amount = new BigDecimal("15");
 
 NeoSendRawTransaction response = NeoToken(neow3j)
-        .transferFromDefaultAccount(w, toAccount, amount)
-        .wallet(w)
+        .transferFromDefaultAccount(wallet, to, amount)
+        .wallet(wallet)
         .signers(Signer.calledByEntry(account1.getScriptHash()))
         .additionalNetworkFee(1L)
         .sign()
@@ -84,12 +84,12 @@ manually.
 
 ```java
 Account account1 = Account.fromWif("L1WMhxazScMhUrdv34JqQb1HFSQmWeN2Kpc1R9JGKwL7CDNP21uR");
-Account account2 = Account.fromWif("L45BGYyybk91pvwH3Mj1CfDZ11GGQLVPr6qfzpWugeP4WeJZyfki"));
+Account account2 = Account.fromWif("L45BGYyybk91pvwH3Mj1CfDZ11GGQLVPr6qfzpWugeP4WeJZyfki");
 Account account3 = Account.fromWif("L2pN4EbagTuk9Kiib8sjRmMQznxqCVEs1HR8DRaxmnPicjg9FdNc");
-Wallet w = Wallet.withAccounts(account1, account2, account3);
+Wallet wallet = Wallet.withAccounts(account1, account2, account3);
 
 NeoSendRawTransaction response = NeoToken(neow3j)
-        .transfer(w, toAccount, amount)
+        .transfer(wallet, to, amount)
         .additionalNetworkFee(1L)
         .sign()
         .send();
@@ -113,7 +113,9 @@ necessary to configure that manually.
 
 ```java
 NeoSendRawTransaction response = NeoToken(neow3j)
-        .transferFromSpecificAccounts(w, toAccount, amount, account3.getScriptHash(), account2.getScriptHash())
+        .transferFromSpecificAccounts(wallet, to, amount, account3.getScriptHash(), account2.getScriptHash())
+        .wallet(wallet)
+        .signers(Signer.calledByEntry(account3.getScriptHash()), Signer.calledByEntry(account2.getScriptHash()))
         .additionalNetworkFee(1L)
         .sign()
         .send();
