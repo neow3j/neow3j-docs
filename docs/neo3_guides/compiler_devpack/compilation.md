@@ -26,10 +26,10 @@ Then call the compiler inside your project to compile your smart contract class.
 look for the class in the projects classpath.
 
 ```java
-CompilationResult res = new Compiler().compileClass("fully.qualified.name.SmartContract");
+CompilationUnit compUnit = new Compiler().compileClass("fully.qualified.name.SmartContract");
 ```
 
-The `CompilationResult` will contain the NEF and the contract manifest which are both required for
+The `CompilationUnit` will contain the NEF and the contract manifest which are both required for
 contract deployment.
 
 ## Gradle Plugin

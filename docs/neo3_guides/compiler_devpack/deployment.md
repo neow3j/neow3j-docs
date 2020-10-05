@@ -9,14 +9,14 @@ But to get the NEF and manifest produced by the neow3j compiler onto the node, t
 written to a file. The following snippet shows how this could be done.
 
 ```java
-CompilationResult res = new Compiler().compileClass("fully.qualified.name.SmartContract");
+CompilationUnit compUnit = new Compiler().compileClass("fully.qualified.name.SmartContract");
 String nefFilePath = "/path/to/nef/file/test.nef";
 String manifestFilePath = "/path/to/manifest/file/test.manifest.json";
 try (FileOutputStream s = new FileOutputStream(nefFilePath)) {
-    s.write(res.getNef().toArray());
+    s.write(compUnit.getNef().toArray());
 }
 try (FileOutputStream s = new FileOutputStream(manifestFilePath)) {
-    ObjectMapperFactory.getObjectMapper().writeValue(s, res.getManifest());
+    ObjectMapperFactory.getObjectMapper().writeValue(s, compUnit.getManifest());
 }
 ```
 
