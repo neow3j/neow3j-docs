@@ -139,13 +139,16 @@ NeoSendRawTransaction response = new SmartContract(contract, neow3j)
         .send();
 ```
 
-## Adding additional network Fees
+## Adding additional Network Fees
 
-There are two kind of fees. System fees and network fees. The system fees are the cost of resources consumed by the transaction
-execution in NeoVM. The total system fee depends on the number and type of instructions executed in the smart contract script.
-
-Then there are network fees that will give the transaction priority in the network. To add a network fee, use the method
-`additionalNetworkFee()` as in the example below.
+There are two kind of fees, the system fee and the network fee. The system fee is the cost of
+resources consumed by the execution of a script on the neo-vm. It depends on the number and type of
+instructions executed in the script. The network fee is paid for the size of the transaction and the
+effort needed for signature verification (i.e. depends on the number of signatures on a
+transaction). Adding a higher network fee than needed gives the transaction priority in the network.
+Neow3j automatically fetches and calculates the necessary system and network fees for a transaction.
+To add an additional network fee for priority, use the method `additionalNetworkFee()` as in the
+example below.
 
 ```java
 NeoSendRawTransaction response = new SmartContract(contract, neow3j)
@@ -157,10 +160,9 @@ NeoSendRawTransaction response = new SmartContract(contract, neow3j)
         .send();
 ```
 
-You can check how much fees a transaction will cost with a test invocation call as described
-[above](neo3_guides/contract_invocation.md#testing-the-invocation-before-propagating-it).
+You can check how high the system fee of a transaction will be with a test invocation call as
+described [above](neo3_guides/contract_invocation.md#testing-the-invocation-before-propagating-it).
 
-> **Note:** The node only returns one number for the amount of consumed gas, which corresponds to the sum of the system and the network fee.
 
 <!-- ## Adding Transaction Attributes and Scripts
 Extend as soon as transaction attributes are defined for Neo 3 -->
@@ -177,11 +179,13 @@ static method `createWitness()` of the `Witness` class and add the created `Witn
 
 An example scenario for this is when invoking a smart contract with a multi-sig account.
 
-> **Note:** You still need to add the `Signer(s)` when building the `Transaction`. The accounts' addresses are still necessary for
-> the building process. This means that in the `TransactionBuilder` only the signers and the optional network fee have to be specified
-> (the wallet is only used for creating the signature).
+> **Note:** You still need to add the `Signer`s and a wallet with the corresponding accounts when
+> building the `Transaction` because the accounts' addresses and verification scripts are required
+> for the building process. The only difference is that the accounts in the wallet don't have a
+> private key.
 
-In the following example the same transaction as in previous examples is created with manually adding the signature.
+In the following example the same transaction as in previous examples is created but the signature
+is generated and added manually.
 
 ```java
 Transaction tx = new SmartContract(contract, neow3j)
@@ -201,11 +205,12 @@ tx.addWitness(Witness.createWitness(txBytes, keyPair));
 Multi-sig accounts are usually not controlled by one single entity. Meaning the private keys of the involved key pairs
 are not all available to sign a transaction locally. So this scenario is different in the signing step.
 
-In the example below, a multi-sig account made up of two accounts (the account used in previous examples and a new `account2`)
-is used. Its address is "ALK7evGaofZciCZu86K8bhXsUdpa5FcdJs". This account does not own the key material to properly sign
-a transaction. Neow3j can only fetch the account's balances. Signing the transaction is up to you. It is the raw transaction
-byte array that needs to be signed by the required number of keys. Then the signatures are combined in a witness script with
-the static method `createMultiSigWitness()`.
+In the example below, a multi-sig account made up of two accounts (the account used in previous
+examples and a new `account2`) is used. Its address is "ALK7evGaofZciCZu86K8bhXsUdpa5FcdJs". The
+account does not possess the private keys required to sign a transaction. Neow3j can only fetch the
+account's balances. Signing the transaction is up to you. It is the raw transaction byte array that
+needs to be signed by the minimum required number of keys. Then the signatures are combined in a
+`Witness` with the static method `createMultiSigWitness()`.
 
 When the witness is created, it can be added to the transaction and it is ready to be sent.
 
@@ -218,6 +223,7 @@ functionArg2 = ContractParameter.hash160(multiSigAccount.getScriptHash());
 Transaction tx = new SmartContract(contract, neow3j)
         .invokeFunction("register", functionArg1, functionArg2);
         .signers(Signer.calledByEntry(multiSigAccount.getScriptHash()))
+        .wallet(wallet)
         .getUnsignedTransaction();
 
 byte[] unsignedTxHex = tx.getHashData();
