@@ -42,10 +42,10 @@ you cannot do `"hello, " + "world!"` + 5. This is because the compiler does not 
 
 A Java-based smart contract consists of one class. Because the NeoVM does not support objects in the
 same way as the JVM does, the support for objects is limited. First, all methods in your smart
-contract class have to be static. Class variables are also restricted to static ones. Moverover,
-static constructors are not supported. You can initialize static class variables right where they
-are defined. The initialization can be more complex (e.g., include method calls) than just a simple
-constant value assignment.
+contract class have to be static. Field variables are also restricted to static ones. Thus, instance
+initializers and constructors are not supported. Static initializers, on the other hand, can be used.
+The initialization of static variables can be more complex (e.g., include method calls) than just a
+simple constant value assignment.
 
 Constructing new objects with the `new` keyword is, nonetheless, partially supported. You can make
 use of simple objects that do not inherit from any class else than `Object` (e.g.,
