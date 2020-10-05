@@ -4,7 +4,7 @@
 > You can find one [here](http://github.com/axlabs/neo3-privatenet-docker).
 
 On the Neo blockchain the [NEP-5 Token Standard](http://github.com/neo-project/proposals/blob/master/nep-5.mediawiki)
-is used for everything concerning Tokens or Assets. In the following the transfer interaction with a NEP-5 smart contract is illustrated.
+is used for everything concerning tokens. In the following the transfer interaction with a NEP-5 smart contract is illustrated.
 
 To invoke any contract and to transfer tokens, respectively, you will need a connection to an RPC node via a `Neow3j` instance.
 
@@ -17,7 +17,6 @@ Neow3j neow3j = Neow3j.build(new HttpService("http://localhost:40332"));
 In the following graph the structure concerning token transfers with neow3j is illustrated. To deploy, invoke or just
 retrieve information about any contract's state on the blockchain, the class `SmartContract` can be used (read more
 about this in the [next Section](neo3_guides/contract_invocation.md)).
-
 In the subtype `Nep5Token` the NEP-5 standard is implemented, e.g. `getDecimals()`, `getBalanceOf()` or `transfer()`.
 Further derived are the native tokens `NeoToken` and `GasToken`, that contain their individual additional methods,
 e.g. `registerValidator`, `getRegisteredValidators` or `vote` (for more, see
@@ -39,10 +38,11 @@ e.g. `registerValidator`, `getRegisteredValidators` or `vote` (for more, see
    ----------      ----------
 ```
 
-These classes provide a wrapper to build a invocation script for a transaction. When a script has been fully built, a `TransactionBuilder`
-is returned. In the `TransactionBuilder` the signers can be specified, a sender can be set or a additional network fee can be added.
-The transaction can then be signed and built, such that the returned `Transaction` can be sent. Or an unsigned `Transaction`
-can be created for later signing (e.g. when using a multi-sig account).
+These classes provide convenient methods to build a script and transaction for contract invocation. 
+The methods return a `TransactionBuilder` that can be used to further configure the transaction,
+e.g., specify signers or an additional network fee. The transaction can then be signed and built,
+such that the returned `Transaction` can be sent. Or an unsigned `Transaction` can be created for
+later signing (e.g. when using a multi-sig account).
 
 ## Transfer from the default Account
 
@@ -74,24 +74,22 @@ that is then sent to the Neo network.
 
 ## Transfer using all Accounts in the Wallet
 
-In the previous example, the wallet only holds one account. However, if your wallet contains multiple accounts, and your default account
-may not hold enough token for a transfer you want to make, you can use the method `transfer()` which uses your whole wallet
-to cover a tranfer if necessary.
-
-That means, that if the default account in the wallet cannot cover the specified amount, the other accounts in the wallet can be used
-to cover this amount.
+In the previous example, the wallet only holds one account. However, if your wallet contains
+multiple accounts, and your default account may not hold enough token for a transfer you want to
+make, you can use the method `transfer()` which uses your whole wallet to cover a tranfer if
+necessary. That means, that if the default account in the wallet cannot cover the specified amount,
+the other accounts in the wallet can be used to cover this amount. The method adds the necessary
+signers and the wallet to the `TransactionBuilder`, so it is not necessary to configure that
+manually.
 
 ```java
+Account account1 = Account.fromWif("L1WMhxazScMhUrdv34JqQb1HFSQmWeN2Kpc1R9JGKwL7CDNP21uR");
 Account account2 = Account.fromWif("L45BGYyybk91pvwH3Mj1CfDZ11GGQLVPr6qfzpWugeP4WeJZyfki"));
 Account account3 = Account.fromWif("L2pN4EbagTuk9Kiib8sjRmMQznxqCVEs1HR8DRaxmnPicjg9FdNc");
-w.addAccounts(account2, account3);
+Wallet w = Wallet.withAccounts(account1, account2, account3);
 
 NeoSendRawTransaction response = NeoToken(neow3j)
         .transfer(w, toAccount, amount)
-        .wallet(w)
-        .signers(Signer.calledByEntry(account1.getScriptHash()),
-                 Signer.calledByEntry(account2.getScriptHash()),
-                 Signer.calledByEntry(account3.getScriptHash()))
         .additionalNetworkFee(1L)
         .sign()
         .send();
@@ -104,19 +102,18 @@ The above sent transaction would contain a transfer of 10 Neo from account1 and 
 > **Note:** In the method `transfer()` the full wallet can be used. The order of the used accounts is not explicitly defined.
 > If you want to force a specific order, see the next section.
 
-## Transfer from a specific Account
+## Transfer from a specific Accounts
 
 If you don't want to use your full wallet or want to use your accounts in a specific order to cover an amount of a transfer,
 you can use the method `transferFromSpecificAccounts()`. This method allows you to pass only the accounts that should
 be used in the given order. The first passed account is used first, if it cannot cover the amount, the second account
 is used for the remaining amount, et cetera.
+The method adds the necessary signers and the wallet to the `TransactionBuilder`, so it is not
+necessary to configure that manually.
 
 ```java
 NeoSendRawTransaction response = NeoToken(neow3j)
         .transferFromSpecificAccounts(w, toAccount, amount, account3.getScriptHash(), account2.getScriptHash())
-        .wallet(w)
-        .signers(Signer.calledByEntry(account2.getScriptHash()),
-                 Signer.calledByEntry(account3.getScriptHash()))
         .additionalNetworkFee(1L)
         .sign()
         .send();
@@ -133,12 +130,6 @@ are not all available to sign a transaction locally. So this scenario is differe
 
 The account used in the transfer must be constructed from the public keys involved in the multi-sig account
 (see Section [Wallets and Accounts](neo3_guides/wallets_and_accounts.md#creating-an-account)).
-
-If those are not available you can also instantiate the account from just the multi-sig address.
-
-```java
-Account multiSigAccount = Account.fromAddress("ALK7evGaofZciCZu86K8bhXsUdpa5FcdJs");
-```
 
 Then create the transaction by using the method `getUnsignedTransaction()` in the `TransactionBuilder` and follow the steps
 in [this Section](neo3_guides/contract_invocation.md#signing-a-transaction-with-a-multi-sig-account) to sign the transaction.
