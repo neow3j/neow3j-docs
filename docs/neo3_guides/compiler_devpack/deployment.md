@@ -43,9 +43,8 @@ SmartContract sc = new SmartContract(nefFile, manifestFile, neow);
 Account a = Account.fromWIF( "L1WMhxazScMhUrdv34JqQb1HFSQmWeN2Kpc1R9JGKwL7CDNP21uR")
 Wallet w = Wallet.withAccounts(a);
 NeoSendRawTransaction response = sc.deploy()
-        .withWallet(w)
-        .withSigner(Signer.calledByEntry(a.getScriptHash()))
-        .build()
+        .wallet(w)
+        .signers(Signer.calledByEntry(a.getScriptHash()))
         .sign()
         .send();
 ```
