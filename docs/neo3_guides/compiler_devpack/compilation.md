@@ -9,7 +9,7 @@ Add the `io.neow3j:compiler` to your smart contract project and call the compile
 Gradle:
 
 ```groovy
-implementation 'io.neow3j:compiler:3.2.2',
+implementation 'io.neow3j:compiler:3.3.0',
 ```
 
 Maven:
@@ -18,7 +18,7 @@ Maven:
 <dependency>
     <groupId>io.neow3j</groupId>
     <artifactId>compiler</artifactId>
-    <version>3.2.2</version>
+    <version>3.3.0</version>
 </dependency>
 ```
 
@@ -41,12 +41,12 @@ as a Gradle task. Add the following few lines to your `build.gradle`.
 // Add the neow3j gradle plugin to the plugins section.
 plugins {
     id 'java'
-    id 'io.neow3j.gradle-plugin' version "3.2.2"
+    id 'io.neow3j.gradle-plugin' version "3.3.0"
 }
 
 // Add the devpack to the dependencies.
 dependencies {
-    compile("io.neow3j:devpack:3.2.2")
+    compile("io.neow3j:devpack:3.3.0")
 }
 
 //Configure the fully qualified name of the class you want to compile.
@@ -55,12 +55,12 @@ neow3jCompiler {
 }
 ```
 
-With this setup Gradle should fetch the plugin and a task `neow3jCompile` becomes available.
+With this setup, Gradle should fetch the plugin and a task `neow3jCompile` becomes available.
 Running that task with `./gradlw neow3jCompile` from the project root will compile the smart
 contract class, and output the NEF and contract manifest file to your project's build directory,
 e.g.,`./build/neow3j`.
 
-**Plugin Snapshot Versions**
+<!-- **Plugin Snapshot Versions**
 
 If you want to use a `SNAPSHOT` version of the neow3j gradle plugin you must add the following to
 your `settings.gradle`.
@@ -80,4 +80,4 @@ And then use the following in the plugins section in your `build.gradle`.
 
 ```groovy
 id 'io.neow3j.gradle-plugin' version "3.3.0-SNAPSHOT"
-```
+``` -->

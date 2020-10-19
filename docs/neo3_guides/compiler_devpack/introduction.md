@@ -20,17 +20,15 @@ More examples of Java smart contracts can be found in the `io.neow3j.examples.sc
 in the [neow3j-examples repository](https://github.com/neow3j/neow3j-examples-java).
 
 ```java
-import io.neow3j.devpack.framework.Storage;
-import io.neow3j.devpack.framework.annotations.EntryPoint;
-import io.neow3j.devpack.framework.annotations.Features;
-import io.neow3j.devpack.framework.annotations.ManifestExtra;
+import io.neow3j.devpack.neo.Storage;
+import io.neow3j.devpack.annotations.Features;
+import io.neow3j.devpack.annotations.ManifestExtra;
 
 @ManifestExtra(key = "name", value = "ExampleContract")
 @ManifestExtra(key = "author", value = "neow3j")
 @Features(hasStorage = true)
 public class ExampleContract {
 
-    @EntryPoint
     public static byte[] sayHello(String key) {
         byte[] val = Storage.get(key);
         Storage.put(key, "Hello, world!");
