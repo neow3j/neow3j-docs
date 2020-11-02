@@ -4,7 +4,7 @@
 > You can find one [here](http://github.com/axlabs/neo3-privatenet-docker).
 
 On the Neo blockchain the [NEP-5 Token Standard](http://github.com/neo-project/proposals/blob/master/nep-5.mediawiki)
-is used for everything concerning tokens. In the following the transfer interaction with a NEP-5 smart contract is illustrated.
+is used for everything concerning fungible tokens. In the following the transfer interaction with a NEP-5 smart contract is illustrated.
 
 To invoke any contract and to transfer tokens, respectively, you will need a connection to an RPC node via a `Neow3j` instance.
 
@@ -17,25 +17,31 @@ Neow3j neow3j = Neow3j.build(new HttpService("http://localhost:40332"));
 In the following graph the structure concerning token transfers with neow3j is illustrated. To deploy, invoke or just
 retrieve information about any contract's state on the blockchain, the class `SmartContract` can be used (read more
 about this in the [next Section](neo3_guides/contract_invocation.md)).
-In the subtype `Nep5Token` the NEP-5 standard is implemented, e.g. `getDecimals()`, `getBalanceOf()` or `transfer()`.
-Further derived are the native tokens `NeoToken` and `GasToken`, that contain their individual additional methods,
-e.g. `registerValidator`, `getRegisteredValidators` or `vote` (for more, see
-[here](https://docs.neo.org/v3/docs/en-us/reference/scapi/api/neo.html)).
+In the subtype `Token` the common methods used in token contracts like `getDecimals()`, `getSymbol()` or `getTotalSupply()`
+are collected.
+In the subtype `Nep5Token` the NEP-5 standard is implemented from which the native tokens `NeoToken` and `GasToken` are
+derived, that contain their individual additional methods, e.g. `registerValidator`, `getRegisteredValidators` or `vote`
+(for more, see [here](https://docs.neo.org/v3/docs/en-us/reference/scapi/api/neo.html)).
+The `NFToken` represents a wrapper for token contracts that comply with the currently not finalized NEP-11 standard for
+non-fungible tokens.
 
 ```
-     Build invocation script    ->     Specify Tx Signers, etc.     ->   Tx ready to sign and send
-
-        ---------------
-       | SmartContract |
-        ---------------
-               |
-          -----------                    --------------------                -------------
-         | Nep5Token |          ->      | TransactionBuilder |      ->      | Transaction |
-          -----------                    --------------------                -------------
-         /           \
-   ----------      ----------
-  | NeoToken |    | GasToken |
-   ----------      ----------
+             Build invocation script     ->      Specify Tx Signers, etc.     ->   Tx ready to sign and send
+                ---------------
+               | SmartContract |
+                ---------------
+                       |
+                    -------
+                   | Token |
+                    -------                        --------------------                -------------
+                   /        \             ->      | TransactionBuilder |      ->      | Transaction |
+           -----------      ---------              --------------------                -------------
+          | Nep5Token |    | NFToken |
+           -----------      ---------
+            /       \
+   ----------       ----------
+  | NeoToken |     | GasToken |
+   ----------       s----------
 ```
 
 These classes provide convenient methods to build a script and transaction for contract invocation.
@@ -44,7 +50,9 @@ e.g., specify signers or an additional network fee. The transaction can then be 
 such that the returned `Transaction` can be sent. Or an unsigned `Transaction` can be created for
 later signing (e.g. when using a multi-sig account).
 
-## Transfer from the default Account
+## NEP-5 Tokens
+
+### Transfer from the default Account
 
 In the simplest scenario, you have a `Wallet` that contains an `Account` with a public and a private key. E.g. a newly
 created one, as in the example below, or one from a wallet that you loaded from a NEP-6 file. If you instantiated
@@ -72,7 +80,7 @@ In this example, the method `transfer()` builds an invocation script and returns
 and an additional network fee are specified. With the method `sign()` the transaction is build, signed and a `Transaction` is returned
 that is then sent to the Neo network.
 
-## Transfer using all Accounts in the Wallet
+### Transfer using all Accounts in the Wallet
 
 In the previous example, the wallet only holds one account. However, if your wallet contains
 multiple accounts, and your default account may not hold enough token for a transfer you want to
@@ -102,7 +110,7 @@ The above sent transaction would contain a transfer of 10 Neo from account1 and 
 > **Note:** In the method `transfer()` the full wallet can be used. The order of the used accounts is not explicitly defined.
 > If you want to force a specific order, see the next section.
 
-## Transfer from a specific Accounts
+### Transfer from a specific Accounts
 
 If you don't want to use your full wallet or want to use your accounts in a specific order to cover an amount of a transfer,
 you can use the method `transferFromSpecificAccounts()`. This method allows you to pass only the accounts that should
@@ -125,7 +133,7 @@ In this example, if the balance of account3 is not high enough to cover the amou
 E.g. you want to send 15 Neo and account3 and account2 both hold 10 Neo each. The above sent transaction would contain a transfer
 of 10 Neo from account3 and a transfer of 5 Neo from account2.
 
-## Transfer from a multi-sig Account
+### Transfer from a multi-sig Account
 
 Multi-sig accounts are usually not controlled by one single entity. Meaning the private keys of the involved key pairs
 are not all available to sign a transaction locally. So this scenario is different in the signing step.
@@ -135,3 +143,7 @@ The account used in the transfer must be constructed from the public keys involv
 
 Then create the transaction by using the method `getUnsignedTransaction()` in the `TransactionBuilder` and follow the steps
 in [this Section](neo3_guides/contract_invocation.md#signing-a-transaction-with-a-multi-sig-account) to sign the transaction.
+
+## Non-fungible Tokens (NEP-11)
+
+?> _In the works_
