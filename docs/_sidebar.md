@@ -25,7 +25,7 @@
 
   </details>
 
-  <details open>
+  <details>
     <summary><b>Neo 3 Guides</b></summary>
 
   - [Monitoring the Blockchain](neo3_guides/monitoring.md#monitoring-the-blockchain)
@@ -33,13 +33,14 @@
   - [Invoking Smart Contracts](neo3_guides/contract_invocation.md#invoking-smart-contracts)
   - [Transferring Tokens](neo3_guides/token_transfer.md#transferring-tokens)
 
-    <details open>
+    <details>
       <summary><b>Smart Contract Development</b></summary>
       
       - [Introduction](neo3_guides/compiler_devpack/introduction.md#smart-contract-development)
+      - [Java Smart Contracts](neo3_guides/compiler_devpack/java_smart_contracts.md#java-smart-contracts)
       - [Compilation](neo3_guides/compiler_devpack/compilation.md#compilation)
       - [Deployment](neo3_guides/compiler_devpack/deployment.md#deployment)
-      - [Capabilities](neo3_guides/compiler_devpack/capabilities.md#capabilities)
+      - [Debugging](neo3_guides/compiler_devpack/debugging.md#debugging)
       - [Java language support](neo3_guides/compiler_devpack/java_lang_support.md#java-language-support)
 
      </details>

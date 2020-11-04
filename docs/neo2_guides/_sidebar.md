@@ -37,9 +37,10 @@
       <summary><b>Smart Contract Development</b></summary>
       
       - [Introduction](neo3_guides/compiler_devpack/introduction.md#smart-contract-development)
+      - [Java Smart Contracts](neo3_guides/compiler_devpack/java_smart_contracts.md#java-smart-contracts)
       - [Compilation](neo3_guides/compiler_devpack/compilation.md#compilation)
       - [Deployment](neo3_guides/compiler_devpack/deployment.md#deployment)
-      - [Capabilities](neo3_guides/compiler_devpack/capabilities.md#capabilities)
+      - [Debugging](neo3_guides/compiler_devpack/debugging.md#debugging)
       - [Java language support](neo3_guides/compiler_devpack/java_lang_support.md#java-language-support)
 
      </details>

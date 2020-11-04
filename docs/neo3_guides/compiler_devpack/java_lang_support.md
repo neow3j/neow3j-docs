@@ -57,17 +57,6 @@ In conclusion, if a type constructor can be used or not, depends on inheritance 
 the code that is executed in that constructor. If all of the code in the constructor is supported by
 the neow3j then the object can successfully be instantiated.
 
-## Arrays
-
-The NeoVM does not support array initialization with non-constant length. Thus, the following example
-will not work.
-
-```java
-public static byte[] doSomething() {
-    byte[] b2 = new byte[b1.length];
-    return b2;
-}
-```
 
 ## Inheritance
 

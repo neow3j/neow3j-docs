@@ -1,36 +1,8 @@
 # Compilation
 
-To compile a contract, there are currently two options.
+To compile a contract, there are currently two options. You can use the neow3j Gradle plugin or do
+it programmatically.
 
-## Programmatically
-
-Add the `io.neow3j:compiler` to your smart contract project and call the compiler programmatically.
-
-Gradle:
-
-```groovy
-implementation 'io.neow3j:compiler:3.3.0',
-```
-
-Maven:
-
-```xml
-<dependency>
-    <groupId>io.neow3j</groupId>
-    <artifactId>compiler</artifactId>
-    <version>3.3.0</version>
-</dependency>
-```
-
-Then call the compiler inside your project to compile your smart contract class. The compiler will
-look for the class in the projects classpath.
-
-```java
-CompilationUnit compUnit = new Compiler().compileClass("fully.qualified.name.SmartContract");
-```
-
-The `CompilationUnit` will contain the NEF and the contract manifest which are both required for
-contract deployment.
 
 ## Gradle Plugin
 
@@ -41,12 +13,12 @@ as a Gradle task. Add the following few lines to your `build.gradle`.
 // Add the neow3j gradle plugin to the plugins section.
 plugins {
     id 'java'
-    id 'io.neow3j.gradle-plugin' version "3.3.0"
+    id 'io.neow3j.gradle-plugin' version "3.4.0"
 }
 
 // Add the devpack to the dependencies.
 dependencies {
-    compile("io.neow3j:devpack:3.3.0")
+    compile("io.neow3j:devpack:3.4.0")
 }
 
 //Configure the fully qualified name of the class you want to compile.
@@ -55,29 +27,67 @@ neow3jCompiler {
 }
 ```
 
-With this setup, Gradle should fetch the plugin and a task `neow3jCompile` becomes available.
+With this setup, Gradle will fetch the neow3j plugin and a task `neow3jCompile` becomes available.
 Running that task with `./gradlw neow3jCompile` from the project root will compile the smart
-contract class, and output the NEF and contract manifest file to your project's build directory,
-e.g.,`./build/neow3j`.
+contract class, and output the NEF file and contract manifest to your project's build directory,
+usually `./build/neow3j`.
 
-<!-- **Plugin Snapshot Versions**
-
-If you want to use a `SNAPSHOT` version of the neow3j gradle plugin you must add the following to
-your `settings.gradle`.
+By default the plugin also generates debugging information to be used with the Neo Debugger in
+VSCode. This is a file with the suffix `.nefdbgnfo` that is placed next to the NEF and manifest. 
+If you do not want this to happen, you can set the `debug` flag in your `build.gradle` as follows.
 
 ```groovy
-pluginManagement {
-    repositories {
-        maven {
-            url 'http://oss.sonatype.org/content/repositories/snapshots'
-        }
-        gradlePluginPortal()
-    }
+neow3jCompiler {
+    className = "fully.qualified.name.SmartContract"
+    debug = false
 }
 ```
 
-And then use the following in the plugins section in your `build.gradle`.
+For more information on debugging go to the
+[Debugging](neo3_guides/compiler_devpack/debugging.md#debugging) section.
+
+## Programmatically
+
+Add the `io.neow3j:compiler` to your smart contract project and call the compiler programmatically.
+
+Gradle:
 
 ```groovy
-id 'io.neow3j.gradle-plugin' version "3.3.0-SNAPSHOT"
-``` -->
+implementation 'io.neow3j:compiler:3.4.0',
+```
+
+Maven:
+
+```xml
+<dependency>
+    <groupId>io.neow3j</groupId>
+    <artifactId>compiler</artifactId>
+    <version>3.4.0</version>
+</dependency>
+```
+
+Then call the compiler inside your project to compile your smart contract class. The compiler will
+look for the class in the projects classpath.
+
+```java
+CompilationUnit compUnit = new Compiler().compileClass("fully.qualified.name.SmartContract");
+NefFile nef = compUnit.getNefFile();
+ContractManifest manifest = compUnit.getManifest();
+```
+
+The `CompilationUnit` will contain the NEF file and the contract manifest, which are both required
+for contract deployment.
+
+If you want the compiler to produce debugging information, provide the absolute path to the 
+contract's source file. The compilation result will then contain a `DebugInfo` object that can be
+written to disk and used in VSCode to debug the contract.
+
+```java
+String classFile = "fully.qualified.name.SmartContract";
+String sourceFile = "/absolute/path/to/contract/source/file/SmartContract.java";
+CompilationUnit unit = new Compiler().compileClass(classFile, sourceFile);
+DebugInfo dbg = unit.getDebugInfo();
+```
+
+For more information on debugging go to the
+[Debugging](neo3_guides/compiler_devpack/debugging.md#debugging) section.

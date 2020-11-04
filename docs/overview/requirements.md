@@ -24,9 +24,9 @@ E.g. the [Logback Classic](http://logback.qos.ch/index.html) library can be used
 
 ```groovy
 dependencies {
-    implementation 'io.neow3j:contract:3.3.0'
-    implementation 'io.neow3j:devpack:3.3.0'
-    implementation 'io.neow3j:compiler:3.3.0'
+    implementation 'io.neow3j:contract:3.4.0'
+    implementation 'io.neow3j:devpack:3.4.0'
+    implementation 'io.neow3j:compiler:3.4.0'
     implementation 'ch.qos.logback:logback-classic:1.2.3'
     testImplementation group: 'junit', name: 'junit', version: '4.12'
 }
