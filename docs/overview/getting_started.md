@@ -64,7 +64,7 @@ section for information on how to use the neow3j compiler.
 
 If you would like to test `SNAPSHOT` versions, which are snapshots of the development branch, use
 the following repository and append `-SNAPSHOT` to the version number. E.g.
-`io.neow3j:contract:3.3.0-SNAPSHOT`.
+`io.neow3j:contract:3.4.0-SNAPSHOT`.
 
 Gradle:
 

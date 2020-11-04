@@ -8,11 +8,11 @@ The `io.neow3j:devpack` is a Java library that contains Neo-specific annotations
 required when developing a smart contract for Neo. You will use this library, e.g., to fetch
 information about the current block inside of your smart contract, or to send out a notification.
 
-The `io.neow3j:compiler` contains the contains the compiler that compiles your Java smart contract
+The `io.neow3j:compiler` contains the compiler that compiles your Java smart contract
 class to NeoVM code. Instead of using this package you can make use of the neow3j Gradle plugin that
 lets you compile a smart contract using Gradle.
 
-Check out the [Getting Started](overview/getting_started.md?id=neow3j-devpack-and-compiler) section
+Check out the [Getting Started](overview/getting_started.md?id=devpack-and-compiler) section
 for information on how to setup a project for smart contract development.
 
 The following shows a basic smart contract making use of some of the devpack features.

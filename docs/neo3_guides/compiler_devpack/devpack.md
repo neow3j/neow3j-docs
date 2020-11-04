@@ -1,19 +1,22 @@
-# Capabilities
+# Devpack
 
-?>  More content coming soon!
 
-## Smart Contract API
+## Neo Smart Contract API
 
-Neo's smart contract API provides methods to retrieve blockchain information, access a contract's
+The Neo's smart contract API provides methods to retrieve blockchain information, access a contract's
 storage area, and interact with the execution environment in which a contract is run.
-The API is documented in the official [Neo
-documentation](https://docs.neo.org/v3/docs/en-us/reference/scapi/fw/dotnet/neo.html). Neow3j
-provides smart contract developers access to the API via the devpack (`io.neow3j:devpack`).
+The API is the same for all Neo developer packs, e.g.
+[neo-boa](https://github.com/CityOfZion/neo-boa) or [neo-go](https://github.com/nspcc-dev/neo-go).
+You can find the documentation on it at the official 
+[Neo docs](https://docs.neo.org/v3/docs/en-us/reference/scapi/fw/dotnet/neo.html). 
+
+Neow3j provides this API in the packages `io.neow3j.devpack.neo` and `io.neow3j.devpack.system`
+following the same naming and structure as described in the Neo docs.
 
 
 ## Annotations
 
-The `io.neow3j.devpack` provides several annotations to be used on smart contract classes and
+The `io.neow3j:devpack` provides several annotations to be used on smart contract classes and
 methods. 
 
 The first three annotations below - `@Features`, `@ManifestExtra`, and `@SupportedStandards` - are
@@ -77,13 +80,12 @@ public class MySmartContract {
 
 
 
-## Debugging Information
 
-The neow3j compiler produces debugging information that can be used with the [Neo
-Debugger](https://github.com/neo-project/neo-debugger). For this to work, you need to provide Java
-source files instead of already compiled class files.  
-At the moment debugging is only supported for the source files/classes provided to the compiler. If
-other code is invoked in the contract the debugger will not be able to step through that code. 
+## Working with Account Addresses and Script Hashes 
+
+The `devpack` provides a few methods that allow you to conveniently define an account script hash,
+a byte array, or an integer via string literals.
+
 
 
 
