@@ -25,7 +25,7 @@
 
   </details>
 
-  <details>
+  <details open>
     <summary><b>Neo 3 Guides</b></summary>
 
   - [Monitoring the Blockchain](neo3_guides/monitoring.md#monitoring-the-blockchain)
@@ -33,7 +33,7 @@
   - [Invoking Smart Contracts](neo3_guides/contract_invocation.md#invoking-smart-contracts)
   - [Transferring Tokens](neo3_guides/token_transfer.md#transferring-tokens)
 
-    <details>
+    <details open>
       <summary><b>Smart Contract Development</b></summary>
       
       - [Introduction](neo3_guides/compiler_devpack/introduction.md#smart-contract-development)

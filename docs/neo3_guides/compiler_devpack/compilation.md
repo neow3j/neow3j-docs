@@ -18,7 +18,7 @@ plugins {
 
 // Add the devpack to the dependencies.
 dependencies {
-    compile("io.neow3j:devpack:3.4.0")
+    compile("io.neow3j:devpack:3.+")
 }
 
 //Configure the fully qualified name of the class you want to compile.
@@ -53,7 +53,7 @@ Add the `io.neow3j:compiler` to your smart contract project and call the compile
 Gradle:
 
 ```groovy
-implementation 'io.neow3j:compiler:3.4.0',
+implementation 'io.neow3j:compiler:3.+',
 ```
 
 Maven:
