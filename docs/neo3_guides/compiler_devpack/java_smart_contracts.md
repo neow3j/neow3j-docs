@@ -1,9 +1,8 @@
 # Java Smart Contracts
 
 This chapter discusses the possibilities and restrictions one has when implementing a smart
-contraact in Java. We often reference the `BongoCatToken` contract in code snippets. The full
-contract can be found at the end of this page or in the
-[neow3j-examples](https://github.com/neow3j/neow3j-examples-java/blob/master/neo3-examples/src/main/java/io/neow3j/examples/contract_development/contracts/BongoCatToken.java)
+contract in Java. Multiple Java smart contract examples can be found in the neow3j-examples
+[repository](https://github.com/neow3j/neow3j-examples-java/tree/master/neo3-examples/src/main/java/io/neow3j/examples/contract_development/contracts)
 repository.
 
 Even though we are coding in Java we have to keep in mind that we are not coding for the Java
@@ -42,11 +41,10 @@ is ment to be a constant it makes sense to mark it with the `final` keyword. Thi
 intentions but is not strictly required by the compiler.
 
 Contract variables can be initialized with constant values (e.g., string literals) but also with
-the return value of a method call as shown at the example of the `BongoCatToken`.
+the return value of a method call as shown in the following examples.
 
 ```java
 static final int initialSupply = 200_000_000;
-static final String assetPrefix = "asset";
 static final String totalSupplyKey = "totalSupply";
 static final StorageContext sc = Storage.getStorageContext();
 static final StorageMap assetMap = sc.createMap(assetPrefix);
@@ -66,8 +64,8 @@ static {
 
 For convenience in variable initialization the devpack offers the `StringLiteralHelper`.
 As its name suggests, it operates on strings literals. It offers methods that take string literals
-and convert them to byte arrays, script hashes, or integers. The `BongoCatToken` uses it to set the
-owner script hash, as a byte array, using the owner account's address.
+and convert them to byte arrays, script hashes, or integers. The following example uses it to set
+the owner script hash using the owner account's address.
 
 ```java
 static final byte[] owner = StringLiteralHelper.addressToScriptHash(
@@ -81,11 +79,16 @@ Contract methods are methods on the contract class. They all need to be static, 
 class is never instantiated.
 Methods that are `public` will show up in the contract's manifest and can be called from the
 outside, i.e. by a direct invocation or by other contracts. Every other access modifier will make
-the a method not visible to the outside. At the example of the `BongoCatToken` the method
-`balanceOf` is visible but the method `addToBalance` is not.
+the a method not visible to the outside. 
+
 The name of a method in the contract manifest is exactly the name given in the Java code. 
 
 <!-- TODO: Mention the different handling of the methods `_deploy` and `_verify` once supported by neow3j-->
+
+
+## Storage
+
+<!-- TODO: Document on how to use storage. -->
 
 
 ## Objects
@@ -144,10 +147,6 @@ Storing and loading objects to and from a contract's storage is possible by usin
 `Binary.deserialize(byte[] bytes)` after fetching the object from storage.
 
 
-## Storage
-
-
-
 ## Integers
 
 You can use all of Java's integer types in a smart contract, including their wrapper classes.
@@ -170,12 +169,33 @@ argument is in the range of an unsigned or signed byte, respectively. The method
 the argument.
 
 
-## Floating Point Numbers
+## Strings
 
+<!-- TODO: Rework this section and add information on `String.length` -->
+
+Java `String` is supported, but only with limited features. Strings are represented as UTF8-encoded
+byte arrays in the NeoVM. The neow3j devpack offers sevaral methods that work with Strings but the
+methods of `String` intself are not yet supported. E.g. `s.concat()` or `s.indexOf()` are not
+available in smart contracts.
+
+If you want to compare two strings use the `==` operator. The neow3j compiler currently does not
+support the `equals()` method but uses the `==` operator instead for equality checks. The compiled
+NeoVM code will not perform a reference comparison but an actual object comparison when using `==`.
+
+String concatenation with the `+` is supported but it cannot be mixed with other types. For example,
+you cannot do `"hello, " + "world!"` + 5. This is because the compiler does not support arbitrary 
+`toString()` methods which are called in such an expression.
+
+
+## Unsupported Java Features
+
+<!-- TODO: Document unsupported features -->
+
+<!-- 
+Inheritance
+Enums
+Interfaces
+Abstract classes
 Floating point numbers like `float` and `double` are not supported. The neo-vm has no concept of
 such types.
-
-
-## Complete BongoCatToken Contract
-
-<!-- TODO insert BongoCatToken -->
+-->

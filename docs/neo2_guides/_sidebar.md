@@ -41,7 +41,6 @@
       - [Compilation](neo3_guides/compiler_devpack/compilation.md#compilation)
       - [Deployment](neo3_guides/compiler_devpack/deployment.md#deployment)
       - [Debugging](neo3_guides/compiler_devpack/debugging.md#debugging)
-      - [Java language support](neo3_guides/compiler_devpack/java_lang_support.md#java-language-support)
 
      </details>
 
