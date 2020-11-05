@@ -98,20 +98,16 @@ exception if you try to instantiate a class that uses inheritance.
 The devpack makes use of objects itself. For example, calling `Storage.getStorageContext()` returns
 a `StorageContrext` instance. On that object you can call an instance method like `createMap(...)`.
 Another example is the `io.neow3j.devpack.neo.Transaction` class. After retrieving a `Transaction`
-object with `Blockchain.getTransaction(byte[])` all its properties are available to the contract
-class through public instance variables on the object.
-Similarly you can create and instantiate custom classes that have instance methods and variables
-that are directly accessible to the contract class.
+object with `Blockchain.getTransaction(byte[] txId)` all its properties are available to the
+contract class through public instance variables on the object. Similarly you can create and
+instantiate custom classes that have instance methods and variables that are directly accessible to
+the contract class.
 
-Objects are handled as arrays or structs inside the neo-vm. Thus, if you use an object as a 
-parameter for a contract method, use the `Array` `ContractParameterType` when calling the
-method from the outside. In the array the instance variables of the object appear in the order
-they are defined in the class.
-I.e., in the following example the `lowNote` has index 0 and `highNote` has index 1 in the array.
-The same applies when the object is used as a return type, in other words, wxpect an `Array` return 
-type holding the instance variables of the object.
+Objects are handled as arrays inside the neo-vm. The array holds variables of the object in the
+order they appear in the class definition. I.e., in the following example the `lowNote` variable has
+index 0 and `highNote` has index 1.
 
-```
+```java
 public class Bongo {
 
     public String lowNote;
@@ -123,6 +119,25 @@ public class Bongo {
     }
 }
 ```
+
+Object can be used as parameters in contract methods and as return types. Invoking a contract method
+which takes an object as a parameter requires the use of a parameter of type `Array`.  
+Assume the above `Bongo` class as the method parameter. With the neow3j SDK you would have to
+construct the following parameter, which represents a `Bongo` instance.
+
+```java
+ContractParameter.array(
+    ContractParameter.string("C2"), 
+    ContractParameter.string("C5")));
+```
+
+The same applies when the object is used as a return type. In other words, expect an return value of
+type `Array` that will hold the object's variables.
+
+> Don't let yourself be confused by the contradicting information you will find in the contract
+> manifest. When using objects as parameters or return types the manifest will set the type to `Any`
+> instead of `Array`. This is the currently valid convention. It discerns objects from actual
+> arrays, e.g. an `int[]`.
 
 Storing and loading objects to and from a contract's storage is possible by using the devpack's 
 `Binary` class. Use `Binary.serialize(Object obj)` before writting the object to storage and
