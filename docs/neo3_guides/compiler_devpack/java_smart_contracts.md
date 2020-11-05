@@ -84,6 +84,7 @@ outside, i.e. by a direct invocation or by other contracts. Every other access m
 the a method not visible to the outside. At the example of the `BongoCatToken` the method
 `balanceOf` is visible but the method `addToBalance` is not.
 The name of a method in the contract manifest is exactly the name given in the Java code. 
+
 <!-- TODO: Mention the different handling of the methods `_deploy` and `_verify` once supported by neow3j-->
 
 
@@ -127,25 +128,37 @@ Storing and loading objects to and from a contract's storage is possible by usin
 `Binary` class. Use `Binary.serialize(Object obj)` before writting the object to storage and
 `Binary.deserialize(byte[] bytes)` after fetching the object from storage.
 
+
 ## Storage
 
 
 
 ## Integers
 
-All of Java's integer types are supported in their primitive form and their wrapper classes.
-That is: `boolean`, `byte`, `short`, `char`, `int`, `long` and `Boolean`, `Byte`, `Short`,
-`Character`, `Integer`, `Long`.
+You can use all of Java's integer types in a smart contract, including their wrapper classes.
+That is, `byte`, `short`, `char`, `int`, `long` and `Boolean`, `Byte`, `Short`, `Character`,
+`Integer`, `Long`. All of these types are treated equally because the neo-vm knows only one number
+type. It doens't have any size restrictions. This means that an `int` is not restricted to 32 bit as
+we know it from regular Java applications. You can use `int` without worrying about size
+restrictions. In fact we recommend using `int` everywhere and ignoring the types `short` and `long`.
+Think of `int` as `BigInteger` - that is actually its representation in the neo-vm.
 
-The NeoVM knows only one integer type to which all of the above are mapped. It is represented by a
-`BigInteger` in the VM implementation. Though, Java's `BigIteger` is not yet supported but is a
-planned feature.
+Note that when converting an integer type to a smaller one, the number does
+not get truncated. E.g., casting an `int` to `byte` does not truncate the number from 32 to 8 bit.
+The number will keep the same value on the neo-vm. Thus, do not use such casts in expectation that 
+the upper few bytes to get truncated. The same applies to the wrapper type methods like
+`Integer.byteValue()`.
 
-Note that when converting an integer type to a smaller one, e.g., `int` to `byte`, the number does
-not get truncated in the NeoVM script. Thus, do not use such casts in expectation that the upper few
-bytes to get truncated. The same applies to the wrapper type methods like `Integer.byteValue()`.
+For the specific case of `int` to `byte` conversion, two helper methods `Helper.asByte(int value)` 
+and `Helper.asSignedByte(int value)` are available. Both should only be used if you know that the
+argument is in the range of an unsigned or signed byte, respectively. The methods do not truncate
+the argument.
 
-Floating point types (`float` and `double`) are not supported.
+
+## Floating Point Numbers
+
+Floating point numbers like `float` and `double` are not supported. The neo-vm has no concept of
+such types.
 
 
 ## Complete BongoCatToken Contract
