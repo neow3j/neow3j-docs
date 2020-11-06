@@ -90,6 +90,8 @@ The name of a method in the contract manifest is exactly the name given in the J
 
 <!-- TODO: Document on how to use storage. -->
 
+Coming soon.
+
 
 ## Objects
 
@@ -106,7 +108,7 @@ contract class through public instance variables on the object. Similarly you ca
 instantiate custom classes that have instance methods and variables that are directly accessible to
 the contract class.
 
-Objects are handled as arrays inside the neo-vm. The array holds variables of the object in the
+Java objects are handled as arrays inside the neo-vm. The array holds variables of the object in the
 order they appear in the class definition. I.e., in the following example the `lowNote` variable has
 index 0 and `highNote` has index 1.
 
@@ -123,10 +125,10 @@ public class Bongo {
 }
 ```
 
-Object can be used as parameters in contract methods and as return types. Invoking a contract method
-which takes an object as a parameter requires the use of a parameter of type `Array`.  
-Assume the above `Bongo` class as the method parameter. With the neow3j SDK you would have to
-construct the following parameter, which represents a `Bongo` instance.
+This implies that you need to use parameters of type `Array` when invoking a contract method
+which takes an object as a parameter. 
+Assume the above `Bongo` class is a method parameter. With the neow3j SDK you would have to
+construct the following parameter representing a `Bongo` instance.
 
 ```java
 ContractParameter.array(
@@ -173,7 +175,7 @@ the argument.
 
 <!-- TODO: Rework this section and add information on `String.length` -->
 
-Java `String` is supported, but only with limited features. Strings are represented as UTF8-encoded
+Java strings are supported with, Strings are represented as UTF8-encoded
 byte arrays in the NeoVM. The neow3j devpack offers sevaral methods that work with Strings but the
 methods of `String` intself are not yet supported. E.g. `s.concat()` or `s.indexOf()` are not
 available in smart contracts.
