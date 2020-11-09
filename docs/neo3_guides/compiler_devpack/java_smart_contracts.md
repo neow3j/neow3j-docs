@@ -173,20 +173,20 @@ the argument.
 
 ## Strings
 
-<!-- TODO: Rework this section and add information on `String.length` -->
+Intuitively you can use Java's `String` type for strings. But be aware that on the neo-vm a `String`
+is not represented as an object, but rather as a UTF8-encoded byte array. This means that you cannot
+make use of the `String` methods like `contains()` or `indexOf()`. The only exception is the
+`length()` method. It works just as expected. Support for other methods might be added in the
+future. The `io.neow3j.devpack.Helper` and `io.neow3j.devpack.StringLiteralHelper` already offer a
+couple of String related helper methods.
 
-Java strings are supported with, Strings are represented as UTF8-encoded
-byte arrays in the NeoVM. The neow3j devpack offers sevaral methods that work with Strings but the
-methods of `String` intself are not yet supported. E.g. `s.concat()` or `s.indexOf()` are not
-available in smart contracts.
-
-If you want to compare two strings use the `==` operator. The neow3j compiler currently does not
-support the `equals()` method but uses the `==` operator instead for equality checks. The compiled
-NeoVM code will not perform a reference comparison but an actual object comparison when using `==`.
+If you want to compare two strings use the `==` operator. Because `String` is represented as a byte
+array, it makes sense to compare two strings with `==` instead of an object-related `equals()`.
 
 String concatenation with the `+` is supported but it cannot be mixed with other types. For example,
-you cannot do `"hello, " + "world!"` + 5. This is because the compiler does not support arbitrary 
-`toString()` methods which are called in such an expression.
+`"hello" + "world"` is allowed, but `"hello" + 5` is not. This is because such mixed expressions
+perfrom calls to the `toString()` method of the involved types, which doesn't make sense if a type
+is not represented as an object on the neo-vm. 
 
 
 ## Unsupported Java Features
