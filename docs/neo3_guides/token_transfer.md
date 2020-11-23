@@ -147,9 +147,9 @@ in [this Section](neo3_guides/contract_invocation.md#signing-a-transaction-with-
 
 neow3j provides a wrapper class `NFToken` that can interact with token contracts that support the [NEP-11](https://github.com/neo-project/proposals/pull/41) standard.
 
-> The NEP-11 standard is not yet final, so there might still be changes to it and there does not exist an implementation for it yet.
+> The NEP-11 standard is not yet final, so there might still be changes to it.
 
-As shown above in the structure, the `NFToken` is a subtype of the class `Token`, so it utilizes of the methods `getName()`, `getSymbol()`, `getTotalSupply()` and `getDecimals()`.
+As shown above in the structure, the `NFToken` is a subtype of the class `Token`, so it utilizes the methods `getName()`, `getSymbol()`, `getTotalSupply()` and `getDecimals()`.
 
 For the following methods of the wrapper, it is important to understand that the standard supports non-divisible as well as divisible non-fungible tokens. This means that for divisible tokens, a token can have multiple owners. Each owner owns a fraction of that token and each of these fractions are owned completely by that owner. You can use the method `balanceOf()` to get the owned fraction of a token. The method `ownersOf()` and `tokensOf()` return an enumerator of all the owners of a token and an enumerator of all tokens that an account holds (non-divisible or fractions).
 
