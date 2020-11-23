@@ -41,7 +41,7 @@ non-fungible tokens.
             /       \
    ----------       ----------
   | NeoToken |     | GasToken |
-   ----------       s----------
+   ----------       ----------
 ```
 
 These classes provide convenient methods to build a script and transaction for contract invocation.
@@ -61,10 +61,10 @@ the wallet from a NEP-6 file, make sure that the account you want to use has bee
 transaction signature.
 
 ```java
-Account account1 = Account.fromWif("L1WMhxazScMhUrdv34JqQb1HFSQmWeN2Kpc1R9JGKwL7CDNP21uR");
+Account account1 = Account.fromWIF("L3kCZj6QbFPwbsVhxnB8nUERDy4mhCSrWJew4u5Qh5QmGMfnCTda");
 Wallet wallet = Wallet.withAccounts(account1);
 
-ScriptHash to = ScriptHash.fromAddress("AJunErzotcQTNWP2qktA7LgkXZVdHea97H");
+ScriptHash to = ScriptHash.fromAddress("NWcx4EfYdfqn5jNjDz8AHE6hWtWdUGDdmy");
 BigDecimal amount = new BigDecimal("15");
 
 NeoSendRawTransaction response = NeoToken(neow3j)
@@ -91,10 +91,9 @@ signers and the wallet to the `TransactionBuilder`, so it is not necessary to co
 manually.
 
 ```java
-Account account1 = Account.fromWif("L1WMhxazScMhUrdv34JqQb1HFSQmWeN2Kpc1R9JGKwL7CDNP21uR");
-Account account2 = Account.fromWif("L45BGYyybk91pvwH3Mj1CfDZ11GGQLVPr6qfzpWugeP4WeJZyfki");
-Account account3 = Account.fromWif("L2pN4EbagTuk9Kiib8sjRmMQznxqCVEs1HR8DRaxmnPicjg9FdNc");
-Wallet wallet = Wallet.withAccounts(account1, account2, account3);
+Account account2 = Account.fromWIF("KwjpUzqHThukHZqw5zu4QLGJXessUxwcG3GinhJeBmqj4uKM4K5z");
+Account account3 = Account.fromWIF("KyHFg26DHTUWZtmUVTRqDHg8uVvZi9dr5zV3tQ22JZUjvWVCFvtw");
+wallet.addAccounts(account2, account3);
 
 NeoSendRawTransaction response = NeoToken(neow3j)
         .transfer(wallet, to, amount)
@@ -146,4 +145,28 @@ in [this Section](neo3_guides/contract_invocation.md#signing-a-transaction-with-
 
 ## Non-fungible Tokens (NEP-11)
 
-?> _In the works_
+neow3j provides a wrapper class `NFToken` that can interact with token contracts that support the [NEP-11](https://github.com/neo-project/proposals/pull/41) standard.
+
+> The NEP-11 standard is not yet final, so there might still be changes to it.
+
+As shown above in the structure, the `NFToken` is a subtype of the class `Token`, so it utilizes the methods `getName()`, `getSymbol()`, `getTotalSupply()` and `getDecimals()`.
+
+For the following methods of the wrapper, it is important to understand that the standard supports non-divisible as well as divisible non-fungible tokens. This means that for divisible tokens, a token can have multiple owners. Each owner owns a fraction of that token and each of these fractions are owned completely by that owner. You can use the method `balanceOf()` to get the owned fraction of a token. The method `ownersOf()` and `tokensOf()` return an enumerator of all the owners of a token and an enumerator of all tokens that an account holds (non-divisible or fractions).
+
+There are two transfer methods, one for non-divisible and one for divisible tokens - `transfer()` and `transferFraction()`. E.g. to transfer `0.2` fractions of a divisible token with `tokenID` `1` and 2 decimals, you can use the following code example that produces the transfer script and creates a `TransactionBuilder` that then can be signed and sent:
+
+```java
+NFToken nft = new NFToken("ebc856327332bcffb7587a28ef8d144df6be8537", neow3j);
+ScriptHash to = new ScriptHash("6367377798df20bb04737d34fa2dda19a283dbb5");
+TransactionBuilder builder = nft.transferFraction(wallet, account1.getScriptHash(), to, new byte[]{1});
+```
+
+Further, you can get the properties of each token with the method `properties()`.
+
+```java
+NFTokenProperties properties = nft.properties(new byte[]{1});
+String name = properties.getName();
+String description = properties.getDescription();
+String image = properties.getImage();
+String tokenURI = properties.getTokenURI();
+```
