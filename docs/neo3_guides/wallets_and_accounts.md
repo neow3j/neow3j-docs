@@ -52,7 +52,7 @@ Account a = Account.create();
 If you already have a key pair and its WIF, you can use the following method.
 
 ```java
-Account a = Account.fromWIF("L1WMhxazScMhUrdv34JqQb1HFSQmWeN2Kpc1R9JGKwL7CDNP21uR")
+Account a = Account.fromWIF("L3kCZj6QbFPwbsVhxnB8nUERDy4mhCSrWJew4u5Qh5QmGMfnCTda")
         .label("MyAccount");
 ```
 

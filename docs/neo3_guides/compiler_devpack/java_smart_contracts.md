@@ -15,20 +15,18 @@ version of the compiler you are not even allowed to construct such classes. We h
 more basic constructs (integers, Strings, byte arrays) and classes specifically supporting Neo smart
 contract development (provided by the devpack).
 
-
 ## Contract Class
 
 Java smart contracts consist of one or more classes each containing some of the contract's
 functionality. The contract has one main contract class, but there can be other classes
 that hold logic and are used by the contract class. Only the methods of the contract class are
-accessible from the outside once the contract is deployed. 
+accessible from the outside once the contract is deployed.
 
 The contract class can only have static methods and variables. Thus, you should not think of a
 contract as an instantiated object that holds the contract's state in its variables. Think of the
 contract class being the managing entity handling incoming invocations, contract storage and event
 emission. This is different, for example, to Solidity where the contract's state is managed in its
 variables. Although the contract class is static, it can still instantiate and make use of objects.
-
 
 ## Contract Variables
 
@@ -71,9 +69,8 @@ owner script hash, as a byte array, using the owner account's address.
 
 ```java
 static final byte[] owner = StringLiteralHelper.addressToScriptHash(
-    "AJunErzotcQTNWP2qktA7LgkXZVdHea97H");
+    "NZNos2WqTbu5oCgyfss9kUJgBXJqhuYAaj");
 ```
-
 
 ## Contract Methods
 
@@ -83,16 +80,16 @@ Methods that are `public` will show up in the contract's manifest and can be cal
 outside, i.e. by a direct invocation or by other contracts. Every other access modifier will make
 the a method not visible to the outside. At the example of the `BongoCatToken` the method
 `balanceOf` is visible but the method `addToBalance` is not.
-The name of a method in the contract manifest is exactly the name given in the Java code. 
-<!-- TODO: Mention the different handling of the methods `_deploy` and `_verify` once supported by neow3j-->
+The name of a method in the contract manifest is exactly the name given in the Java code.
 
+<!-- TODO: Mention the different handling of the methods `_deploy` and `_verify` once supported by neow3j-->
 
 ## Objects
 
 Even though a smart contract class is never used as an object, you can still make use of objects
 inside of the contract class. Instantiation of simple classes is supported. With simple we mean
 classes that do not extend from another class except `Object`. The neow3j compiler will throw an
-exception if you try to instantiate a class that uses inheritance. 
+exception if you try to instantiate a class that uses inheritance.
 
 The devpack makes use of objects itself. For example, calling `Storage.getStorageContext()` returns
 a `StorageContrext` instance. On that object you can call an instance method like `createMap(...)`.
@@ -102,12 +99,12 @@ class through public instance variables on the object.
 Similarly you can create and instantiate custom classes that have instance methods and variables
 that are directly accessible to the contract class.
 
-Objects are handled as arrays or structs inside the neo-vm. Thus, if you use an object as a 
+Objects are handled as arrays or structs inside the neo-vm. Thus, if you use an object as a
 parameter for a contract method, use the `Array` `ContractParameterType` when calling the
 method from the outside. In the array the instance variables of the object appear in the order
 they are defined in the class.
 I.e., in the following example the `lowNote` has index 0 and `highNote` has index 1 in the array.
-The same applies when the object is used as a return type, in other words, wxpect an `Array` return 
+The same applies when the object is used as a return type, in other words, wxpect an `Array` return
 type holding the instance variables of the object.
 
 ```
@@ -123,13 +120,11 @@ public class Bongo {
 }
 ```
 
-Storing and loading objects to and from a contract's storage is possible by using the devpack's 
+Storing and loading objects to and from a contract's storage is possible by using the devpack's
 `Binary` class. Use `Binary.serialize(Object obj)` before writting the object to storage and
 `Binary.deserialize(byte[] bytes)` after fetching the object from storage.
 
 ## Storage
-
-
 
 ## Integers
 
@@ -146,7 +141,6 @@ not get truncated in the NeoVM script. Thus, do not use such casts in expectatio
 bytes to get truncated. The same applies to the wrapper type methods like `Integer.byteValue()`.
 
 Floating point types (`float` and `double`) are not supported.
-
 
 ## Complete BongoCatToken Contract
 

@@ -61,10 +61,10 @@ the wallet from a NEP-6 file, make sure that the account you want to use has bee
 transaction signature.
 
 ```java
-Account account1 = Account.fromWIF("L1WMhxazScMhUrdv34JqQb1HFSQmWeN2Kpc1R9JGKwL7CDNP21uR");
+Account account1 = Account.fromWIF("L3kCZj6QbFPwbsVhxnB8nUERDy4mhCSrWJew4u5Qh5QmGMfnCTda");
 Wallet wallet = Wallet.withAccounts(account1);
 
-ScriptHash to = ScriptHash.fromAddress("AJunErzotcQTNWP2qktA7LgkXZVdHea97H");
+ScriptHash to = ScriptHash.fromAddress("NWcx4EfYdfqn5jNjDz8AHE6hWtWdUGDdmy");
 BigDecimal amount = new BigDecimal("15");
 
 NeoSendRawTransaction response = NeoToken(neow3j)
@@ -91,10 +91,9 @@ signers and the wallet to the `TransactionBuilder`, so it is not necessary to co
 manually.
 
 ```java
-Account account1 = Account.fromWIF("L1WMhxazScMhUrdv34JqQb1HFSQmWeN2Kpc1R9JGKwL7CDNP21uR");
-Account account2 = Account.fromWIF("L45BGYyybk91pvwH3Mj1CfDZ11GGQLVPr6qfzpWugeP4WeJZyfki");
-Account account3 = Account.fromWIF("L2pN4EbagTuk9Kiib8sjRmMQznxqCVEs1HR8DRaxmnPicjg9FdNc");
-Wallet wallet = Wallet.withAccounts(account1, account2, account3);
+Account account2 = Account.fromWIF("KwjpUzqHThukHZqw5zu4QLGJXessUxwcG3GinhJeBmqj4uKM4K5z");
+Account account3 = Account.fromWIF("KyHFg26DHTUWZtmUVTRqDHg8uVvZi9dr5zV3tQ22JZUjvWVCFvtw");
+wallet.addAccounts(account2, account3);
 
 NeoSendRawTransaction response = NeoToken(neow3j)
         .transfer(wallet, to, amount)

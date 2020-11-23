@@ -57,7 +57,7 @@ Then you need to define the parameters that will be passed to the contract. In t
 called with a domain name and an address that should be registered under that domain name.
 
 ```java
-Account account = Account.create();
+Account account = Account.fromWIF("L3kCZj6QbFPwbsVhxnB8nUERDy4mhCSrWJew4u5Qh5QmGMfnCTda");
 ContractParameter functionArg1 = ContractParameter.string("neo.com");
 ContractParameter functionArg2 = ContractParameter.hash160(account.getScriptHash());
 ```
@@ -70,10 +70,9 @@ Here's the complete code.
 ```java
 Neow3j neow3j = Neow3j.build(new HttpService("http://localhost:40332"));
 
-Account account = Account.create();
+Account account = Account.fromWIF("L3kCZj6QbFPwbsVhxnB8nUERDy4mhCSrWJew4u5Qh5QmGMfnCTda");
 Wallet wallet = Wallet.withAccounts(account);
 
-ScriptHash scriptHash = new ScriptHash("0x1a70eac53f5882e40dd90f55463cce31a9f72cd4");
 ContractParameter functionArg1 = ContractParameter.string("neo.com");
 ContractParameter functionArg2 = ContractParameter.hash160(account.getScriptHash());
 
@@ -205,7 +204,7 @@ Multi-sig accounts are usually not controlled by one single entity. Meaning the 
 are not all available to sign a transaction locally. So this scenario is different in the signing step.
 
 In the example below, a multi-sig account made up of two accounts (the account used in previous
-examples and a new `account2`) is used. Its address is "ALK7evGaofZciCZu86K8bhXsUdpa5FcdJs". The
+examples and a new `account2`) is used. Its address is "Nbkov1hfyHetEzpnUJTEV5MFjLwSMzqamj". The
 account does not possess the private keys required to sign a transaction. Neow3j can only fetch the
 account's balances. Signing the transaction is up to you. It is the raw transaction byte array that
 needs to be signed by the minimum required number of keys. Then the signatures are combined in a
@@ -214,8 +213,8 @@ needs to be signed by the minimum required number of keys. Then the signatures a
 When the witness is created, it can be added to the transaction and it is ready to be sent.
 
 ```java
-Account account2 = Account.fromWIF("L45BGYyybk91pvwH3Mj1CfDZ11GGQLVPr6qfzpWugeP4WeJZyfki");
-Account multiSigAccount = Account.fromAddress("ALK7evGaofZciCZu86K8bhXsUdpa5FcdJs");
+Account account2 = Account.fromWIF("KwjpUzqHThukHZqw5zu4QLGJXessUxwcG3GinhJeBmqj4uKM4K5z");
+Account multiSigAccount = Account.fromAddress("Nbkov1hfyHetEzpnUJTEV5MFjLwSMzqamj");
 
 functionArg2 = ContractParameter.hash160(multiSigAccount.getScriptHash());
 
