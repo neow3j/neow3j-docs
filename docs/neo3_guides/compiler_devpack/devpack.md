@@ -26,6 +26,20 @@ following the same naming and structure as described in the Neo docs.
 <!-- TODO: Document on how to use storage. -->
 Coming soon.
 
+Every smart contract on the Neo blockchain has its own key-value storage. This storage is accessed
+via a so called storage context. This context is the gateway to the contract's storage. This
+additional concept between you and the storage potentially allows you to pass the context to another
+contract which could then access your contract's storage directly. 
+
+In the devpack, the storage context is represented by the `io.neow3j.devpack.neo.StorageContext`
+class. The pivotal class related to contract storage is `io.neow3j.devpack.neo.Storage`. It
+provides many `put(...)`  and `get()` methods for writing to the storage and reading from it. Each
+of these methods has a version that explicitly requires a `StorageContext` class and one that
+doesn't. In the methods without a `StorageContext`, the context is retrieved explicitely. Thus, it
+makes sense to retrieve the `StorageContext` once with `Storage.getStorageContext()`, store it in
+a static class variable and reuse it every time the storage is accessed. This can potentially save
+operations and therefore GAS.
+
 
 ## Annotations
 
@@ -164,6 +178,10 @@ The `devpack` provides a few methods that allow you to conveniently define an ac
 a byte array, or an integer via string literals.
 
 <!-- TODO: Write this section -->
+<!-- Note that when using `addressToScriptHash("NZNos2WqTbu5oCgyfss9kUJgBXJqhuYAaj")` the address 
+needs to be using the address version configured in the compiler. The compiler checks the address 
+and this check includes the address version. We might need to add a property to the neow3jCompile
+gradle task that allows setting the address version. -->
 
 
 
