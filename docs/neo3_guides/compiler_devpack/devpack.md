@@ -1,18 +1,44 @@
 # Devpack
 
+The neow3j devpack provides classes, methods and annotations required for writing smart contracts in
+Java. For example, if your smart contract needs to verify a transaction signature the devpack offers
+a method for that. Or, if you want to publish detailed information about the contract in its
+manifest, you can use one of the devpack's annotations.
+
+The following sections describe parts of the devpack's API and frequently used concepts and
+constructs.
+
 
 ## Neo Smart Contract API
 
-The Neo's smart contract API provides methods to retrieve blockchain information, access a contract's
-storage area, and interact with the execution environment in which a contract is run.
-The API is the same for all Neo developer packs, e.g.
+The biggest part of the devpack is the Neo smart contract API. It provides many functionalities, for
+example, to retrieve blockchain information, access a contract's storage area, and interact with the
+execution environment in which a contract is run. This API is the same for all Neo developer packs, e.g.
 [neo-boa](https://github.com/CityOfZion/neo-boa) or [neo-go](https://github.com/nspcc-dev/neo-go).
-You can find the documentation on it at the official 
+You can find the documentation on it in the official 
 [Neo docs](https://docs.neo.org/v3/docs/en-us/reference/scapi/fw/dotnet/neo.html). 
 
 Neow3j provides this API in the packages `io.neow3j.devpack.neo` and `io.neow3j.devpack.system`
 following the same naming and structure as described in the Neo docs.
 
+
+## Storage
+
+Every smart contract on the Neo blockchain has its own key-value storage. This storage is accessed
+via a so called storage context. This context is the gateway to the contract's storage. This
+additional concept between you and the storage potentially allows you to pass the context to another
+contract which could then access your contract's storage directly. 
+
+In the devpack, the storage context is represented by the `io.neow3j.devpack.neo.StorageContext`
+class. The pivotal class related to contract storage is `io.neow3j.devpack.neo.Storage`. It
+provides many `put(...)`  and `get()` methods for writing to the storage and reading from it. Each
+of these methods has a version that explicitly requires a `StorageContext` class and one that
+doesn't. In the methods without a `StorageContext`, the context is retrieved explicitely. Thus, it
+makes sense to retrieve the `StorageContext` once with `Storage.getStorageContext()`, store it in
+a static class variable and reuse it every time the storage is accessed. This can potentially save
+operations and therefore GAS.
+
+<!-- TODO: Add more documentation on how to use storage and that contract variables are not storage. -->
 
 ## Annotations
 
@@ -79,6 +105,70 @@ public class MySmartContract {
 
 
 
+## Events
+
+Neo smart contracts can trigger events. They appear, for example, in the [application
+logs](https://docs.neo.org/v3/docs/en-us/reference/rpc/latest-version/api/getapplicationlog.html) 
+of a contract invocation.
+
+In order that users of a smart contract (dApps or other smart contracts) know what events are to be
+expected, a contract's events should be listed in its contract manifest. The below JSON shows how
+this could look.
+
+```json
+"events": [
+    {
+        "name": "transfer",
+        "parameters": [
+            {
+                "name": "arg1",
+                "type": "Integer"
+            },
+            {
+                "name": "arg2",
+                "type": "String"
+            }
+        ]
+    }
+]
+```
+
+An event is defined by its name and the state parameters that are passed with it. The devpack allows
+you to define and use events with up to 16 state parameters. The classes representing these events
+are located in the `io.neow3j.devpack.events` package. 
+
+Events are declared in static contract variables as shown in the following code snippet. They cannot
+be declared inside of a method body.
+
+```java
+    @DisplayName("mint")
+    private static Event1Arg<Integer> onMint;
+
+    @DisplayName("transfer")
+    private static Event2Args<Integer, String> onTransfer;
+```
+
+It is not necessary to initialize the variables with an actual instance. This is counter-intuitive
+for a Java developer, but remember, we are not developing for the JVM but for the neo-vm. The
+variables are simply a definition of an event, with a name, the number and type of state parameters
+that the event can take. All event classes follow the naming schema `Event[n]Args`, where `n` is the
+number of state parameters the event takes. The `@DisplayName` annotation is optional and can be
+used to define a different name for the event than the variable name. If it is not used, the
+variable name is the events name.
+
+Defined events can then be used in contract methods by calling their `notify(...)` method. 
+
+```java
+    public static boolean transfer() throws Exception {
+        ...
+        onTransfer.notify(transferAmount, "tokens transferred!");
+        ...
+        return true;
+    }
+```
+
+<!-- TODO: Add information about the `Runtime.noitfy(Object... objects)` method. This method is 
+currently not compilable. See issue #275 -->
 
 
 ## Working with Account Addresses and Script Hashes 
@@ -86,6 +176,11 @@ public class MySmartContract {
 The `devpack` provides a few methods that allow you to conveniently define an account script hash,
 a byte array, or an integer via string literals.
 
+<!-- TODO: Write this section -->
+<!-- Note that when using `addressToScriptHash("NZNos2WqTbu5oCgyfss9kUJgBXJqhuYAaj")` the address 
+needs to be using the address version configured in the compiler. The compiler checks the address 
+and this check includes the address version. We might need to add a property to the neow3jCompile
+gradle task that allows setting the address version. -->
 
 
 
