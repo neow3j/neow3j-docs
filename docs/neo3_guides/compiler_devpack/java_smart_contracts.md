@@ -9,10 +9,10 @@ Even though we are coding in Java we have to keep in mind that we are not coding
 virtual machine (JVM) but for the Neo virtual machine (neo-vm). Blockchain programmers need to be
 more careful with computational resources because every step in the resulting neo-vm script costs
 GAS. Therefore, it is a bad idea to make use of classes like `java.util.List` or `java.util.Map`,
-even though we might be very familiar with those data structures. You will see that in the current
-version of the compiler you are not even allowed to construct such classes. We have to make do with
-more basic constructs (integers, Strings, byte arrays) and classes specifically supporting Neo smart
-contract development (provided by the devpack).
+even though we might be very familiar with those data structures. You will see that with the current
+version of the compiler you are not even allowed to construct such classes. We have to get along
+with more basic constructs (integers, Strings, byte arrays) and classes specifically supporting Neo
+smart contract development (provided by the devpack).
 
 
 ## Contract Class
@@ -84,13 +84,6 @@ the a method not visible to the outside.
 The name of a method in the contract manifest is exactly the name given in the Java code. 
 
 <!-- TODO: Mention the different handling of the methods `_deploy` and `_verify` once supported by neow3j-->
-
-
-## Storage
-
-<!-- TODO: Document on how to use storage. -->
-
-Coming soon.
 
 
 ## Objects
