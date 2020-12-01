@@ -176,7 +176,7 @@ the argument.
 Intuitively you can use Java's `String` type for strings. But be aware that on the neo-vm a `String`
 is not represented as an object, but rather as a UTF8-encoded byte array. This means that you cannot
 make use of the `String` methods like `contains()` or `indexOf()`. The only exception is the
-`length()` method. It works just as expected. Support for other methods might be added in the
+`length()` method. It works as expected. Support for other methods might be added in the
 future. The `io.neow3j.devpack.Helper` and `io.neow3j.devpack.StringLiteralHelper` already offer a
 couple of String related helper methods.
 
@@ -189,15 +189,20 @@ perfrom calls to the `toString()` method of the involved types, which doesn't ma
 is not represented as an object on the neo-vm. 
 
 
+## Exceptions
+
+Exceptions and try-catch blocks are supported and can be used as in normal Java
+applications. Though, only the `java.lang.Exception` class can be used to throw exceptions. Either
+with or without a string argument. Because only one type of exception is available you cannot have
+multiple catch clauses per try clause, nor multiple different exceptions handled by one catch block.
+
+
 ## Unsupported Java Features
 
-<!-- TODO: Document unsupported features -->
+The following concepts of the Java language are not supported in smart contract development.
 
-<!-- 
-Inheritance
-Enums
-Interfaces
-Abstract classes
-Floating point numbers like `float` and `double` are not supported. The neo-vm has no concept of
-such types.
--->
+- Floating point numbers like `float` and `double` 
+- Inheritance
+- Enums
+- Interfaces
+- Abstract classes
