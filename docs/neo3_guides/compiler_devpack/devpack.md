@@ -23,8 +23,6 @@ following the same naming and structure as described in the Neo docs.
 
 
 ## Storage
-<!-- TODO: Document on how to use storage. -->
-Coming soon.
 
 Every smart contract on the Neo blockchain has its own key-value storage. This storage is accessed
 via a so called storage context. This context is the gateway to the contract's storage. This
@@ -40,6 +38,7 @@ makes sense to retrieve the `StorageContext` once with `Storage.getStorageContex
 a static class variable and reuse it every time the storage is accessed. This can potentially save
 operations and therefore GAS.
 
+<!-- TODO: Add more documentation on how to use storage and that contract variables are not storage. -->
 
 ## Annotations
 
