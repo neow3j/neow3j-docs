@@ -16,7 +16,7 @@ below for more detailed information:
 
 - The basic principles and differences of developing in Java for the neo-vm versus Java for the JVM
 are documented in the section 
-[Java Smat Contracts](neo3_guides/compiler_devpack/java_smart_contracts.md#java-smart-contracts).
+[Java Smart Contracts](neo3_guides/compiler_devpack/java_smart_contracts.md#java-smart-contracts).
 
 - In-depth documentation on the devpack's API can be found in the
 [Devpack](neo3_guides/compiler_devpack/devpack.md#Devpack) section.
@@ -31,7 +31,7 @@ are documented in the section
 [Deployment](neo3_guides/compiler_devpack/deployment.md#Deployment) section. 
 
 - More Java smart contract examples can be found in the 
-[neow3j-examples repository](https://github.com/neow3j/neow3j-examples-java).
+[neow3j-examples](https://github.com/neow3j/neow3j-examples-java) repository.
 
 
 ## "Hello, World!" Contract
