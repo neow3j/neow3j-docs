@@ -1,9 +1,20 @@
 # Debugging
 
 By default the neow3j Gradle plugin will output a `.nefdbgnfo` file that contains debugging
-information for the compiled smart contract. It is placed in the same folder as the NEF and contract
+information for the compiled smart contract. If you do not want this to happen, you can set the
+`debug` flag in your `build.gradle` as follows.
+
+```groovy
+neow3jCompiler {
+    className = "fully.qualified.name.HelloWorldContract"
+    debug = false
+}
+```
+
+Otherwise, the debugging information is placed in the same folder as the NEF and contract
 manifest, i.e., usually at `./build/neow3j`. The file is actually a zip archive containing a JSON
 file, if you want to take a look inside.
+
 The produced debugging information is meant to be used with the 
 [Neo Debugger](https://github.com/neo-project/neo-debugger) (on the VSCode marketplace), 
 which is part of the Visual Studio Code (VSCode) extension pack called 
