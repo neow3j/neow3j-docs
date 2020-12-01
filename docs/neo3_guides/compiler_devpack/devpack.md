@@ -15,7 +15,7 @@ The biggest part of the devpack is the Neo smart contract API. It provides many 
 example, to retrieve blockchain information, access a contract's storage area, and interact with the
 execution environment in which a contract is run. This API is the same for all Neo developer packs, e.g.
 [neo-boa](https://github.com/CityOfZion/neo-boa) or [neo-go](https://github.com/nspcc-dev/neo-go).
-You can find the documentation on it int the official 
+You can find the documentation on it in the official 
 [Neo docs](https://docs.neo.org/v3/docs/en-us/reference/scapi/fw/dotnet/neo.html). 
 
 Neow3j provides this API in the packages `io.neow3j.devpack.neo` and `io.neow3j.devpack.system`
@@ -182,7 +182,6 @@ a byte array, or an integer via string literals.
 needs to be using the address version configured in the compiler. The compiler checks the address 
 and this check includes the address version. We might need to add a property to the neow3jCompile
 gradle task that allows setting the address version. -->
-
 
 
 
