@@ -62,7 +62,7 @@ Maven:
 <dependency>
     <groupId>io.neow3j</groupId>
     <artifactId>compiler</artifactId>
-    <version>3.4.0</version>
+    <version>[3.0.0,)</version>
 </dependency>
 ```
 
