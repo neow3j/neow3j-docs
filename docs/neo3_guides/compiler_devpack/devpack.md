@@ -78,7 +78,67 @@ public class MySmartContract {
 #### @Syscall
 
 
+## Events
 
+Neo smart contracts can trigger events. They appear, for example, in the [application
+logs](https://docs.neo.org/v3/docs/en-us/reference/rpc/latest-version/api/getapplicationlog.html) 
+of a contract invocation.
+
+In order that users of a smart contract (dApps or other smart contracts) know what events are to be
+expected, a contract's events should be listed in its contract manifest. The below JSON shows how
+this could look.
+
+```json
+"events": [
+    {
+        "name": "transfer",
+        "parameters": [
+            {
+                "name": "arg1",
+                "type": "Integer"
+            },
+            {
+                "name": "arg2",
+                "type": "String"
+            }
+        ]
+    }
+]
+```
+
+An event is defined by its name and the state parameters that are passed with it. The devpack allows
+you to define and use events with up to 16 state parameters. Events are declared in static contract 
+variables as shown in the following code snippet. They cannot be declared inside of a method body.
+
+```java
+    @DisplayName("mint")
+    private static Event1Arg<Integer> onMint;
+
+    @DisplayName("transfer")
+    private static Event2Args<Integer, String> onTransfer;
+```
+
+There is no need to initialize the variables with an actual instance. This is counter-intuitive for
+a Java developer, but remember, we are not developing for the JVM but for the neo-vm. The variables
+are simply a definition of an event, with a name, the number and type of
+state parameters that the event can take. All event classes follow the naming schema `Event[n]Args`,
+where `n` is the number of state parameters the event takes.
+The `@DisplayName` annotation is optional and can be used to define a different name for the event
+than the variable name. If it is not used, the variable name is the events name.
+
+Defined events can then be used in contract methods by calling their `notify(...)` method. 
+
+```java
+    public static boolean transfer() throws Exception {
+        ...
+        onTransfer.notify(transferAmount, "tokens transferred!");
+        ...
+        return true;
+    }
+```
+
+<!-- TODO: Add information about the `Runtime.noitfy(Object... objects)` method. This method is 
+currently not compilable. See issue #275 -->
 
 
 ## Working with Account Addresses and Script Hashes 
