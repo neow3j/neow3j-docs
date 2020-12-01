@@ -48,8 +48,8 @@ Maven:
 </dependency>
 ```
 
-For information on how to compile a smart contract hop over to the [Contract
-Development](neo3_guides/compiler_devpack/compilation.md#compilation) section.
+For information on how to compile a smart contract hop over to the contract
+[Compilation](neo3_guides/compiler_devpack/compilation.md#compilation) section.
 
 Note that the devpack and compiler are only available for Neo 3. Thus, Java cannot be used to
 compile to Neo 2 compatible smart contracts.

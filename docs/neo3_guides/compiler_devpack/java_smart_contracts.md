@@ -1,6 +1,6 @@
 # Java Smart Contracts
 
-This chapter discusses the possibilities and restrictions one has when implementing a smart
+This section discusses the possibilities and restrictions one has when implementing a smart
 contract in Java. Multiple Java smart contract examples can be found in the neow3j-examples
 [repository](https://github.com/neow3j/neow3j-examples-java/tree/master/neo3-examples/src/main/java/io/neow3j/examples/contract_development/contracts)
 repository.

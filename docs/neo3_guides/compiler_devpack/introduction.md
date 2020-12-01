@@ -10,11 +10,34 @@ The `io.neow3j:compiler` contains the compiler that compiles your smart contract
 code. It is not necessary to use this module directly. You can instead make use of the neow3j Gradle 
 plugin that lets you compile contracts using Gradle.
 
+The following section will guide you through the necessary setup for the implementation and
+compilation of a simple "Hello, World!" contract. From there you can continue to the sections listed
+below for more detailed information:
 
-## Hello World Contract
+- The basic principles and differences of developing in Java for the neo-vm versus Java for the JVM
+are documented in the section 
+[Java Smat Contracts](neo3_guides/compiler_devpack/java_smart_contracts.md#java-smart-contracts).
 
-In this section we will work through the necessary setup for the implementation and compilation of a
-simple "Hello, world!" contract. 
+- In-depth documentation on the devpack's API can be found in the
+[Devpack](neo3_guides/compiler_devpack/devpack.md#Devpack) section.
+
+- The possibilities of how to compile a Java smart contract are documented in the 
+[Compilation](neo3_guides/compiler_devpack/compilation.md#compilation) section.
+
+- For information on debugging go to the
+[Debugging](neo3_guides/compiler_devpack/debugging.md#debugging) section.
+
+- For information on contract deployment check out the 
+[Deployment](neo3_guides/compiler_devpack/deployment.md#Deployment) section. 
+
+- More Java smart contract examples can be found in the 
+[neow3j-examples repository](https://github.com/neow3j/neow3j-examples-java).
+
+
+## "Hello, World!" Contract
+
+<!-- In this section we will work through the necessary setup for the implementation and compilation of a
+simple "Hello, world!" contract.  -->
 
 We use Gradle as the build tool because neow3j offers a Gradle plugin for smart contract
 compilation. First, setup a new Gradle project either manually or with the CLI command 
@@ -75,25 +98,5 @@ information to your project's build directory, usually `./build/neow3j`.
 The NEF file is the contract binary containing neo-vm code. The contract manifest defines the
 properties of the contract, for example, what methods are available for invocation. The NEF and the
 manifest file are ready to be deployed on the Neo blockchain. 
-
-Where to go from here:
-
-- For information on contract deployment check out the 
-[Deployment](neo3_guides/compiler_devpack/deployment.md#Deployment) section. 
-
-- In-depth documentation on the devpack's API can be found in the
-[Devpack](neo3_guides/compiler_devpack/devpack.md#Devpack) section.
-
-- The differences of developing a normal application and developing a smart contract in Java are
-documented in the 
-[Java Smat Contracts](neo3_guides/compiler_devpack/java_smart_contracts.md#java-smart-contracts) 
-section. 
-
-- For information on debugging go to the
-[Debugging](neo3_guides/compiler_devpack/debugging.md#debugging) section.
-
-
-- More Java smart contract examples can be found in the 
-[neow3j-examples repository](https://github.com/neow3j/neow3j-examples-java).
 
 
