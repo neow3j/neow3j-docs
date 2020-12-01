@@ -40,7 +40,7 @@ File nefFile = new File("/path/to/ExampleContract.nef");
 File manifestFile = new File("/path/to/ExampleContract.manifest.json");
 SmartContract sc = new SmartContract(nefFile, manifestFile, neow);
 
-Account a = Account.fromWIF( "L1WMhxazScMhUrdv34JqQb1HFSQmWeN2Kpc1R9JGKwL7CDNP21uR")
+Account a = Account.fromWIF( "L3kCZj6QbFPwbsVhxnB8nUERDy4mhCSrWJew4u5Qh5QmGMfnCTda")
 Wallet w = Wallet.withAccounts(a);
 NeoSendRawTransaction response = sc.deploy()
         .wallet(w)
