@@ -37,6 +37,7 @@
       <summary><b>Smart Contract Development</b></summary>
       
       - [Introduction](neo3_guides/compiler_devpack/introduction.md#smart-contract-development)
+      - [Beginnger's Guide](neo3_guides/compiler_devpack/beginners-guide.md#beginners-guide)
       - [Java Smart Contracts](neo3_guides/compiler_devpack/java_smart_contracts.md#java-smart-contracts)
       - [Devpack](neo3_guides/compiler_devpack/devpack.md#devpack)
       - [Compilation](neo3_guides/compiler_devpack/compilation.md#compilation)
