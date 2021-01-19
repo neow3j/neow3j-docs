@@ -14,25 +14,25 @@ The documentation on smart contract development is divided into the following se
 
 - If you are new to smart contracts in Java start with the [Beginner's
 Guide](neo3_guides/compiler_devpack/beginners-guide.md#beginners-guide). It will guide you through
-the necessary setup and how to implement and compile a simple contract.
+the necessary **setup, implentation and compilation of a simple contract**.
 
-- The basic principles and differences of developing in Java for the neo-vm versus Java for the JVM
-are documented in the section 
+- The basic principles and differences of developing in **Java for the neo-vm** versus Java for the
+JVM are documented in the section
 [Java Smart Contracts](neo3_guides/compiler_devpack/java_smart_contracts.md#java-smart-contracts).
 
-- In-depth documentation on the devpack's API can be found in the
+- In-depth documentation on the **devpack's API** can be found in the
 [Devpack](neo3_guides/compiler_devpack/devpack.md#Devpack) section.
 
-- The possibilities of how to compile a Java smart contract are documented in the 
+- The possibilities of how to **compile a Java smart contract** are documented in the 
 [Compilation](neo3_guides/compiler_devpack/compilation.md#compilation) section.
 
-- For information on debugging go to the
+- For information on **debugging** go to the
 [Debugging](neo3_guides/compiler_devpack/debugging.md#debugging) section.
 
-- For information on contract deployment check out the 
+- For information on **contract deployment** check out the 
 [Deployment](neo3_guides/compiler_devpack/deployment.md#Deployment) section. 
 
-- More Java smart contract examples can be found in the 
+- More **Java smart contract examples** can be found in the 
 [neow3j-examples](https://github.com/neow3j/neow3j-examples-java) repository.
 
 
