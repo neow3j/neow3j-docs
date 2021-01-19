@@ -53,39 +53,3 @@ For information on how to compile a smart contract hop over to the contract
 
 Note that the devpack and compiler are only available for Neo 3. Thus, Java cannot be used to
 compile to Neo 2 compatible smart contracts.
-
-
-<!-- ## Snapshots
-
-If you would like to test `SNAPSHOT` versions, which are snapshots of the development branch, use
-the following repository and append `-SNAPSHOT` to the version number. E.g.
-`io.neow3j:contract:3.4.0-SNAPSHOT`.
-
-Gradle:
-
-```groovy
-repositories {
-    maven {
-        url 'http://oss.sonatype.org/content/repositories/snapshots'
-    }
-    mavenCentral()
-}
-```
-
-Maven:
-
-```xml
-<repositories>
-    <repository>
-        <id>sonatype-snapshots</id>
-        <name>OSS Sonatype Snapshots</name>
-        <url>http://oss.sonatype.org/content/repositories/snapshots</url>
-        <releases>
-            <enabled>false</enabled>
-        </releases>
-        <snapshots>
-            <enabled>true</enabled>
-        </snapshots>
-    </repository>
-</repositories>
-``` -->
