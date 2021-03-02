@@ -32,19 +32,19 @@
   - [Wallets and Accounts](neo3_guides/wallets_and_accounts.md#wallets-and-accounts)
   - [Invoking Smart Contracts](neo3_guides/contract_invocation.md#invoking-smart-contracts)
   - [Transferring Tokens](neo3_guides/token_transfer.md#transferring-tokens)
-
+  
     <details>
       <summary><b>Smart Contract Development</b></summary>
-      
-      - [Introduction](neo3_guides/compiler_devpack/introduction.md#smart-contract-development)
-      - [Tutorial](neo3_guides/compiler_devpack/tutorial.md#tutorial)
-      - [Java Smart Contracts](neo3_guides/compiler_devpack/java_smart_contracts.md#java-smart-contracts)
-      - [Devpack](neo3_guides/compiler_devpack/devpack.md#devpack)
-      - [Compilation](neo3_guides/compiler_devpack/compilation.md#compilation)
-      - [Debugging](neo3_guides/compiler_devpack/debugging.md#debugging)
-      - [Deployment](neo3_guides/compiler_devpack/deployment.md#deployment)
 
-     </details>
+    - [Introduction](neo3_guides/compiler_devpack/introduction.md#smart-contract-development)
+    - [Tutorial](neo3_guides/compiler_devpack/tutorial.md#tutorial)
+    - [Java Smart Contracts](neo3_guides/compiler_devpack/java_smart_contracts.md#java-smart-contracts)
+    - [Devpack](neo3_guides/compiler_devpack/devpack.md#devpack)
+    - [Compilation](neo3_guides/compiler_devpack/compilation.md#compilation)
+    - [Debugging](neo3_guides/compiler_devpack/debugging.md#debugging)
+    - [Deployment](neo3_guides/compiler_devpack/deployment.md#deployment)
+    
+    </details>
 
   </details>
 
