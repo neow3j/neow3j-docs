@@ -1,5 +1,3 @@
-**Consider that there is no testnet for Neo 3 yet!** To use neow3j versions `3.+`, you need a local node of Neo 3 running. You can find one [here](http://github.com/axlabs/neo3-privatenet-docker).
-
 # Monitoring the Blockchain
 
 For the retrieval of information about the blockchain and the network's state, neow3j relies on NEO's RPC nodes. You

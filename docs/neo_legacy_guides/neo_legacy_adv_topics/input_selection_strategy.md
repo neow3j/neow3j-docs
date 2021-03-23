@@ -1,7 +1,7 @@
 # Input Selection Strategy
 
 When you create an `AssetTransfer`, a `ContractInvocation` or a `ContractDeployment` with neow3j, you usually have some
-NEO or GAS involved. I.e. you need to spend NEO or GAS to execute the transaction. Because NEO 2 follows the UTXO model,
+NEO or GAS involved. I.e. you need to spend NEO or GAS to execute the transaction. Because Neo Legacy follows the UTXO model,
 there is no single account balance to go to for checking the sufficiency of funds. Rather, we have to look for one or
 multiple UTXOs that together make up the required amount.
 

@@ -13,24 +13,24 @@ Gradle plugin that lets you compile contracts using Gradle.
 The documentation on smart contract development is divided into the following sections:
 
 - If you are new to smart contracts in Java start with the [Beginner's
-Guide](neo3_guides/compiler_devpack/beginners-guide.md#beginners-guide). It will guide you through
+Guide](smart_contract_development/beginners-guide.md#beginners-guide). It will guide you through
 the necessary **setup, implentation and compilation of a simple contract**.
 
 - The basic principles and differences of developing in **Java for the neo-vm** versus Java for the
 JVM are documented in the section
-[Java Smart Contracts](neo3_guides/compiler_devpack/java_smart_contracts.md#java-smart-contracts).
+[Java Smart Contracts](smart_contract_development/java_smart_contracts.md#java-smart-contracts).
 
 - In-depth documentation on the **devpack's API** can be found in the
-[Devpack](neo3_guides/compiler_devpack/devpack.md#Devpack) section.
+[Devpack](smart_contract_development/devpack.md#Devpack) section.
 
 - The possibilities of how to **compile a Java smart contract** are documented in the 
-[Compilation](neo3_guides/compiler_devpack/compilation.md#compilation) section.
+[Compilation](smart_contract_development/compilation.md#compilation) section.
 
 - For information on **debugging** go to the
-[Debugging](neo3_guides/compiler_devpack/debugging.md#debugging) section.
+[Debugging](smart_contract_development/debugging.md#debugging) section.
 
 - For information on **contract deployment** check out the 
-[Deployment](neo3_guides/compiler_devpack/deployment.md#Deployment) section. 
+[Deployment](smart_contract_development/deployment.md#Deployment) section. 
 
 - More **Java smart contract examples** can be found in the 
 [neow3j-examples](https://github.com/neow3j/neow3j-examples-java) repository.

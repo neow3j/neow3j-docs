@@ -1,8 +1,5 @@
 # Transferring Tokens
 
-> **Consider that there is no testnet for Neo 3 yet!** To use neow3j versions `3.+`, you need a local node of Neo 3 running.
-> You can find one [here](http://github.com/axlabs/neo3-privatenet-docker).
-
 On the Neo blockchain the [NEP-17 Token Standard](http://github.com/neo-project/proposals/blob/master/nep-17.mediawiki)
 is used for everything concerning fungible tokens. In the following the transfer interaction with a NEP-17 smart contract is illustrated.
 
@@ -16,7 +13,7 @@ Neow3j neow3j = Neow3j.build(new HttpService("http://localhost:40332"));
 
 In the following graph the structure concerning token transfers with neow3j is illustrated. To deploy, invoke or just
 retrieve information about any contract's state on the blockchain, the class `SmartContract` can be used (read more
-about this in the [next Section](neo3_guides/contract_invocation.md)).
+about this in the [next Section](dapp_development/contract_invocation.md)).
 In the subtype `Token` the common methods used in token contracts like `getDecimals()`, `getSymbol()` or `getTotalSupply()`
 are collected.
 In the subtype `Nep5Token` the NEP-17 standard is implemented from which the native tokens `NeoToken` and `GasToken` are
@@ -139,10 +136,10 @@ Multi-sig accounts are usually not controlled by one single entity. Meaning the 
 are not all available to sign a transaction locally. So this scenario is different in the signing step.
 
 The account used in the transfer must be constructed from the public keys involved in the multi-sig account
-(see Section [Wallets and Accounts](neo3_guides/wallets_and_accounts.md#creating-an-account)).
+(see Section [Wallets and Accounts](dapp_development/wallets_and_accounts.md#creating-an-account)).
 
 Then create the transaction by using the method `getUnsignedTransaction()` in the `TransactionBuilder` and follow the steps
-in [this Section](neo3_guides/contract_invocation.md#signing-a-transaction-with-a-multi-sig-account) to sign the transaction.
+in [this Section](dapp_development/contract_invocation.md#signing-a-transaction-with-a-multi-sig-account) to sign the transaction.
 
 ## Non-fungible Tokens (NEP-11)
 

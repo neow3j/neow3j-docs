@@ -1,8 +1,6 @@
 # Invoking Smart Contracts
 
-> **Consider that there is no testnet for Neo 3 yet!** To use neow3j versions `3.+`, you need a local node of Neo 3 running. You can find one [here](http://github.com/axlabs/neo3-privatenet-docker).
-
-> For invocations of NEP-17 contracts, check out the documentation in the [next Section](neo3_guides/token_transfer.md#transferring-tokens-assets).
+> For invocations of NEP-17 contracts, check out the documentation in the [previous Section](dapp_development/token_transfer.md#transferring-tokens-assets).
 
 To deploy, invoke or just retrieve information about any contract's state on the blockchain, the
 class `SmartContract` can be used. For example, by calling `invokeFunction(...)` a script is built
@@ -11,7 +9,7 @@ based on the provided parameters and is handed to a `TransactionBuilder`. In the
 can be added. The transaction can then be signed and built, and the resulting `Transaction` can
 be sent to a Neo node. Alternatively, an unsigned `Transaction` can be created for later signing
 (e.g. when using a multi-sig account, see
-[here](neo3_guides/token_transfer.md#transfer-from-a-multi-sig-account)).
+[here](dapp_development/token_transfer.md#transfer-from-a-multi-sig-account)).
 
 The above process is visualized in the following figure.
 
@@ -160,10 +158,10 @@ NeoSendRawTransaction response = new SmartContract(contract, neow3j)
 ```
 
 You can check how high the system fee of a transaction will be with a test invocation call as
-described [above](neo3_guides/contract_invocation.md#testing-the-invocation-before-propagating-it).
+described [above](dapp_development/contract_invocation.md#testing-the-invocation-before-propagating-it).
 
 <!-- ## Adding Transaction Attributes and Scripts
-Extend as soon as transaction attributes are defined for Neo 3 -->
+Extend as soon as transaction attributes are defined for Neo N3 -->
 
 ## Manually signing a Transaction
 

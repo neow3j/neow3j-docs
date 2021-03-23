@@ -14,9 +14,8 @@ The neow3j development toolkit is composed of:
 - neow3j devpack
 - neow3j compiler
 
-> Note that there are two versions of neow3j. One for [Neo 2](https://docs.neo.org/docs/en-us/index.html) 
-> and one for [Neo 3](https://docs.neo.org/v3/docs/en-us/index.html). It is expected that neow3j for
-> Neo 3 will undergo many changes in the near future until a stable version of Neo 3 is released.
+> Note that there are two versions of neow3j. One for [Neo Legacy](https://docs.neo.org/docs/en-us/index.html)
+> and one for [Neo N3](https://docs.neo.org/v3/docs/en-us/index.html).
 
 ## Features
 
@@ -25,9 +24,10 @@ The neow3j development toolkit is composed of:
     [3.0.0](https://docs.neo.org/v3/docs/en-us/index.html)
 * Observable pattern for monitoring the NEO blockchain
 * Sync and async interface
-* Token transfers
+* Token transfer
 * Smart contract invocation
 * Smart contract deployment
+* Smart contract development and compilation in Java
 * Building, signing, and sending raw transactions
 * Wallet and Account model supporting NEP-6
 * Multi-sig address utilities
@@ -35,17 +35,16 @@ The neow3j development toolkit is composed of:
 * Mnemonic utilities (BIP-39)
 * Android support from API 24, which covers [~49%](https://developer.android.com/about/dashboards/) 
     of all active Android devices ([~1 billion devices](https://www.youtube.com/watch?v=vWLcyFtni6U#t=2m46s))
-* Smart contract development and compilation in Java
 
 
 ## Versioning
 
 First of all, don't be confused by the _3_ in neow3j. It is not related to the version of Neo. Its
-meaning is explained below.
+meaning is explained [below](#why-the-name-quotneow3jquot).
 
 Versioning of neow3j partially follows an adapted variant of semantic versioning. To be consistent
 with Neo's major versions, neow3j keeps its major version fixed to the current Neo version. E.g.
-neow3j 3.x.x for Neo 3. The semantics of the version number is therefore shifted to the right.
+neow3j 3.x.x for Neo N3. The semantics of the version number is therefore shifted to the right.
 Incrementing the minor number means that breaking changes were applied. Incrementing the patch
 version implies backward-compatible features and bug fixes were added.
 

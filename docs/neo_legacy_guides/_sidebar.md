@@ -8,8 +8,8 @@
 
   - [Monitoring the Blockchain](dapp_development/monitoring.md#monitoring-the-blockchain)
   - [Wallets and Accounts](dapp_development/wallets_and_accounts.md#wallets-and-accounts)
-  - [Invoking Smart Contracts](dapp_development/contract_invocation.md#invoking-smart-contracts)
   - [Transferring Tokens](dapp_development/token_transfer.md#transferring-tokens)
+  - [Invoking Smart Contracts](dapp_development/contract_invocation.md#invoking-smart-contracts)
 
 - <summary><b>Smart Contract Development</b></summary>
 

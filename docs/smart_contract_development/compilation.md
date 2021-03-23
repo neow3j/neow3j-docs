@@ -43,7 +43,7 @@ neow3jCompiler {
 ```
 
 For more information on debugging go to the
-[Debugging](neo3_guides/compiler_devpack/debugging.md#debugging) section.
+[Debugging](smart_contract_development/debugging.md#debugging) section.
 
 ## Programmatically
 
@@ -91,4 +91,4 @@ DebugInfo debugInfo = compUnit.getDebugInfo();
 ```
 
 For more information on debugging go to the
-[Debugging](neo3_guides/compiler_devpack/debugging.md#debugging) section.
+[Debugging](smart_contract_development/debugging.md#debugging) section.
