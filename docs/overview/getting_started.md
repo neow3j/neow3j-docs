@@ -3,9 +3,8 @@
 ## SDK
 
 To make use of all neow3j SDK features, add `io.neow3j:contract` project to your dependencies.
-Neow3j is split into multiple modules, so you can also depend on a subset of the functionality.
-For example, if you only need the passphrase-protected private key feature (NEP-2), you can add
-`io.neow3j:crtypo` to your project.
+Neow3j is split into tow modules, so you can also depend on just the core functionality by adding
+`io.neow3j.core` to your project.
 
 Gradle:
 
@@ -52,4 +51,4 @@ For information on how to compile a smart contract hop over to the contract
 [Compilation](smart_contract_development/compilation.md#compilation) section.
 
 Note that the devpack and compiler are only available for Neo N3. Thus, Java cannot be used to
-compile to Neo Legacy compatible smart contracts.
+compile smart contracts that are compatible with Neo Legacy.
