@@ -86,7 +86,7 @@ public class MySmartContract {
 
 #### @SupportedStandards
 
-`@SupportedStandards` is a contract-level annotation used to declare standards (e.g., NEP-5) that
+`@SupportedStandards` is a contract-level annotation used to declare standards (e.g., NEP-17) that
 the contract implements. It will show up in the contract manifest in the `supportedstandards` field.
 The standards are simply added as strings.
 
@@ -181,6 +181,3 @@ a byte array, or an integer via string literals.
 needs to be using the address version configured in the compiler. The compiler checks the address 
 and this check includes the address version. We might need to add a property to the neow3jCompile
 gradle task that allows setting the address version. -->
-
-
-

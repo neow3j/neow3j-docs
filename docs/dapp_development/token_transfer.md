@@ -3,8 +3,8 @@
 > **Consider that there is no testnet for Neo 3 yet!** To use neow3j versions `3.+`, you need a local node of Neo 3 running.
 > You can find one [here](http://github.com/axlabs/neo3-privatenet-docker).
 
-On the Neo blockchain the [NEP-5 Token Standard](http://github.com/neo-project/proposals/blob/master/nep-5.mediawiki)
-is used for everything concerning fungible tokens. In the following the transfer interaction with a NEP-5 smart contract is illustrated.
+On the Neo blockchain the [NEP-17 Token Standard](http://github.com/neo-project/proposals/blob/master/nep-17.mediawiki)
+is used for everything concerning fungible tokens. In the following the transfer interaction with a NEP-17 smart contract is illustrated.
 
 To invoke any contract and to transfer tokens, respectively, you will need a connection to an RPC node via a `Neow3j` instance.
 
@@ -19,29 +19,29 @@ retrieve information about any contract's state on the blockchain, the class `Sm
 about this in the [next Section](neo3_guides/contract_invocation.md)).
 In the subtype `Token` the common methods used in token contracts like `getDecimals()`, `getSymbol()` or `getTotalSupply()`
 are collected.
-In the subtype `Nep5Token` the NEP-5 standard is implemented from which the native tokens `NeoToken` and `GasToken` are
+In the subtype `Nep5Token` the NEP-17 standard is implemented from which the native tokens `NeoToken` and `GasToken` are
 derived, that contain their individual additional methods, e.g. `registerValidator`, `getRegisteredValidators` or `vote`
 (for more, see [here](https://docs.neo.org/v3/docs/en-us/reference/scapi/api/neo.html)).
 The `NFToken` represents a wrapper for token contracts that comply with the currently not finalized NEP-11 standard for
 non-fungible tokens.
 
 ```
-             Build invocation script     ->      Specify Tx Signers, etc.     ->   Tx ready to sign and send
-                ---------------
-               | SmartContract |
-                ---------------
-                       |
-                    -------
-                   | Token |
-                    -------                        --------------------                -------------
-                   /        \             ->      | TransactionBuilder |      ->      | Transaction |
-           -----------      ---------              --------------------                -------------
-          | Nep5Token |    | NFToken |
-           -----------      ---------
-            /       \
-   ----------       ----------
-  | NeoToken |     | GasToken |
-   ----------       ----------
+             Build invocation script                 ->      Specify Tx Signers, etc.     ->   Tx ready to sign and send
+                 ---------------
+                | SmartContract |
+                 ---------------
+                        |
+                     -------
+                    | Token |
+                     -------                                  --------------------                -------------
+                    /        \                       ->      | TransactionBuilder |      ->      | Transaction |
+        ---------------     ------------------                --------------------                -------------
+       | FungibleToken |   | NonFungibleToken |
+        ---------------     ------------------
+          /         \                 \
+   ----------      ----------         ----------------
+  | NeoToken |    | GasToken |       | NeoNameService |
+   ----------      ----------         ----------------
 ```
 
 These classes provide convenient methods to build a script and transaction for contract invocation.
@@ -50,7 +50,7 @@ e.g., specify signers or an additional network fee. The transaction can then be 
 such that the returned `Transaction` can be sent. Or an unsigned `Transaction` can be created for
 later signing (e.g. when using a multi-sig account).
 
-## NEP-5 Tokens
+## NEP-17 Tokens
 
 ### Transfer from the default Account
 
@@ -64,7 +64,7 @@ transaction signature.
 Account account1 = Account.fromWIF("L3kCZj6QbFPwbsVhxnB8nUERDy4mhCSrWJew4u5Qh5QmGMfnCTda");
 Wallet wallet = Wallet.withAccounts(account1);
 
-ScriptHash to = ScriptHash.fromAddress("NWcx4EfYdfqn5jNjDz8AHE6hWtWdUGDdmy");
+Hash160 to = Hash160.fromAddress("NWcx4EfYdfqn5jNjDz8AHE6hWtWdUGDdmy");
 BigDecimal amount = new BigDecimal("15");
 
 NeoSendRawTransaction response = NeoToken(neow3j)
@@ -86,7 +86,7 @@ In the previous example, the wallet only holds one account. However, if your wal
 multiple accounts, and your default account may not hold enough token for a transfer you want to
 make, you can use the method `transfer()` which uses your whole wallet to cover a tranfer if
 necessary. That means, that if the default account in the wallet cannot cover the specified amount,
-the other accounts in the wallet can be used to cover this amount. The method adds the necessary
+the other accounts in the wallet are used to cover this amount. The method adds the necessary
 signers and the wallet to the `TransactionBuilder`, so it is not necessary to configure that
 manually.
 
@@ -102,9 +102,10 @@ NeoSendRawTransaction response = NeoToken(neow3j)
         .send();
 ```
 
-In this example, if the balance of account1 is not high enough to cover the amount, account2 is used to cover the remaining amount,
-then if the amount is still not covered, account3 is used. E.g. you want to send 15 Neo and account1, 2 and 3 all hold 10 Neo each.
-The above sent transaction would contain a transfer of 10 Neo from account1 and a transfer of 5 Neo from account2 or account3.
+In this example, if the balance of account1 is not high enough to cover the amount, account2 or account3 is used to cover the remaining
+amount (the order is not guaranteed!), then if the amount is still not covered, the remaining account is used. E.g. you want to send 15 Neo
+and account1, 2 and 3 all hold 10 Neo each. The above sent transaction would contain a transfer of 10 Neo from account1 and a transfer of
+5 Neo from account2 or account3.
 
 > **Note:** In the method `transfer()` the full wallet can be used. The order of the used accounts is not explicitly defined.
 > If you want to force a specific order, see the next section.
@@ -157,7 +158,7 @@ There are two transfer methods, one for non-divisible and one for divisible toke
 
 ```java
 NFToken nft = new NFToken("ebc856327332bcffb7587a28ef8d144df6be8537", neow3j);
-ScriptHash to = new ScriptHash("6367377798df20bb04737d34fa2dda19a283dbb5");
+Hash160 to = new Hash160("6367377798df20bb04737d34fa2dda19a283dbb5");
 TransactionBuilder builder = nft.transferFraction(wallet, account1.getScriptHash(), to, new byte[]{1});
 ```
 

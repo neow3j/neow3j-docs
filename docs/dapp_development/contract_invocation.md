@@ -2,14 +2,14 @@
 
 > **Consider that there is no testnet for Neo 3 yet!** To use neow3j versions `3.+`, you need a local node of Neo 3 running. You can find one [here](http://github.com/axlabs/neo3-privatenet-docker).
 
-> For invocations of NEP-5 contracts, check out the documentation in the [next Section](neo3_guides/token_transfer.md#transferring-tokens-assets).
+> For invocations of NEP-17 contracts, check out the documentation in the [next Section](neo3_guides/token_transfer.md#transferring-tokens-assets).
 
 To deploy, invoke or just retrieve information about any contract's state on the blockchain, the
 class `SmartContract` can be used. For example, by calling `invokeFunction(...)` a script is built
 based on the provided parameters and is handed to a `TransactionBuilder`. In the
 `TransactionBuilder` signers can be configured, a sender can be set or an additional network fee
 can be added. The transaction can then be signed and built, and the resulting `Transaction` can
-be sent to a neo-node. Alternatively, an unsigned `Transaction` can be created for later signing
+be sent to a Neo node. Alternatively, an unsigned `Transaction` can be created for later signing
 (e.g. when using a multi-sig account, see
 [here](neo3_guides/token_transfer.md#transfer-from-a-multi-sig-account)).
 
@@ -46,11 +46,11 @@ endianness the value has to be provided.
 
 ## Basic Contract Invocation
 
-First, you have to specify which contract you want to invoke. Use the `ScriptHash` class for this and pass it the script
+First, you have to specify which contract you want to invoke. Use the `Hash160` class for this and pass it the script
 hash of the contract you want to call.
 
 ```java
-ScriptHash scriptHash = new ScriptHash("0x1a70eac53f5882e40dd90f55463cce31a9f72cd4");
+Hash160 scriptHash = new Hash160("0x1a70eac53f5882e40dd90f55463cce31a9f72cd4");
 ```
 
 Then you need to define the parameters that will be passed to the contract. In this example, the method `register` is
@@ -145,7 +145,7 @@ resources consumed by the execution of a script on the neo-vm. It depends on the
 instructions executed in the script. The network fee is paid for the size of the transaction and the
 effort needed for signature verification (i.e. depends on the number of signatures on a
 transaction). Adding a higher network fee than needed gives the transaction priority in the network.
-Neow3j automatically fetches and calculates the necessary system and network fees for a transaction.
+Neow3j automatically fetches the necessary system and network fees for a transaction.
 To add an additional network fee for priority, use the method `additionalNetworkFee()` as in the
 example below.
 
@@ -204,7 +204,7 @@ Multi-sig accounts are usually not controlled by one single entity. Meaning the 
 are not all available to sign a transaction locally. So this scenario is different in the signing step.
 
 In the example below, a multi-sig account made up of two accounts (the account used in previous
-examples and a new `account2`) is used. Its address is "Nbkov1hfyHetEzpnUJTEV5MFjLwSMzqamj". The
+examples and a new `account2`) is used. Its address is "NgmbzrR47Bg38RVohozSWuueTHbmC9dVjj". The
 account does not possess the private keys required to sign a transaction. Neow3j can only fetch the
 account's balances. Signing the transaction is up to you. It is the raw transaction byte array that
 needs to be signed by the minimum required number of keys. Then the signatures are combined in a
@@ -214,7 +214,7 @@ When the witness is created, it can be added to the transaction and it is ready 
 
 ```java
 Account account2 = Account.fromWIF("KwjpUzqHThukHZqw5zu4QLGJXessUxwcG3GinhJeBmqj4uKM4K5z");
-Account multiSigAccount = Account.fromAddress("Nbkov1hfyHetEzpnUJTEV5MFjLwSMzqamj");
+Account multiSigAccount = Account.fromAddress("NgmbzrR47Bg38RVohozSWuueTHbmC9dVjj");
 
 functionArg2 = ContractParameter.hash160(multiSigAccount.getScriptHash());
 
@@ -226,11 +226,11 @@ Transaction tx = new SmartContract(contract, neow3j)
 
 byte[] unsignedTxHex = tx.getHashData();
 
-List<ECPublicKey> keys = Arrays.asList(account1.getECKeyPair().getPublicKey(), account2.getECKeyPair().getPublicKey());
+List<ECPublicKey> publicKeys = Arrays.asList(account1.getECKeyPair().getPublicKey(), account2.getECKeyPair().getPublicKey());
 SignatureData sig1 = Sign.signMessage(unsignedTxHex, account1.getECKeyPair());
 SignatureData sig2 = Sign.signMessage(unsignedTxHex, account2.getECKeyPair());
 
-Witness witness = Witness.createMultiSigWitness(2, Arrays.asList(sig1, sig2), keys);
+Witness witness = Witness.createMultiSigWitness(2, Arrays.asList(sig1, sig2), publicKeys);
 
 tx.addWitness(witness);
 ```

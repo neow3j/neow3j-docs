@@ -50,10 +50,11 @@ Observable<Long> obs = transaction.track().doOnComplete(() -> {
 });
 
 Disposable disp = obs.subscribe(blockIndex -> {
-    NeoApplicationLog log = tx.getApplicationLog();
-    System.out.println("Found tx on block " + blockIndex + ". Tx exited with state " + log.getState() + ".");
-    neow.shutdown();
-})
+    NeoApplicationLog log = transaction.getApplicationLog();
+        System.out.println("Found tx on block " + blockIndex + ". Tx exited with state " +
+                log.getExecutions().get(0).getState() + ".");
+    neow3j.shutdown();
+});
 ```
 
 > **Note:** `getApplicationLog()` returns null if the log could not be fetched or the transaction is not
@@ -61,3 +62,6 @@ Disposable disp = obs.subscribe(blockIndex -> {
 
 <!-- Mention that certain calls require plugins or sufficient node version
 Depending on what RPC methods you want to use you have to make sure that the node has the appropriate plugins installed. -->
+
+
+link Examples rpc 

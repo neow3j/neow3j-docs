@@ -68,4 +68,3 @@ Debugging" from the Command Palette.
 > Currently, debugging is only supported inside of the contract class. If the class makes
 > calls to methods in the devpack or in other custom classes in your workspace, the debugger will
 > not step into those methods.
-

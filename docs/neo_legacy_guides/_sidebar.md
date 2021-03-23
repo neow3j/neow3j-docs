@@ -4,26 +4,26 @@
   - [Concepts & Structure](overview/concepts_and_structure.md#concepts-and-structure)
   - [Requirements](overview/requirements.md#requirements)
 
-- dApp Development
+- <summary><b>dApp Development</b></summary>
 
   - [Monitoring the Blockchain](dapp_development/monitoring.md#monitoring-the-blockchain)
   - [Wallets and Accounts](dapp_development/wallets_and_accounts.md#wallets-and-accounts)
   - [Invoking Smart Contracts](dapp_development/contract_invocation.md#invoking-smart-contracts)
   - [Transferring Tokens](dapp_development/token_transfer.md#transferring-tokens)
 
-- Smart Contract Development
+- <summary><b>Smart Contract Development</b></summary>
 
-  - [Introduction](smart_contract_development/introduction.md#smart-contract-development)
-  - [Tutorial](smart_contract_development/tutorial.md#tutorial)
-  - [Java Smart Contracts](smart_contract_development/java_smart_contracts.md#java-smart-contracts)
-  - [Devpack](smart_contract_development/devpack.md#devpack)
-  - [Compilation](smart_contract_development/compilation.md#compilation)
-  - [Debugging](smart_contract_development/debugging.md#debugging)
-  - [Deployment](smart_contract_development/deployment.md#deployment)
+    - [Introduction](smart_contract_development/introduction.md#smart-contract-development)
+    - [Tutorial](smart_contract_development/tutorial.md#tutorial)
+    - [Java Smart Contracts](smart_contract_development/java_smart_contracts.md#java-smart-contracts)
+    - [Devpack](smart_contract_development/devpack.md#devpack)
+    - [Compilation](smart_contract_development/compilation.md#compilation)
+    - [Debugging](smart_contract_development/debugging.md#debugging)
+    - [Deployment](smart_contract_development/deployment.md#deployment)
 
   #### [**Contributing**](contributing.md#contributing)
 
-  <details>
+  <details open>
 
     <summary><b>Neo Legacy Guides</b></summary>
 

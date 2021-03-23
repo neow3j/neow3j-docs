@@ -34,5 +34,3 @@ JVM are documented in the section
 
 - More **Java smart contract examples** can be found in the 
 [neow3j-examples](https://github.com/neow3j/neow3j-examples-java) repository.
-
-

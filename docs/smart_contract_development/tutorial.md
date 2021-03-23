@@ -130,5 +130,3 @@ information file is required by the Neo Debugger to debug your contract.
 
 For directions on where to find more information on contract deployment, debugging and other topics
 go back to the [Introduction](neo3_guides/compiler_devpack/introduction.md#introduction)).
-
-
