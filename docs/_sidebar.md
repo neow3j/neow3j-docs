@@ -21,7 +21,8 @@
   - [Debugging](smart_contract_development/debugging.md#debugging)
   - [Deployment](smart_contract_development/deployment.md#deployment)
 
-  #### [**Contributing**](contributing.md#contributing)
+  <!-- #### [**Contributing**](contributing.md#contributing) 
+  TODO: uncomment this as soon as the contributing.md contains information. -->
 
   <details>
 
