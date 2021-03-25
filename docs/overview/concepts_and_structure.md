@@ -35,7 +35,7 @@ The _core_ module contains all the core functionalities:
     Always with the endianness precisely defined.
   - Cryptographic methods related to key pairs (class `ECKeyPair`) and signatures (class `Sign`)
   - Wallet and account management i.e. the handling of key pairs or reading from and writing to NEP-6 wallet files.
-  - Interaction with the NEO blockchainn i.e. the communication with the JSON-RPC interface of a Neo node. The most prominent
+  - Interaction with the NEO blockchain i.e. the communication with the JSON-RPC interface of a Neo node. The most prominent
   class for this is `Neow3j`, which is used for making calls to a Neo node, e.g., for monitoring the blockchain.
 
 ### io.neow3j:contract

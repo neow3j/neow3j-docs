@@ -6,19 +6,19 @@ To make use of all neow3j SDK features, add `io.neow3j:contract` project to your
 Neow3j is split into tow modules, so you can also depend on just the core functionality by adding
 `io.neow3j.core` to your project.
 
-Gradle:
+__Gradle__
 
 ```groovy
-compile 'io.neow3j:contract:3.+'
+implementation 'io.neow3j:contract:3.8.+'
 ```
 
-Maven:
+__Maven__
 
 ```xml
 <dependency>
     <groupId>io.neow3j</groupId>
     <artifactId>contract</artifactId>
-    <version>[3.0.0,)</version>
+    <version>[3.8.0,)</version>
 </dependency>
 ```
 
@@ -31,24 +31,24 @@ For smart contract development you require the `io.neow3j:devpack`. It provides 
 utilities that are needed in a smart contracts. If you want to play around with the devpack add the
 following dependency to your project.
 
-Gradle:
+__Gradle__
 
 ```groovy
-implementation 'io.neow3j:devpack:3.+',
+implementation 'io.neow3j:devpack:3.8.+'
 ```
 
-Maven:
+__Maven__
 
 ```xml
 <dependency>
     <groupId>io.neow3j</groupId>
     <artifactId>compiler</artifactId>
-    <version>[3.0.0,)</version>
+    <version>[3.8.0,)</version>
 </dependency>
 ```
 
 For information on how to compile a smart contract hop over to the contract
 [Compilation](smart_contract_development/compilation.md#compilation) section.
 
-Note that the devpack and compiler are only available for Neo N3. Thus, Java cannot be used to
+> **Note:** The devpack and compiler are only available for Neo N3. Thus, Java cannot be used to
 compile smart contracts that are compatible with Neo Legacy.
