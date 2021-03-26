@@ -38,7 +38,7 @@ set, default values are used.
 ```java
 Wallet w = Wallet.withAccounts(Account.create())
         .name("MyWallet")
-        .version(1);
+        .version("1.0");
 ```
 
 ## Creating an Account
@@ -61,16 +61,16 @@ that in case of an address the account does not have any key pair with which it 
 therefore not automatically sign transactions made with this account. In those cases, the signature has to be provided
 manually.
 
-You can also create a multi-sig account with the `createMultiSigAccount(...)` method. The account
-will hold the multi-sig address and the corresponding verification script. It will not hold the key
-pairs of the involved accounts. For automatic signing of transactions issued from a multi-sig
-account all the involved accounts need to be in the wallet as well.
+You can also create a multi-sig account with the static `createMultiSigAccount(...)` method of the class `Account`.
+The account will hold the multi-sig address and the corresponding verification script. It will not hold the key
+pairs of the involved accounts. For automatic signing of transactions issued from a multi-sig account all the
+involved accounts need to be in the wallet as well.
 
 ```java
 List<ECPublicKey> publicKeys = Arrays.asList(
-        ECKeyPair.create().getPublicKey(),
-        ECKeyPair.create().getPublicKey(),
-        ECKeyPair.create().getPublicKey()
+        ECKeyPair.createEcKeyPair().getPublicKey(),
+        ECKeyPair.createEcKeyPair().getPublicKey(),
+        ECKeyPair.createEcKeyPair().getPublicKey()
 );
 
 Account a2 = Account.createMultiSigAccount(publicKeys, 2)
@@ -79,13 +79,13 @@ Account a2 = Account.createMultiSigAccount(publicKeys, 2)
 
 ## Account Balances
 
-To check the NEP-5 balances of an account, use the following method.
+To check the NEP-17 balances of an account, use the following method.
 
 ```java
 Neow3j neow3j = Neow3j.build(new HttpService("http://localhost:40332"));
 Account a = Account.create();
 
-Map<ScriptHash, BigInteger> nep5Balances = a.getNep5Balances(neow3j);
+Map<Hash160, BigInteger> nep5Balances = a.getNep17Balances(neow3j);
 ```
 
-This returns a map containing all NEP-5 contract balances of the account.
+This returns a map containing all NEP-17 contract balances of the account.

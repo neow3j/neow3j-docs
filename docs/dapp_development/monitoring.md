@@ -1,5 +1,3 @@
-**Consider that there is no testnet for Neo 3 yet!** To use neow3j versions `3.+`, you need a local node of Neo 3 running. You can find one [here](http://github.com/axlabs/neo3-privatenet-docker).
-
 # Monitoring the Blockchain
 
 For the retrieval of information about the blockchain and the network's state, neow3j relies on NEO's RPC nodes. You
@@ -50,10 +48,11 @@ Observable<Long> obs = transaction.track().doOnComplete(() -> {
 });
 
 Disposable disp = obs.subscribe(blockIndex -> {
-    NeoApplicationLog log = tx.getApplicationLog();
-    System.out.println("Found tx on block " + blockIndex + ". Tx exited with state " + log.getState() + ".");
-    neow.shutdown();
-})
+    NeoApplicationLog log = transaction.getApplicationLog();
+        System.out.println("Found tx on block " + blockIndex + ". Tx exited with state " +
+                log.getExecutions().get(0).getState() + ".");
+    neow3j.shutdown();
+});
 ```
 
 > **Note:** `getApplicationLog()` returns null if the log could not be fetched or the transaction is not
@@ -61,3 +60,6 @@ Disposable disp = obs.subscribe(blockIndex -> {
 
 <!-- Mention that certain calls require plugins or sufficient node version
 Depending on what RPC methods you want to use you have to make sure that the node has the appropriate plugins installed. -->
+
+
+link Examples rpc 

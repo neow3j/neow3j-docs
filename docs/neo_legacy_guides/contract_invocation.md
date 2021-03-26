@@ -106,11 +106,6 @@ invoc.invoke();
 The `InvocationResult` holds information about the GAS amount consumed in the contract execution, the VM exit state
 (e.g. HALT or FAULT) and the VM's stack, i.e. the return values.
 
-!> At the time of writing, the test invocation might not work properly in NEO 2. The problem lies in the
-`CheckWitness()` method used in smart contracts. If the test invocation runs through a `CheckWitness()` call, it will
-fail because the witness is not correctly validated. Refer to the related
-[Github issue](https://github.com/neo-project/neo/pull/335).
-
 ## Calling a Contract without Parameters
 
 Of course, it is also possible to call a smart contract that doesn't take any parameters. For example, a contract that
