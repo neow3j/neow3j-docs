@@ -44,4 +44,4 @@ Hash160 contractHash = SmartContract.getContractHash(
         manifest.getName());
 ```
 
-As you can see, the hash depends on the sender of the deploy transaction, the NEF checksum and the contract's name.
+As you can see, the hash depends on the sender of the deploy transaction, the NEF checksum and the contract's name. 
