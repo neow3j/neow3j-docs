@@ -20,7 +20,7 @@ plugins {
 ```
 
 This makes the Gradle task called `neow3jCompile` available. We will use it to compile the smart
-contract later. The task's options are also configured in the build file, in the `neow3jCompile`
+contract later. The task's options are also configured in the build file, in the `neow3jCompiler`
 section. We configure the contract to be compiled and if debug information should be produced.
 
 ```groovy

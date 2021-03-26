@@ -5,3 +5,5 @@
 > Java/Kotlin/Android Development Toolkit for the Neo Blockchain
 
 [GitHub](https://github.com/neow3j/)
+[Javadoc](https://javadoc.io/doc/io.neow3j/core)
+
