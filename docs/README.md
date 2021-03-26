@@ -13,7 +13,7 @@ Neow3j is an open-source project developed by the community and maintained by
 [AxLabs](https://axlabs.com).
 
 
-## Features
+## Features 🚀
 
 * Support for Neo's JSON-RPC API.
 * Observable pattern for monitoring the Neo blockchain
@@ -43,14 +43,14 @@ means that breaking changes were applied. Incrementing the third number implies
 backward-compatible features and bug fixes were added.
 
 
-## Why the name "neow3j"?
+## Why the name "neow3j"? 🤔
 
 This project is based on [web3j](https://web3j.io), but focusing on NEO. That's why the suffix "w3j" was added to the "neo" name, forming "neow3j".
 
 Well... then, it was simply natural to imagine [Bongo Cat](https://knowyourmeme.com/memes/bongo-cat) playing on NEO nodes and neow'ing instead of meow'ing, don't you think? :-)
 
 
-## Donate
+## Donate 💰
 
 Help the development of neow3j by donating to the following addresses:
 
@@ -61,9 +61,9 @@ Help the development of neow3j by donating to the following addresses:
 | BTC    | `3L4br7KQ8DCJEZ77nBjJfrukWEdVRXoKiy`         |
 
 
-## Thanks and Credits
+## Thanks and Credits 🙏
 
 * [NEO Foundation](https://neo.org/team) & [NEO Global Development (NGD)](https://neo.org/team)
 * This project was strongly based on [web3j](https://web3j.io),
 a library originally developed by [Conor Svensson](http://conorsvensson.com), latest on [this commit](https://github.com/web3j/web3j/commit/2a259ece9736c0338fbb66b1be4c04aba0855254).
-We are really thankful for it. :-)
+We are really thankful for it. 😄
