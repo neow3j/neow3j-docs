@@ -1,28 +1,8 @@
 # Deployment
 
-## Using a Neo Node
-
-If you have control over a Neo node, you can use that node directly to deploy smart contracts. The
-information on how to do so, can be found in the [Neo
-documentation](https://docs.neo.org/v3/docs/en-us/sc/deploy/deploy.html).  
-But to get the NEF and manifest produced by the neow3j compiler onto the node, they must first be
-written to a file. The following snippet shows how this could be done.
-
-```java
-CompilationUnit compUnit = new Compiler().compileClass("fully.qualified.name.SmartContract");
-String nefFilePath = "/path/to/nef/file/test.nef";
-String manifestFilePath = "/path/to/manifest/file/test.manifest.json";
-try (FileOutputStream s = new FileOutputStream(nefFilePath)) {
-    s.write(compUnit.getNef().toArray());
-}
-try (FileOutputStream s = new FileOutputStream(manifestFilePath)) {
-    ObjectMapperFactory.getObjectMapper().writeValue(s, compUnit.getManifest());
-}
-```
-
 ## Using neow3j
 
-Neow3j offers a `SmartContract` class that can be instantiated with a NEF and manifest file for
+The neow3j SDK offers a `SmartContract` class that can be instantiated with a NEF and manifest file for
 deployment purposes. To use this feature add the `io.neow3j:contract` package to your project as
 described in the [Gettig Started](overview/getting_started.md?id=sdk) section.
 
