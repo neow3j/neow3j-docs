@@ -29,18 +29,39 @@ Neow3j neow3j = Neow3j.build(new HttpService("http://localhost:40332"));
 
 ## Contract Parameters
 
-When invoking a smart contract, you will most likely use parameters, e.g. the method of the smart contract that is to be
-invoked. If that method takes arguments, then we add these arguments as additional parameters to the invocation.
+When invoking a smart contract, you will most likely use parameters. For parameter definition in neow3j, use the
+`ContractParameter` class. It provides many static construction methods that cover all possible parameter types. If you
+use those methods, neow3j will make sure that the parameter is sent to the contract in the correct encoding and the
+correct type declaration. For example, if you need to pass a script hash of a NEO address as a parameter, you can use
+the method `ContractParameter.hash160(...)`. It converts the script hash to the expected byte array.
 
-For parameter definition in neow3j, use the `ContractParameter` class. It provides many static construction methods that
-cover all possible parameter types. If you use those methods, neow3j will make sure that the parameter is sent to the
-contract in the correct encoding and the correct type declaration.
+If you invoke a contract that takes an object as a parameter, you need to use a contract parameter of type `Array`.
+As an example, assume the that the `Bongo` class below is used by a contract as a method parameter. 
 
-For example, if you need to pass a script hash of a NEO address as a parameter, you can use the method
-`ContractParameter.hash160(...)`. It converts the script hash to the required byte array form.
+```java
+public class Bongo {
 
-When creating a parameter of the type byte array, make sure to read the method documentation which indicates with which
-endianness the value has to be provided.
+    public String lowNote;
+    public String highNote;
+
+    public Bongo(String lowNote, String highNote) {
+        this.lowNote = lowNote;
+        this.highNote = highNote;
+    }
+}
+```
+
+Using the neow3j SDK, you would have to construct the following parameter representing a `Bongo` instance.
+
+```java
+ContractParameter.array(
+    ContractParameter.string("C2"), 
+    ContractParameter.string("C5")));
+```
+
+The same applies when the object is used as a return type. In other words, expect a return value of
+type `Array` that will hold the object's variables in the order they appear in the class.
+
 
 ## Basic Contract Invocation
 
