@@ -34,3 +34,14 @@ NeoSendRawTransaction response = new ContractManagement(neow)
         .sign()
         .send();
 ```
+
+To get the newly deployed contract's hash you can do the following:
+
+```
+Hash160 contractHash = SmartContract.getContractHash(
+        a.getScriptHash(), 
+        nefFile.getCheckSumAsInteger(), 
+        manifest.getName());
+```
+
+As you can see, the hash depends on the sender of the deploy transaction, the NEF checksum and the contract's name. 
