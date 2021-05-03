@@ -11,7 +11,7 @@ task. In your `build.gradle` file, add the plugin to the plugins section.
 ```groovy
 plugins {
     ...
-    id 'io.neow3j.gradle-plugin' version "3.8.0"
+    id 'io.neow3j.gradle-plugin' version "3.9.0"
     ... 
 }
 ```
@@ -54,7 +54,7 @@ follows.
 Gradle:
 
 ```groovy
-implementation 'io.neow3j:compiler:3.8.0',
+implementation 'io.neow3j:compiler:3.9.0',
 ```
 
 Maven:
@@ -63,7 +63,7 @@ Maven:
 <dependency>
     <groupId>io.neow3j</groupId>
     <artifactId>compiler</artifactId>
-    <version>3.8.0</version>
+    <version>3.9.0</version>
 </dependency>
 ```
 
