@@ -15,7 +15,7 @@ First, it applies the neow3j Gradle plugin.
 ```groovy
 plugins {
     id 'java'
-    id 'io.neow3j.gradle-plugin' version "3.5.0"
+    id 'io.neow3j.gradle-plugin' version "3.8.0"
 }
 ```
 
