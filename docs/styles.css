@@ -1,11 +1,13 @@
-/* ---------- */
-/* Cover Page */
-/* ---------- */
-
-section.cover {
-  background: #fff !important;
+#logo {
+  text-align: center;
+  padding: 50px;
+  width: 450px;
+  height: auto;
 }
 
-section.cover img {
-  width: 400px;
+#cover-header {
+  font-family: Source Sans Pro,Helvetica Neue,Arial,sans-serif;
+  font-size: 2.5rem;
+  font-weight: 300;
+  text-align: center;
 }

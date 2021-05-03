@@ -10,8 +10,8 @@ to cover the system fee. The system fee is calculated and added to the deploymen
 The only fee that you can attach manually is a network fee, which could become necessary depending on the size of the
 deployment transaction.
 
-Neow3j does not include a smart contract compiler. You have to provide the compiled AVM file. Do this in binary form and
-not as a hexadecimal string.
+Neow3j for Neo Legacy does not include a smart contract compiler. You have to provide the compiled AVM file. Do this in
+binary form and not as a hexadecimal string.
 
 To begin with we need a connection to an RPC node and the account that will sign the deployment and pay for the system
 fee. In this example, the account is created from its WIF and then its asset balances are updated so that neow3j can

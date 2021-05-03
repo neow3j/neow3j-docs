@@ -32,8 +32,13 @@
       name: 'neow3j',
       repo: 'https://github.com/neow3j/neow3j',
       loadSidebar: true,
-      coverpage: true,
+      loadNavbar: true,
+      homepage: '/neo-n3/README.md',
+      alias: {
+        '/_sidebar.md': '/neo-n3/_sidebar.md'
+      },
       subMaxLevel: 2,
+      auto2top: true,
       search: {
         paths: 'auto',
         placeholder: 'Search',
@@ -46,6 +51,8 @@
     }
   </script>
   <script src="//unpkg.com/docsify/lib/docsify.min.js"></script>
+  <script src="//unpkg.com/prismjs/components/prism-java.min.js"></script>
+  <script src="//unpkg.com/docsify-copy-code"></script>
 </body>
 
 </html>
