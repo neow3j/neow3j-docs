@@ -1,4 +1,8 @@
-# neow3j 
+<div style="text-align: center">
+    <img src="../images/neow3j-neo3.png" alt="Logo" id="logo">
+</div>
+
+<h1 id="cover-header">neow3j <small>3.9.0</small></h1>
 
 Neow3j is a development toolkit that provides easy and reliable tools to build Neo dApps and Smart
 Contracts using the Java platform (Java, Kotlin, Android).
