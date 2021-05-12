@@ -1,11 +1,8 @@
 # Wallets and Accounts
 
-The concept of wallets and accounts in Neo is as follows. An account is made up of an EC key pair.
-From the public key an address is derived, which is used to identify the account. An account can be
-used to interact with smart contracts, e.g., the native NEO contract on which the account has a NEO
-token balance.
-The wallet contains one or multiple accounts and can be used as an abstraction if one has multiple
-accounts and doesn't care which account is used in a transaction.
+Accounts and wallets are important concepts in blockchain. A Neo account is made up of an EC key pair. From its public
+key an address is derived, which is used to identify the account. A wallet is a collection of one or multiple accounts
+and can be used as an abstraction if one has multiple accounts and doesn't care which account is used in a transaction.
 
 ## Creating a Wallet
 
@@ -61,10 +58,10 @@ that in case of an address the account does not have any key pair with which it 
 therefore not automatically sign transactions made with this account. In those cases, the signature has to be provided
 manually.
 
-You can also create a multi-sig account with the static `createMultiSigAccount(...)` method of the class `Account`.
-The account will hold the multi-sig address and the corresponding verification script. It will not hold the key
-pairs of the involved accounts. For automatic signing of transactions issued from a multi-sig account all the
-involved accounts need to be in the wallet as well.
+You can also create a multi-sig account with the `Account.createMultiSigAccount(...)` method.  The account object will
+hold the multi-sig address and the corresponding verification script. It will not hold the key pairs of the involved
+accounts.  For automatic signing of transactions issued from a multi-sig account, all the accounts involved in the
+mulsi-sig address need to be in the wallet.
 
 ```java
 List<ECPublicKey> publicKeys = Arrays.asList(
@@ -83,8 +80,6 @@ To check the NEP-17 balances of an account, use the following method.
 
 ```java
 Neow3j neow3j = Neow3j.build(new HttpService("http://localhost:40332"));
-Account a = Account.create();
-
 Map<Hash160, BigInteger> nep5Balances = a.getNep17Balances(neow3j);
 ```
 
