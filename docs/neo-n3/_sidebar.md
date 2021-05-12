@@ -1,6 +1,6 @@
 - Overview
 
-  - [Getting Started](neo-n3/overview/getting_started.md)
+  - [Quickstart](neo-n3/overview/quickstart.md)
   - [Concepts & Structure](neo-n3/overview/concepts_and_structure.md)
   - [Requirements](neo-n3/overview/requirements.md)
 
