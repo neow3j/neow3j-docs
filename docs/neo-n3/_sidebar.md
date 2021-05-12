@@ -1,9 +1,3 @@
-- Overview
-
-  - [Quickstart](neo-n3/overview/quickstart.md)
-  - [Concepts & Structure](neo-n3/overview/concepts_and_structure.md)
-  - [Requirements](neo-n3/overview/requirements.md)
-
 - dApp Development
 
   - [Introduction](neo-n3/dapp_development/introduction.md)

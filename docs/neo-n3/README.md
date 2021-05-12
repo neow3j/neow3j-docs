@@ -25,6 +25,65 @@ platform (Java, Kotlin, Android). It is an open-source project developed by the 
 * Android support from API 24, which covers [~49%](https://developer.android.com/about/dashboards/) 
     of all active Android devices ([~1 billion devices](https://www.youtube.com/watch?v=vWLcyFtni6U#t=2m46s))
 
+## Quickstart 
+
+
+Neow3j is divided into an SDK for dApp development and a devpack for smart contract development. The following describes
+how to get started with them.
+
+### SDK
+
+To make use of all neow3j SDK features, add the `io.neow3j:contract` dependency to your project.
+
+__Gradle__
+
+```groovy
+implementation 'io.neow3j:contract:3.9.+'
+```
+
+__Maven__
+
+```xml
+<dependency>
+    <groupId>io.neow3j</groupId>
+    <artifactId>contract</artifactId>
+    <version>[3.9.0,)</version>
+</dependency>
+```
+
+### Devpack
+
+The neow3j devpack is a Java library that provides the Neo-specific functionality required to write smart contract. If
+you want to play around with the devpack, add the `io.neow3j:devpack` dependency to your project.
+
+__Gradle__
+
+```groovy
+implementation 'io.neow3j:devpack:3.9.+'
+```
+
+__Maven__
+
+```xml
+<dependency>
+    <groupId>io.neow3j</groupId>
+    <artifactId>devpack</artifactId>
+    <version>[3.9.0,)</version>
+</dependency>
+```
+
+For information on how to compile a smart contract hop over to the contract
+[Compilation](neo-n3/smart_contract_development/compilation.md#compilation) section.
+
+## Requirements
+
+Neow3j requires **Java 8** or higher. For Android applications this implies the use of API level >= 24.
+
+Neow3j does **not include a blockchain node**. I.e., it does not synchronizes with other nodes nor store or verify
+blockchain information locally. It depends on a connection to a Neo node to retrieve blockchain information.  If you
+want to run your own node check out the [official documentation](https://docs.neo.org/v3/docs/en-us/node/introduction.html) 
+on how to set one up.  For local development we recommend using [Neo Express](https://github.com/neo-project/neo-express).
+
 ## Why the name "neow3j"? 🤔
 
 This project is based on [web3j](https://web3j.io), but focusing on NEO. That's why the suffix "w3j" was added to the "neo" name, forming "neow3j".
