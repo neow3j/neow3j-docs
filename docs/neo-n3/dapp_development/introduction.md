@@ -1,6 +1,6 @@
 # dApp Development
 
-In our definition, dApp development entails the implementation of systems that interact and are based on a blockchain. 
+In our definition, dApp development comprises the implementation of systems that interact and are based on a blockchain. 
 Although, smart contracts are also part of a dApp, we separate contract development and dApp development because
 neow3j's libraries are cleanly separable into these two development activities. In this part we introduce the neow3j SDK
 which is concerned with dApp development.
