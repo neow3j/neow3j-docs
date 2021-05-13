@@ -1,5 +1,6 @@
 # Interacting with a Neo Node
 
+## Setting up a Connection
 Because neow3j is not a Neo node implementation, interacting with an external node is crucial for any actions that read
 from or write to the blockchain.  The centerpiece of the interaction with Neo nodes is the `io.neow3j.protocol.Neow3j` 
 class. It provides Java counterparts for all JSON-RPC methods supported by Neo nodes. 
@@ -124,9 +125,51 @@ a smart contract. You will need to subscribe to new blocks, go through all trans
 the logs contain notifications fired by the contract by comparing the contract hash to `notification.getContract()`.
 
 
-## Using wallet on Node
+## Using a Wallet on the Node
 
-// open wallet
-// list address
-// new private key?
+If you run your own Neo full node you can make use of wallets that are stored directly on that node. Neow3j covers the
+necessary methods to interact and make use of such wallets. 
 
+First a wallet needs to be opened.
+
+```java
+NeoOpenWallet response = neow.openWallet("/path/to/wallet.json", "walletPassword").send();
+if (response.hasError()) {
+    throw new Exception("Failed to open walled. Error message: " + response.getError().getMessage());
+}
+
+if (response.getOpenWallet()) {
+    System.out.println("Successfully opened wallet.");
+} else {
+    System.out.println("Wallet not opened.");
+}
+```
+
+Now, with the open wallet, you can list the accounts in that wallet.
+
+```java
+NeoListAddress response = neow.listAddress().send();
+if (response.hasError()) {
+    throw new Exception("Failed to fetch wallet accounts. Error message: " + response.getError().getMessage());
+}
+List<NeoAddress> listOfAddresses = response.getAddresses();
+```
+
+Check the wallets balances.
+
+```java
+NeoGetWalletBalance response = neow.getWalletBalance(NeoToken.SCRIPT_HASH).send();
+if (response.hasError()) {
+    throw new Exception("Failed to get wallet balance. Error message: " + response.getError().getMessage());
+}
+String balance = response.getWalletBalance().getBalance();
+```
+
+And, in the end, close the wallet.
+
+```java
+NeoCloseWallet response = neow.closeWallet().send();
+if (response.hasError()) {
+    throw new Exception("Failed to close the  wallet. Error message: " + response.getError().getMessage());
+}
+```
