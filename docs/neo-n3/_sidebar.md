@@ -1,6 +1,7 @@
 - dApp Development
 
   - [Introduction](neo-n3/dapp_development/introduction.md)
+  - [Preliminaries](neo-n3/dapp_development/preliminaries.md)
   - [Interacting with a Neo Node](neo-n3/dapp_development/interacting_with_a_node.md)
   - [Wallets and Accounts](neo-n3/dapp_development/wallets_and_accounts.md)
   - [Transferring Tokens](neo-n3/dapp_development/token_transfer.md)
