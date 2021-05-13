@@ -21,12 +21,6 @@ The above process is visualized in the following figure.
         ---------------                  --------------------                -------------
 ```
 
-To invoke any contract, you will need a connection to an RPC node via a `Neow3j` instance.
-
-```java
-Neow3j neow3j = Neow3j.build(new HttpService("http://localhost:40332"));
-```
-
 ## Contract Parameters
 
 When invoking a smart contract, you will most likely use parameters. For parameter definition in neow3j, use the

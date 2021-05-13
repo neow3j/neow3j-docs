@@ -1,19 +1,14 @@
 # Transferring Tokens
 
 On the Neo blockchain the [NEP-17 Token Standard](http://github.com/neo-project/proposals/blob/master/nep-17.mediawiki)
-is used for everything concerning fungible tokens. In the following the transfer interaction with a NEP-17 smart contract is illustrated.
-
-To invoke any contract and to transfer tokens, respectively, you will need a connection to an RPC node via a `Neow3j` instance.
-
-```java
-Neow3j neow3j = Neow3j.build(new HttpService("http://localhost:40332"));
-```
+is used for everything concerning fungible tokens. In the following the interaction with NEP-17 smart contract for token
+transfers is explained.
 
 ## Structure
 
 In the following graph the structure concerning token transfers with neow3j is illustrated. To deploy, invoke or just
 retrieve information about any contract's state on the blockchain, the class `SmartContract` can be used (read more
-about this in the [next Section](dapp_development/contract_invocation.md)).
+about this in the [next Section](neo-n3/dapp_development/contract_invocation.md)).
 In the subtype `Token` the common methods used in token contracts like `getDecimals()`, `getSymbol()` or `getTotalSupply()`
 are collected.
 In the subtype `Nep5Token` the NEP-17 standard is implemented from which the native tokens `NeoToken` and `GasToken` are
