@@ -1,6 +1,4 @@
-# Invoking Smart Contracts
-
-> For invocations of NEP-17 contracts, check out the documentation in the [previous Section](dapp_development/token_transfer.md#transferring-tokens-assets).
+# Smart Contracts
 
 To deploy, invoke or just retrieve information about any contract's state on the blockchain, the
 class `SmartContract` can be used. For example, by calling `invokeFunction(...)` a script is built
@@ -8,8 +6,6 @@ based on the provided parameters and is handed to a `TransactionBuilder`. In the
 `TransactionBuilder` signers can be configured, a sender can be set or an additional network fee
 can be added. The transaction can then be signed and built, and the resulting `Transaction` can
 be sent to a Neo node. Alternatively, an unsigned `Transaction` can be created for later signing
-(e.g. when using a multi-sig account, see
-[here](dapp_development/token_transfer.md#transfer-from-a-multi-sig-account)).
 
 The above process is visualized in the following figure.
 
@@ -23,14 +19,14 @@ The above process is visualized in the following figure.
 
 ## Contract Parameters
 
-When invoking a smart contract, you will most likely use parameters. For parameter definition in neow3j, use the
+When invoking a smart contract, you will need method parameters. The neow3j SDK, represents parameters via the
 `ContractParameter` class. It provides many static construction methods that cover all possible parameter types. If you
 use those methods, neow3j will make sure that the parameter is sent to the contract in the correct encoding and the
 correct type declaration. For example, if you need to pass a script hash of a NEO address as a parameter, you can use
 the method `ContractParameter.hash160(...)`. It converts the script hash to the expected byte array.
 
 If you invoke a contract that takes an object as a parameter, you need to use a contract parameter of type `Array`.
-As an example, assume the that the `Bongo` class below is used by a contract as a method parameter. 
+As an example, assume the that the `Bongo` class below is the expecte method parameter. 
 
 ```java
 public class Bongo {

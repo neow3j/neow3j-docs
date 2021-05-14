@@ -5,8 +5,8 @@
   - [Interacting with a Neo Node](neo-n3/dapp_development/interacting_with_a_node.md)
   - [Wallets and Accounts](neo-n3/dapp_development/wallets_and_accounts.md)
   - [Transactions](neo-n3/dapp_development/transactions.md)
-  - [Transferring Tokens](neo-n3/dapp_development/token_transfer.md)
-  - [Invoking Smart Contracts](neo-n3/dapp_development/contract_invocation.md)
+  - [Smart Contracts](neo-n3/dapp_development/smart_contracts.md)
+  - [Token Contracts](neo-n3/dapp_development/token_contracts.md)
 
 - Smart Contract Development
 
