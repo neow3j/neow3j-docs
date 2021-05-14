@@ -116,7 +116,7 @@ tx.addWitness(witness);
 tx.send();
 ```
 
-As you can see, the transaction builder still requires a wallet which holds the mutli-sig account eventhough no
+As you can see, the transaction builder still requires a wallet which holds the multi-sig account even though no
 automatic signing is happening. The builder needs the multi-sig account's verification script to fetch the network fee.
 It gets this verification script from the account in the wallet.
 
