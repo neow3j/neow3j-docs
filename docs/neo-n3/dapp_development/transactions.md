@@ -19,11 +19,11 @@ Once constructed, the builder allows you to set almost all the properties a Neo 
 Excluded are fees and witnesses. The system fee, which is the amount of GAS your transaction will consume, and the
 network fee, which is based on the size of your transaction and the efforts to verify it, are both fetched automatically
 when building the transaction. Although, you do have the option to add an additional network fee
-(`additionalNetworkFee(long fee)`) to give your transactions more priority in the network. Witnesses can only be added
-to the `Transaction` object and not to the builder because they usually depend on the serialized transaction for
-producing a signature.
+(`additionalNetworkFee(long fee)`) to give your transactions more priority in the network.  
+Witnesses can only be added to the `Transaction` object and not to the builder because they usually depend on the
+serialized transaction for producing a signature.
 
-The properties called *nonce*,  *validUntilBlock*, and *version* will also be set automatically if not set explicitely.
+The properties called *nonce*, *validUntilBlock*, and *version* will also be set automatically if not set explicitely.
 The *nonce* prevents replay attacks in which the exact same transaction is copied and sent again. Its default value is
 set at random by the transaction builder. The *validUntilBlock* value determines for how long the transaction will
 remain valid before it is included in a block. If it does not get included before that time runs out, it will be
@@ -135,3 +135,24 @@ tx.track().subscribe(blockIndex -> {
 ```
 
 If you call `getApplicationLog()` before the transaction is included in a block it simply returns null.
+
+
+## Adding additional Network Fees
+
+There are two kind of fees one has to pay for a transaction, the system fee and the network fee. The system fee is the
+cost of resources consumed by the execution of a script on the neo-vm. It depends on the number and type of instructions
+executed in the script. The network fee is paid for the size of the transaction and the effort needed for signature
+verification. Adding a higher network fee than needed gives the transaction priority in the network. Neow3j
+automatically fetches the necessary system and network fees for a transaction, but you can add an additional network fee
+for priority. Use the method `additionalNetworkFee()` as in the example below.
+
+```java
+Transaction tx = new TransactionBuilder(neow3j)
+        .script(script)
+        .signers(Signer.calledByEntry(multiSig))
+        .wallet(wallet)
+        .additionalNetworkFee(10_000L)
+        .sign();
+```
+
+This adds 10'000 GAS fractions to the network fee, which is 10'000 / 10^8 = 0.0001 GAS.
