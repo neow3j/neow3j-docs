@@ -1,13 +1,15 @@
 # Smart Contracts
 
-To deploy, invoke or just retrieve information about any contract's state on the blockchain, the
-class `SmartContract` can be used. For example, by calling `invokeFunction(...)` a script is built
-based on the provided parameters and is handed to a `TransactionBuilder`. In the
-`TransactionBuilder` signers can be configured, a sender can be set or an additional network fee
-can be added. The transaction can then be signed and built, and the resulting `Transaction` can
-be sent to a Neo node. Alternatively, an unsigned `Transaction` can be created for later signing
+To deploy, invoke or just retrieve information about any contract's state on the blockchain, the class `SmartContract`
+can be used. It is the most generic class in the neow3j SDK that models a contract. All other contract classes are
+subclasses of this one. On one hand, `SmartContract` offers methods to invoke a contract on the blockchain with the
+result of an actual state change. On the other hand, you can use it to simulate an invocation without actually inducing
+state chagnes. The latter is also used when the invocation only performs read actions. 
 
-The above process is visualized in the following figure.
+The only method that creates an actual transaction is `invokeFunction(...)`. It builds a script based on the provided
+function name and contract parameters and constructs a `TransactionBuilder` with it. The returned transaction builder
+can then be configured, built, and the transaction send as described in the Section
+[Transactions](neo-n3/dapp_development/transactions.md). This process is visualized in the following figure.
 
 ```
          Build script           ->      Configure transaction       ->   Tx ready to sign and send
@@ -16,6 +18,16 @@ The above process is visualized in the following figure.
        | SmartContract |        ->      | TransactionBuilder |      ->      | Transaction |
         ---------------                  --------------------                -------------
 ```
+
+
+The methods that don't change blockchain state all start with the word *call* to indicate that the performed invocation
+is only a call to the Neo JSON-RPC API's `invokefunction` or `invokescript` methods. They don't produce transaction
+builders or transactions.  There are several of such *call* methods, with the basic one being `callInvokeFunction(...)`.
+If you know what type the contract invocation will return, you can use one of the more specific call methods that
+already unpack the invocation result value, e.g., `callFunctionReturningScriptHash(...)`.
+
+Because every contract has a contract manifest, `SmartContract` offers the method `getContractManifest()` that will
+fetch the manifest.
 
 ## Contract Parameters
 
@@ -53,28 +65,37 @@ The same applies when the object is used as a return type. In other words, expec
 type `Array` that will hold the object's variables in the order they appear in the class.
 
 
-## Basic Contract Invocation
+## Contract Invocation
 
-First, you have to specify which contract you want to invoke. Use the `Hash160` class for this and pass it the script
-hash of the contract you want to call.
+First, you have to specify which contract and which function you want to invoke. Use the `io.neow3j.contract.Hash160`
+class for the contract's script hash and a simple string for the function.
 
 ```java
 Hash160 scriptHash = new Hash160("0x1a70eac53f5882e40dd90f55463cce31a9f72cd4");
+String function = "register";
 ```
 
-Then you need to define the parameters that will be passed to the contract. In this example, the method `register` is
-called with a domain name and an address that should be registered under that domain name.
+Then you need to define the parameters that will be passed to the contract. In this example, we are invoking a name
+service contract and call the `register` function with a domain name and an address that should be registered under that
+domain name. Observe that the account to register is not passed as an address string but as a Hash160 parameter. That's
+what the contract in this example expects. The developer needs to be aware of what parameter type a contract expects.
 
 ```java
 Account account = Account.fromWIF("L3kCZj6QbFPwbsVhxnB8nUERDy4mhCSrWJew4u5Qh5QmGMfnCTda");
-ContractParameter functionArg1 = ContractParameter.string("neo.com");
-ContractParameter functionArg2 = ContractParameter.hash160(account.getScriptHash());
+ContractParameter domainParam = ContractParameter.string("neo.com");
+ContractParameter accountParam = ContractParameter.hash160(account.getScriptHash());
 ```
 
-Observe that the address to register is not passed to the contract as a string but as a hash160, that's what the contract expects.
-The static creation method `ContractParameter.hash160()` does that for you.
+With the contract hash, the function, and the parameters, we can construct an invocation as follows. This doesn't yet
+send a transaction but returns a transaction builder for further configuration.
 
-Here's the complete code.
+```java
+TransactionBuilder txBuilder = new SmartContract(scriptHash, neow3j)
+        .invokeFunction(function, domainParam, accountParam);
+```
+
+Here's the complete code with the configuration of the transaction builder. The transaction is signed by the same
+account that is registered under the domain name "neo.com".
 
 ```java
 Neow3j neow3j = Neow3j.build(new HttpService("http://localhost:40332"));
@@ -82,196 +103,117 @@ Neow3j neow3j = Neow3j.build(new HttpService("http://localhost:40332"));
 Account account = Account.fromWIF("L3kCZj6QbFPwbsVhxnB8nUERDy4mhCSrWJew4u5Qh5QmGMfnCTda");
 Wallet wallet = Wallet.withAccounts(account);
 
-ContractParameter functionArg1 = ContractParameter.string("neo.com");
-ContractParameter functionArg2 = ContractParameter.hash160(account.getScriptHash());
+Hash160 scriptHash = new Hash160("0x1a70eac53f5882e40dd90f55463cce31a9f72cd4");
+String function = "register";
+
+ContractParameter domainParam = ContractParameter.string("neo.com");
+ContractParameter accountParam = ContractParameter.hash160(account.getScriptHash());
 
 NeoSendRawTransaction response = new SmartContract(scriptHash, neow3j)
-        .invokeFunction("register", functionArg1, functionArg2)
-        .wallet(wallet)
+        .invokeFunction("register", domainParam, accountParam)
         .signers(Signer.calledByEntry(account.getScriptHash()))
+        .wallet(wallet)
         .sign()
         .send();
 ```
 
-To make it more clear how the classes `SmartContract`, `TransactionBuilder` and `Transaction` are used, we split the above invocation
-in their individual parts below. The method `invokeFunction()` builds an invocation script and passes it to a `TransactionBuilder`,
-there the wallet and the signers are specified, the transaction is signed and the built `Transaction` is returned, which is then sent.
+Of course, it is also possible to call a smart contract function that doesn't take any parameters, e.g., a
+contract that simply increments a number every time it gets called.
 
 ```java
-SmartContract contract = new SmartContract(contract, neow3j);
-
-TransactionBuilder builder = contract.invokeFunction("register", functionArg1, functionArg2);
-
-Transaction tx = builder.wallet(wallet)
+NeoSendRawTransaction response = new SmartContract(contract, neow3j)
+        .invokeFunction("increment")
         .signers(Signer.calledByEntry(account.getScriptHash()))
-        .sign();
-
-NeoSendRawTransaction response = tx.send();
+        .wallet(wallet)
+        .sign()
+        .send();
 ```
 
-> **Note:** When the method `sign()` is called in the `TransactionBuilder`, the following two steps are executed:
->
-> - A `Transaction` object is constructed.
-> - For each signer, its corresponding account is fetched from the wallet, the signature for the
->   invocation script is created and added to the `Transaction` object.
-
-## Testing the Invocation before propagating it
+## Testing the Invocation
 
 If you need to know the effect of your invocation before actually propagating it through the network, you can do a test
 invocation first. This also calls the RPC node but only simulates the execution without any effects on the blockchain.
-For this use the method `callInvokeFunction()` instead of `invokeFunction()` in the `SmartContract` class.
-
-To do so, the contract parameters have to be packed in a list and the signers are passed to the method directly, since no
-transaction is actually built.
+Continuing the above example of the domain name contract, a test invocation would look like the following. Notice that
+depending on what call you perform, you also need to add signers even though no blockchain state is changed. In this
+specific example the signer is needed because in the called contract it will be verified if the account that is
+registered is also the sender of the transaction.
 
 ```java
-List<ContractParameter> params = Arrays.asList(functionArg1, functionArg2);
-NeoInvokeFunction response = new SmartContract(contract, neow3j)
-        .callInvokeFunction("register", params, Signer.calledByEntry(account.getScriptHash()));
+Neow3j neow3j = Neow3j.build(new HttpService("http://localhost:40332"));
+
+Hash160 scriptHash = new Hash160("0x1a70eac53f5882e40dd90f55463cce31a9f72cd4");
+String function = "register";
+
+Account account = Account.fromWIF("L3kCZj6QbFPwbsVhxnB8nUERDy4mhCSrWJew4u5Qh5QmGMfnCTda");
+ContractParameter domainParam = ContractParameter.string("neo.com");
+ContractParameter accountParam = ContractParameter.hash160(account.getScriptHash());
+List<ContractParameter> params = Arrays.asList(domainParam, accountParam);
+
+NeoInvokeFunction response = new SmartContract(scriptHash, neow3j)
+        .callInvokeFunction(funtion, params, Signer.calledByEntry(account.getScriptHash()));
 ```
 
 The `NeoInvokeFunction` holds information about the GAS amount consumed in the contract execution, the VM exit state
-(e.g. HALT or FAULT) and the VM's stack, i.e. the return values.
+(e.g. HALT or FAULT), and the VM's stack, i.e. the return value.
 
-## Calling a Contract without Parameters
 
-Of course, it is also possible to call a smart contract function that doesn't take any parameters. For example, a contract method
-that simply increments a number every time it gets called.
+## Specific Contract Types
 
-```java
-NeoSendRawTransaction response = new SmartContract(contract, neow3j)
-        .invokeFunction("increment")
-        .wallet(wallet)
-        .signers(Signer.calledByEntry(account.getScriptHash()))
-        .sign()
-        .send();
-```
+The `SmartContract` class is the most generic of neow3j's gateways to contracts. There are several subclasses that
+implement the more specific methods of Neo's native contracts and the contracts that follow Neo's token standards.
+Token contracts are discussed separately in Section [Token Contracts](neo-n3/dapp_development/token_contracts.md).
+they include fungible and non-fungible token contracts, and their Neo native implementations `NeoToken` and `GasToken`.
+The other available contract classes are discussed below. The native contracts among them do not need to be instantiated
+with a contract hash, since their hash is static and known to the neow3j SDK.
 
-## Adding additional Network Fees
+### ContractManagement
 
-There are two kind of fees, the system fee and the network fee. The system fee is the cost of
-resources consumed by the execution of a script on the neo-vm. It depends on the number and type of
-instructions executed in the script. The network fee is paid for the size of the transaction and the
-effort needed for signature verification (i.e. depends on the number of signatures on a
-transaction). Adding a higher network fee than needed gives the transaction priority in the network.
-Neow3j automatically fetches the necessary system and network fees for a transaction.
-To add an additional network fee for priority, use the method `additionalNetworkFee()` as in the
-example below.
+The `ContractManagement` contract is a Neo native contract that, as it's name suggests, can be used to manage other
+contracts. More precisely, it allows you to deploy, update, and delete a contract. In the neow3j SDK the update and
+delete methods cannot be used, because they can only be called from within another contract. But, the deploy method is
+available and allows you to deploy new contracts with neow3j. For example:
 
 ```java
-NeoSendRawTransaction response = new SmartContract(contract, neow3j)
-        .invokeFunction("increment")
-        .wallet(wallet)
-        .additionalNetworkFee((long) 0.1)
-        .signers(Signer.calledByEntry(account.getScriptHash()))
-        .sign()
-        .send();
+Transaction tx = new ContractManagement(neow3j)
+        .deploy(nef, manifest)
+        .signers(calledByEntry(account1.getScriptHash()))
+        .wallet(w)
+        .sign();
 ```
 
-You can check how high the system fee of a transaction will be with a test invocation call as
-described [above](dapp_development/contract_invocation.md#testing-the-invocation-before-propagating-it).
+Producing the necessary NEF (Neo Executable Format) file and contractd manifest is not discussed here but are part of
+the Contract Development [section]().
 
-<!-- ## Adding Transaction Attributes and Scripts
-Extend as soon as transaction attributes are defined for Neo N3 -->
+There are two other methods on `ContracManagement`. They are concerned with the minimum deployment fee. The getter
+`getMinimumDeploymentFee()` can be used by anyone. But, the setter `setMinimumDeploymentFee(...)` can only successfully
+be used if the transaction is signed by committee members. I.e., it will be of no use to most developers.
 
-## Manually signing a Transaction
 
-> **Important:** For multi-sig accounts this is done differently. See the next section.
+### PolicyContract
 
-If you don't have all private keys required to sign the transaction, you can still build the transaction by using the method
-`getUnsignedTransaction()` in the `TransactionBuilder` and then manually add the signature/witness.
+The `PolicyContract` holds information about several settings of the Neo network. You can retrieve information like GAS
+fee per transaction byte, the GAS price per byte of contract storage, or if a certain account is blacklisted.
 
-To do so, you can get the raw transaction byte array with the method `getHashData()`. Then you can sign this data by using the
-static method `createWitness()` of the `Witness` class and add the created `Witness` to the `Transaction` with `addWitness()`.
+The contract also provides setters for all of these values, though, these can only successfully be used if the
+transaction is signed by committee members. 
 
-An example scenario for this is when invoking a smart contract with a multi-sig account.
 
-> **Note:** You still need to add the `Signer`s and a wallet with the corresponding accounts when
-> building the `Transaction` because the accounts' addresses and verification scripts are required
-> for the building process. The only difference is that the accounts in the wallet don't have a
-> private key.
+### RoleManagement
 
-In the following example the same transaction as in previous examples is created but the signature
-is generated and added manually.
+The `RoleManagament` contract is used to assign roles to nodes in the network. A node can be a state validator, an
+oracle node, or a NeoFS "Alphabet" node (respondible for consensus on NeoFS sidechain). 
 
-```java
-Transaction tx = new SmartContract(contract, neow3j)
-        .invokeFunction("register", functionArg1, functionArg2);
-        .wallet(wallet)
-        .signers(Signer.calledByEntry(account.getScriptHash()))
-        .getUnsignedTransaction();
+The designation of a node to a role can only be done via the Neo committee. But you can check the role assignments with
+the `getDesignatedRole(...)` method.
 
-byte[] txBytes = tx.getHashData();
-ECKeyPair keyPair account.getECKeyPair();
 
-tx.addWitness(Witness.create(txBytes, keyPair));
-```
+### NeoNameService
 
-## Signing a Transaction with a multi-sig Account
+The `NeoNameService` is not a native contract but managed by the Neo core team. The script hash of this contract is not
+known to neow3j and has to be provided by the developer when constructing an instance of `NeoNameService`. As it's name
+suggest the name service contract provides the possibility to map a name to an owner account. You can read more about it
+in the official [Neo Docs](https://docs.neo.org/docs/en-us/reference/nns.html).
 
-Multi-sig accounts are usually not controlled by one single entity. Meaning the private keys of the involved key pairs
-are not all available to sign a transaction locally. So this scenario is different in the signing step.
-
-In the example below, a multi-sig account made up of two accounts (the account used in previous
-examples and a new `account2`) is used. Its address is "NgmbzrR47Bg38RVohozSWuueTHbmC9dVjj". The
-account does not possess the private keys required to sign a transaction. Neow3j can only fetch the
-account's balances. Signing the transaction is up to you. It is the raw transaction byte array that
-needs to be signed by the minimum required number of keys. Then the signatures are combined in a
-`Witness` with the static method `createMultiSigWitness()`.
-
-When the witness is created, it can be added to the transaction and it is ready to be sent.
-
-```java
-Account account2 = Account.fromWIF("KwjpUzqHThukHZqw5zu4QLGJXessUxwcG3GinhJeBmqj4uKM4K5z");
-Account multiSigAccount = Account.fromAddress("NgmbzrR47Bg38RVohozSWuueTHbmC9dVjj");
-
-functionArg2 = ContractParameter.hash160(multiSigAccount.getScriptHash());
-
-Transaction tx = new SmartContract(contract, neow3j)
-        .invokeFunction("register", functionArg1, functionArg2);
-        .signers(Signer.calledByEntry(multiSigAccount.getScriptHash()))
-        .wallet(wallet)
-        .getUnsignedTransaction();
-
-byte[] unsignedTxHex = tx.getHashData();
-
-List<ECPublicKey> publicKeys = Arrays.asList(account1.getECKeyPair().getPublicKey(), account2.getECKeyPair().getPublicKey());
-SignatureData sig1 = Sign.signMessage(unsignedTxHex, account1.getECKeyPair());
-SignatureData sig2 = Sign.signMessage(unsignedTxHex, account2.getECKeyPair());
-
-Witness witness = Witness.createMultiSigWitness(2, Arrays.asList(sig1, sig2), publicKeys);
-
-tx.addWitness(witness);
-```
-
-> **Note:** It is important that the raw transaction byte array is fetched with the method `getHashData()` and not
-> `toArray()`! The part of the script that is excluded in the former is exactly what is created and appended with the witness.
-
-Of course, in reality this is an unlikely example, since this means that you were in possession of both keypairs
-(more specific - the private keys), which makes the usage of multi-sig accounts obsolete. But it shows the basic
-requirements to make this transaction happen.
-
-When an external signature is needed (i.e. only one private key for a multi-sig account with threshold 2 is held in the wallet),
-you can communicate the raw byte array (`unsignedTxHex` in the example above) with a party that holds the private key for the
-second account that can then sign it and send back the signature data in form of a byte array with the method `getConcatenated()`.
-
-```java
-SignatureData externalSig2 = Sign.signMessage(unsignedTxHex, account2.getECKeyPair());
-byte[] signatureBytes = externalSig2.getConcatenated();
-```
-
-From these signature bytes, a `SignatureData` object can then be recreated with its static method `fromByteArray()`.
-
-```java
-SignatureData sig2 = SignatureData.fromByteArray(signatureBytes);
-```
-
-The last steps are again the same as in the first example in this section. The signatures are combined in a witness script,
-added to the transaction and then the transaction can be sent.
-
-```java
-Witness witness = Witness.createMultiSigWitness(2, Arrays.asList(sig1, sig2), keys);
-
-tx.addWitness(witness);
-tx.send();
-```
+The `NeoNameService` class in the neow3j SDK provides you with all the methods of the contract. So you can check
+registered names and register your own name-to-address mappings. Some of them can only be called by the Neo committee,
+e.g., `addRoot(...)` or `setPrice(...)` methods.
