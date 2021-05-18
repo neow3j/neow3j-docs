@@ -1,15 +1,12 @@
-- Overview
-
-  - [Getting Started](neo-n3/overview/getting_started.md)
-  - [Concepts & Structure](neo-n3/overview/concepts_and_structure.md)
-  - [Requirements](neo-n3/overview/requirements.md)
-
 - dApp Development
 
-  - [Monitoring the Blockchain](neo-n3/dapp_development/monitoring.md)
+  - [Introduction](neo-n3/dapp_development/introduction.md)
+  - [Preliminaries](neo-n3/dapp_development/preliminaries.md)
+  - [Interacting with a Neo Node](neo-n3/dapp_development/interacting_with_a_node.md)
   - [Wallets and Accounts](neo-n3/dapp_development/wallets_and_accounts.md)
-  - [Transferring Tokens](neo-n3/dapp_development/token_transfer.md)
-  - [Invoking Smart Contracts](neo-n3/dapp_development/contract_invocation.md)
+  - [Transactions](neo-n3/dapp_development/transactions.md)
+  - [Smart Contracts](neo-n3/dapp_development/smart_contracts.md)
+  - [Token Contracts](neo-n3/dapp_development/token_contracts.md)
 
 - Smart Contract Development
 

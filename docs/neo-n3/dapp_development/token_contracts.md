@@ -1,26 +1,16 @@
-# Transferring Tokens
+# Token Contracts
 
-On the Neo blockchain the [NEP-17 Token Standard](http://github.com/neo-project/proposals/blob/master/nep-17.mediawiki)
-is used for everything concerning fungible tokens. In the following the transfer interaction with a NEP-17 smart contract is illustrated.
+There are two token standards on Neo, one for fungible and one for non-fungible tokens. The neow3j SDK covers the
+interaction with such token contracts in the classes `FungibleToken` and `NonFungibleToken`.
 
-To invoke any contract and to transfer tokens, respectively, you will need a connection to an RPC node via a `Neow3j` instance.
-
-```java
-Neow3j neow3j = Neow3j.build(new HttpService("http://localhost:40332"));
-```
-
-## Structure
-
-In the following graph the structure concerning token transfers with neow3j is illustrated. To deploy, invoke or just
-retrieve information about any contract's state on the blockchain, the class `SmartContract` can be used (read more
-about this in the [next Section](dapp_development/contract_invocation.md)).
-In the subtype `Token` the common methods used in token contracts like `getDecimals()`, `getSymbol()` or `getTotalSupply()`
-are collected.
-In the subtype `Nep5Token` the NEP-17 standard is implemented from which the native tokens `NeoToken` and `GasToken` are
-derived, that contain their individual additional methods, e.g. `registerValidator`, `getRegisteredValidators` or `vote`
-(for more, see [here](https://docs.neo.org/v3/docs/en-us/reference/scapi/api/neo.html)).
-The `NFToken` represents a wrapper for token contracts that comply with the currently not finalized NEP-11 standard for
-non-fungible tokens.
+The following graph shows how the classes around token contracts are structured. They are sub-types of the
+`SmartContract` base class and add all token contract specific methods ontop.
+In the subtype `Token` the common methods used in token contracts like `getDecimals()`, `getSymbol()` or
+`getTotalSupply()` are collected.  In the subtype `FungibleToken` the NEP-17 standard is implemented. Two specific
+instances of NEP-17 contracts are the native contracts `NeoToken` and `GasToken`. They contain their additional methods
+that are specific to them, e.g., `registerValidator`, `getRegisteredValidators` or `vote`.  The `NonFungibleToken`
+represents a wrapper for token contracts that comply with the NEP-11 standard for non-fungible tokens. The
+`NeoNameService` contract is a specific example for such contracts.
 
 ```
              Build invocation script                 ->      Specify Tx Signers, etc.     ->   Tx ready to sign and send
@@ -41,13 +31,13 @@ non-fungible tokens.
    ----------      ----------         ----------------
 ```
 
-These classes provide convenient methods to build a script and transaction for contract invocation.
-The methods return a `TransactionBuilder` that can be used to further configure the transaction,
-e.g., specify signers or an additional network fee. The transaction can then be signed and built,
-such that the returned `Transaction` can be sent. Or an unsigned `Transaction` can be created for
-later signing (e.g. when using a multi-sig account).
+All of these classes provide methods to build scripts and a transactions for invoking the repspective contract. The
+methods return a `TransactionBuilder` that can be used to further configure the transaction, e.g., specify signers or an
+additional network fee. The transaction can then be signed and built, and the returned `Transaction` sent to a Neo node.
+Or an unsigned `Transaction` can be created for later signing.
 
-## NEP-17 Tokens
+
+## Fungible Token Contracts (NEP-17)
 
 ### Transfer from the default Account
 
@@ -66,8 +56,8 @@ BigDecimal amount = new BigDecimal("15");
 
 NeoSendRawTransaction response = NeoToken(neow3j)
         .transferFromDefaultAccount(wallet, to, amount)
-        .wallet(wallet)
         .signers(Signer.calledByEntry(account1.getScriptHash()))
+        .wallet(wallet)
         .additionalNetworkFee(1L)
         .sign()
         .send();
@@ -107,20 +97,19 @@ and account1, 2 and 3 all hold 10 Neo each. The above sent transaction would con
 > **Note:** In the method `transfer()` the full wallet can be used. The order of the used accounts is not explicitly defined.
 > If you want to force a specific order, see the next section.
 
-### Transfer from a specific Accounts
+### Transfer from specific Accounts
 
-If you don't want to use your full wallet or want to use your accounts in a specific order to cover an amount of a transfer,
-you can use the method `transferFromSpecificAccounts()`. This method allows you to pass only the accounts that should
-be used in the given order. The first passed account is used first, if it cannot cover the amount, the second account
-is used for the remaining amount, et cetera.
-The method adds the necessary signers and the wallet to the `TransactionBuilder`, so it is not
-necessary to configure that manually.
+If you don't want to use your full wallet or want to use your accounts in a specific order to cover an amount of a
+transfer, you can use the method `transferFromSpecificAccounts()`. This method allows you to pass only the accounts that
+should be used in the given order. The first passed account is used first, if it cannot cover the amount, the second
+account is used for the remaining amount, et cetera.  The method adds the necessary signers and the wallet to the
+`TransactionBuilder`, so it is not necessary to configure that manually.
 
 ```java
 NeoSendRawTransaction response = NeoToken(neow3j)
         .transferFromSpecificAccounts(wallet, to, amount, account3.getScriptHash(), account2.getScriptHash())
-        .wallet(wallet)
         .signers(Signer.calledByEntry(account3.getScriptHash()), Signer.calledByEntry(account2.getScriptHash()))
+        .wallet(wallet)
         .additionalNetworkFee(1L)
         .sign()
         .send();
@@ -141,17 +130,24 @@ The account used in the transfer must be constructed from the public keys involv
 Then create the transaction by using the method `getUnsignedTransaction()` in the `TransactionBuilder` and follow the steps
 in [this Section](dapp_development/contract_invocation.md#signing-a-transaction-with-a-multi-sig-account) to sign the transaction.
 
-## Non-fungible Tokens (NEP-11)
 
-neow3j provides a wrapper class `NFToken` that can interact with token contracts that support the [NEP-11](https://github.com/neo-project/proposals/pull/41) standard.
+## Non-fungible Token Contracts (NEP-11)
 
-> The NEP-11 standard is not yet final, so there might still be changes to it.
+> **Note:** This section is currently out of date with the current version of neow3j.
 
-As shown above in the structure, the `NFToken` is a subtype of the class `Token`, so it utilizes the methods `getName()`, `getSymbol()`, `getTotalSupply()` and `getDecimals()`.
+neow3j provides a wrapper class `NonFungibleToken` that can interact with token contracts that support the
+[NEP-11](https://github.com/neo-project/proposals/pull/41) standard.
 
-For the following methods of the wrapper, it is important to understand that the standard supports non-divisible as well as divisible non-fungible tokens. This means that for divisible tokens, a token can have multiple owners. Each owner owns a fraction of that token and each of these fractions are owned completely by that owner. You can use the method `balanceOf()` to get the owned fraction of a token. The method `ownersOf()` and `tokensOf()` return an enumerator of all the owners of a token and an enumerator of all tokens that an account holds (non-divisible or fractions).
+For the following methods of the wrapper, it is important to understand that the standard supports non-divisible as well
+as divisible non-fungible tokens. This means that for divisible tokens, a token can have multiple owners. Each owner
+owns a fraction of that token and each of these fractions are owned completely by that owner. You can use the method
+`balanceOf()` to get the owned fraction of a token. The method `ownersOf()` and `tokensOf()` return an enumerator of all
+the owners of a token and an enumerator of all tokens that an account holds (non-divisible or fractions).
 
-There are two transfer methods, one for non-divisible and one for divisible tokens - `transfer()` and `transferFraction()`. E.g. to transfer `0.2` fractions of a divisible token with `tokenID` `1` and 2 decimals, you can use the following code example that produces the transfer script and creates a `TransactionBuilder` that then can be signed and sent:
+There are two transfer methods, one for non-divisible and one for divisible tokens - `transfer()` and
+`transferFraction()`. E.g. to transfer `0.2` fractions of a divisible token with `tokenID` `1` and 2 decimals, you can
+use the following code example that produces the transfer script and creates a `TransactionBuilder` that then can be
+signed and sent:
 
 ```java
 NFToken nft = new NFToken("ebc856327332bcffb7587a28ef8d144df6be8537", neow3j);
