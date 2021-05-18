@@ -15,7 +15,7 @@ First, it applies the neow3j Gradle plugin.
 ```groovy
 plugins {
     id 'java'
-    id 'io.neow3j.gradle-plugin' version "3.9.0"
+    id 'io.neow3j.gradle-plugin' version "3.10.0"
 }
 ```
 
@@ -34,13 +34,13 @@ The build file also imports three dependencies from neow3j.
 
 ```groovy
 dependencies {
-    implementation 'io.neow3j:contract:3.9.0'
-    implementation 'io.neow3j:devpack:3.9.0'
-    implementation 'io.neow3j:compiler:3.9.0'
+    implementation 'io.neow3j:contract:3.10.0'
+    implementation 'io.neow3j:devpack:3.10.0'
+    implementation 'io.neow3j:compiler:3.10.0'
 }
 ```
 
-Properly speaking, we only require the `io.neow3j:devpack:3.9.0` for this tutorial. You can
+Properly speaking, we only require the `io.neow3j:devpack:3.10.0` for this tutorial. You can
 remove the other two.
 
 Now to the actual contract. The contract in `HelloWorldSmartContract.java` is very simple. It has
