@@ -1,4 +1,4 @@
-# Java Smart Contracts
+# Neow3Java
 
 This section discusses the possibilities and restrictions that exist when implementing a smart
 contract in Java. 

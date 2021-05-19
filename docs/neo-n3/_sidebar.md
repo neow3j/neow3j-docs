@@ -11,17 +11,17 @@
 - Smart Contract Development
 
   - [Introduction](neo-n3/smart_contract_development/introduction.md)
-  - [Tutorial](neo-n3/smart_contract_development/tutorial.md)
-  - [Java Smart Contracts](neo-n3/smart_contract_development/java_smart_contracts.md)
+  - [Setup](neo-n3/smart_contract_development/setup.md)
+  - [Neow3Java](neo-n3/smart_contract_development/neow3java.md)
   - [Devpack](neo-n3/smart_contract_development/devpack.md)
   - [Compilation](neo-n3/smart_contract_development/compilation.md)
   - [Debugging](neo-n3/smart_contract_development/debugging.md)
   - [Deployment](neo-n3/smart_contract_development/deployment.md)
 
-- Tutorials & Examples
-  - [Meme dApp](neo-n3/tutorials_and_examples/meme_dapp.md)
-
 - Javadoc
   - [io.neow3j:core](https://javadoc.io/doc/io.neow3j/core/latest/index.html)
   - [io.neow3j:contract](https://javadoc.io/doc/io.neow3j/contract/latest/index.html)
   - [io.neow3j:devpack](https://javadoc.io/doc/io.neow3j/devpack/latest/index.html)
+
+<!-- - Tutorials & Examples
+  - [Meme dApp](neo-n3/tutorials_and_examples/) -->
