@@ -21,8 +21,8 @@ flavour and name it **Neow3Java**.
 
 The documentation on smart contract development is divided into the following sections:
 
-- If you are new to smart contracts, start with the [Setup](neo-n3/smart_contract_development/setup.md). It will guide you
-  through the basic **setup, implemtation, and compilation of a simple contract**.
+- If you are new to smart contracts, start with the [Setup](neo-n3/smart_contract_development/setup.md). It will guide
+  you through the basic **setup, implemtation, and compilation of a simple contract**.
 
 - The principles and differences of developing in **Neow3Java versus Java** are documented in the section 
   [Neow3Java](neo-n3/smart_contract_development/neow3java.md).
@@ -38,5 +38,5 @@ The documentation on smart contract development is divided into the following se
 - For information on **contract deployment** check out the [Deployment](neo-n3/smart_contract_development/deployment.md)
   section. 
 
-- More **smart contract examples** can be found in the [neow3j-examples](https://github.com/neow3j/neow3j-examples-java)
-  repository.
+- More **smart contract examples** can be found in the
+  [neow3j-examples](https://github.com/neow3j/neow3j-examples-java/tree/master/neo-n3-examples) repository.
