@@ -21,23 +21,22 @@ flavour and name it **Neow3Java**.
 
 The documentation on smart contract development is divided into the following sections:
 
-- If you are new to smart contracts, start with the [Setup](smart_contract_development/setup.md). It will guide you
+- If you are new to smart contracts, start with the [Setup](neo-n3/smart_contract_development/setup.md). It will guide you
   through the basic **setup, implemtation, and compilation of a simple contract**.
 
 - The principles and differences of developing in **Neow3Java versus Java** are documented in the section 
-  [Neow3Java](smart_contract_development/neow3java.md).
+  [Neow3Java](neo-n3/smart_contract_development/neow3java.md).
 
-- A detailed documentation on the **devpack's API** can be found in the
-[Devpack](smart_contract_development/devpack.md#Devpack) section.
+- A detailed documentation on the **devpack's API** can be found in the 
+  [Devpack](neo-n3/smart_contract_development/devpack.md) section.
 
-- The possibilities of how to **compile a Java smart contract** are documented in the 
-[Compilation](smart_contract_development/compilation.md#compilation) section.
+- The possibilities of how to **compile a smart contract** are documented in the 
+  [Compilation](neo-n3/smart_contract_development/compilation.md) section.
 
-- For information on **debugging** go to the
-[Debugging](smart_contract_development/debugging.md#debugging) section.
+- For information on **debugging** go to the [Debugging](neo-n3/smart_contract_development/debugging.md) section.
 
-- For information on **contract deployment** check out the 
-[Deployment](smart_contract_development/deployment.md#Deployment) section. 
+- For information on **contract deployment** check out the [Deployment](neo-n3/smart_contract_development/deployment.md)
+  section. 
 
-- More **Java smart contract examples** can be found in the 
-[neow3j-examples](https://github.com/neow3j/neow3j-examples-java) repository.
+- More **smart contract examples** can be found in the [neow3j-examples](https://github.com/neow3j/neow3j-examples-java)
+  repository.
