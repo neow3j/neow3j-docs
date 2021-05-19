@@ -18,5 +18,10 @@
   - [Debugging](neo-n3/smart_contract_development/debugging.md)
   - [Deployment](neo-n3/smart_contract_development/deployment.md)
 
-  <!-- #### [**Contributing**](contributing.md#contributing) 
-  TODO: uncomment this as soon as the contributing.md contains information. -->
+- Tutorials & Examples
+  - [Meme dApp](neo-n3/tutorials_and_examples/meme_dapp.md)
+
+- Javadoc
+  - [io.neow3j:core](https://javadoc.io/doc/io.neow3j/core/latest/index.html)
+  - [io.neow3j:contract](https://javadoc.io/doc/io.neow3j/contract/latest/index.html)
+  - [io.neow3j:devpack](https://javadoc.io/doc/io.neow3j/devpack/latest/index.html)
