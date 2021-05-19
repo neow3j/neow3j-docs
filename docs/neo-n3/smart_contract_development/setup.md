@@ -1,6 +1,6 @@
-# Tutorial
+# Setup
 
-To quickly get the right project seutp, you can fetch the basic project structure from our
+To quickly get the right project setup, you can fetch the basic project structure from our
 [boilerplate](https://github.com/neow3j/neow3j-boilerplate) repository. 
 
 ```bash
