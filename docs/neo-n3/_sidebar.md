@@ -18,10 +18,11 @@
   - [Debugging](neo-n3/smart_contract_development/debugging.md)
   - [Deployment](neo-n3/smart_contract_development/deployment.md)
 
+- Tutorials & Examples
+  - [Various Examples](neo-n3/tutorials_and_examples/various_examples.md)
+  - [Meme Governance dApp](neo-n3/tutorials_and_examples/meme_governance_dapp.md)
+
 - Javadoc
   - [io.neow3j:core](https://javadoc.io/doc/io.neow3j/core/latest/index.html)
   - [io.neow3j:contract](https://javadoc.io/doc/io.neow3j/contract/latest/index.html)
   - [io.neow3j:devpack](https://javadoc.io/doc/io.neow3j/devpack/latest/index.html)
-
-<!-- - Tutorials & Examples
-  - [Meme dApp](neo-n3/tutorials_and_examples/) -->
