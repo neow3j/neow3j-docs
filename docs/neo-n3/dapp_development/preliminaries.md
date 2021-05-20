@@ -1,6 +1,6 @@
 # Preliminaries
 
-The following sections introduce general concepts and types that are required in different locations of the neow3j SDK.
+The following sections introduce general concepts and types that you will meet throughout the neow3j SDK.
 ## Hashes
 
 Hashes appear a lot in the blockchain world and Neo is not an exception. There are two kinds of hashes in Neo. One

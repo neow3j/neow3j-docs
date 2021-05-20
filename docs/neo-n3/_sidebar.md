@@ -11,12 +11,12 @@
 - Smart Contract Development
 
   - [Introduction](neo-n3/smart_contract_development/introduction.md)
-  - [Setup](neo-n3/smart_contract_development/setup.md)
-  - [Neow3Java](neo-n3/smart_contract_development/neow3java.md)
-  - [Devpack](neo-n3/smart_contract_development/devpack.md)
-  - [Compilation](neo-n3/smart_contract_development/compilation.md)
+  - [Setup & Compilation](neo-n3/smart_contract_development/setup_and_compilation.md)
   - [Debugging](neo-n3/smart_contract_development/debugging.md)
   - [Deployment](neo-n3/smart_contract_development/deployment.md)
+  - [Neow3Java](neo-n3/smart_contract_development/neow3java.md)
+  - [Devpack](neo-n3/smart_contract_development/devpack.md)
+
 
 - Javadoc
   - [io.neow3j:core](https://javadoc.io/doc/io.neow3j/core/latest/index.html)

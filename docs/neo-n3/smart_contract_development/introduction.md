@@ -17,7 +17,7 @@ It is important to understand that, even though, on the surface you will be writ
 and the executing virtual machine are not related to Java. Your smart contract code is compiled to byte code that runs
 on the Neo Virtual Machine (NeoVM) and not on the Java Virtual Machine (JVM). Because of the differences between the JVM
 and the NeoVM, the programming experience with Java for Neo is different. We, therefore, define Java for Neo as a Java
-flavour and name it **Neow3Java**.
+flavour or subset and name it **Neow3Java**.
 
 The documentation on smart contract development is divided into the following sections:
 
