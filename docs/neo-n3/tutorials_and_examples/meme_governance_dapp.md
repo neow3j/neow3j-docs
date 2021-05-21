@@ -1,7 +1,5 @@
 # Meme Governance dApp
 
-## Overall Idea
-
 This project should demonstrate how a decentralized application (dApp) could be built on the Neo blockchain, using Java and React/NextJS.
 
 The dApp implements a governance protocol, where users can:
@@ -17,6 +15,10 @@ The dApp implements a governance protocol, where users can:
 ## Contracts
 
 There are two contracts, the `MemeContract` and the `MemeGovernance`. The `MemeGovernance` is the owner of the `MemeContract` and as such is the only entitled entity that can change the state of the `MemeContract`.
+
+> The contracts are deployed on the Neo N3 Test Net (RC2) with the following addresses:
+> - **MemeContract:** _3b4572c517d08a8ba46632cc35f45f4ca8081a01_
+> - **MemeGovernance:** _43000f84c46df29e25d58a089d5564dbe23c15bc_
 
 The `MemeGovernance` has a built-in voting mechanism, so that every change on the `MemeContract` has to pass a vote.
 
