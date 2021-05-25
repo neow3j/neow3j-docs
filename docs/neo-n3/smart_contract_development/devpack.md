@@ -4,10 +4,7 @@ The neow3j devpack provides classes, methods and annotations required for writin
 Java. For example, if your smart contract needs to verify a transaction signature, the devpack offers
 a method for that. Or, if you want to publish detailed information about the contract in its
 manifest, you can use one of the devpack's annotations.
-
-The following sections describe parts of the devpack's API and frequently used concepts and constructs. It is
-not exshausting, so, checkout the [Javadoc](https://javadoc.io/doc/io.neow3j/devpack) too.
-
+The following sections describe the devpack's API, frequently used concepts and constructs. 
 
 ## Neo Smart Contract API
 
@@ -99,4 +96,60 @@ Once an event is declared, it can then be used in contract methods by calling it
         ...
         return true;
     }
+```
+
+
+## Smart Contract Interfaces
+
+Your smart contract can call other contracts via the `Contract.call(Hash160 scriptHash, String method, byte callFlags,
+Object[] arguments)` method in an adhoc way. But, there is a another way of doing this, and that is by using what we
+call a contract interface. In the context of the devpack, contract interfaces are classes that provide an
+interface to deployed contracts. The word interface is not used in Java's meaning but in the meaning of a gateway to the
+actual contract instance on the blockchain. For example, the `NeoToken` class holds all methods of the native NeoToken
+contract and allows you to call it from within your own smart contract. These contract interface classes are located in
+the `io.neow3j.devpack.contracts` package. All of Neo's native contracts are represented here, plus some other classes,
+e.g., interfaces to access token contracts.
+
+If you need to call a method of a native contract, e.g., get the hash of the latest block, use the corresponding static
+method on the contract interface. 
+
+```java
+Hash256 blockHash = LedgerContract.currentHash();
+```
+
+Additionally to the existing contract interfaces, you can define your own. The requirements for a valid contract interface
+are:
+- extend the `io.neow3j.devpack.contracts.ContractInterface` abstract class. 
+- annotated the class with the `io.neow3j.devpack.annotations.ContractHash` annotation.
+
+A minimal version of a custom contract interface looks like this.
+
+```java
+@ContractHash("0xef4073a0f2b305a38ec4050e4d3d28bc40ea63f5")
+class MyContract extends ContractInterface {
+}
+```
+
+In this minimal form the class only provides access to the contract's hash via the `getHash()` method inherited from
+`ContractInterface`. Any other contract methods have to be added according to their signature in the contract's
+manifest. Assuming the contract has a method `findElement` with a `ByteString` parameter and a `ByteString` return type,
+you would need to add the following method. Note that the method needs to be static and native. A method body
+implementation is not necessary, since this is only an interface to an actual contract instance on the blockchain.
+
+```java
+public static native ByteString findElement(ByteString key);
+```
+
+The devpack provides abstract contract interfaces, e.g., for contracts that follow a token standard. So, if you want to
+establish a contract interface to a fungible token contract extend the `FungibleToken` class. All methods of a NEP-17
+token contract are already available and the only thing you need to add is the contract hash annotation with the hash of
+the targeted contract. If that contract has some extra methods, simply add them as shown before.
+
+```java
+@ContractHash("0xef4073a0f2b305a38ec4050e4d3d28bc40ea63f5")
+class MyTokenContract extends FungibleToken {
+
+    public static native int someCustomMethod(String arg);
+
+}
 ```
