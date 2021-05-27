@@ -24,7 +24,7 @@ Wallet w = Wallet.fromNEP6Wallet(absoluteFileName)
         .name("NewName");
 ```
 
-> **Note**: When reading the wallet from a NEP-6 wallet file the private keys of the contained accounts will be
+> **Note:** When reading the wallet from a NEP-6 wallet file the private keys of the contained accounts will be
 > encrypted until you call `decryptAllAccounts(String password)` on the wallet. An encrypted account cannot be used for
 > signing transactions.
 
@@ -37,6 +37,10 @@ Wallet w = Wallet.withAccounts(Account.create())
         .name("MyWallet")
         .version("1.0");
 ```
+
+> **Note:** When you want to extract a wallet instance, e.g. as a data transfer object (dto) make sure to create a
+> `NEP6Wallet` instance and use this instance. To do so, you will have to encrypt the wallet first and then call
+> `toNEP6Wallet`. This automatically initiates `NEP6Account` instances for all accounts in the wallet.
 
 ## Creating an Account
 
@@ -74,13 +78,17 @@ Account a2 = Account.createMultiSigAccount(publicKeys, 2)
         .label("MyMultiSigAccount");
 ```
 
+> **Note:** When you want to extract a single account instance, e.g. as a data transfer object (dto) make sure to create a
+> `NEP6Account` instance and use this instance. To do so, you will have to encrypt the account first and then call
+> `toNEP6Account`. This conversion is automatically made for each account when creating a `NEP6Wallet` from a wallet instance.
+
 ## Account Balances
 
 To check the NEP-17 balances of an account, use the following method.
 
 ```java
 Neow3j neow3j = Neow3j.build(new HttpService("http://localhost:40332"));
-Map<Hash160, BigInteger> nep5Balances = a.getNep17Balances(neow3j);
+Map<Hash160, BigInteger> nep17Balances = a.getNep17Balances(neow3j);
 ```
 
 This returns a map containing all NEP-17 contract balances of the account.
