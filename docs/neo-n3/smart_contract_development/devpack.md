@@ -6,8 +6,6 @@ a method for that. Or, if you want to publish detailed information about the con
 manifest, you can use one of the devpack's annotations.
 The following sections describe the devpack's API, frequently used concepts and constructs. 
 
-## Types
-
 
 ## Neo Smart Contract API
 
