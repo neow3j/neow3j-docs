@@ -29,6 +29,14 @@ items.
 | `io.neow3j.devpack.ECPoint`    | ByteString       | `ECPoint` was added to the devpack to ensure correct handling of elliptic curve points. On the NeoVM they are represented by a ByteString. Therefore, the conversion to `ByteString` does not actually add an instruction on the NeoVM. |
 
 
+### Byte Arrays
+
+The NeoVM has two stack items for containing byte arrays. The ByteString is an immutable byte array while Buffer is
+mutable. We recommend to use the devpack's `ByteString` by default and only use `byte[]` (which maps to the Buffer
+stack item) if you need mutability. For example, for method parameters `ByteString` is the right choice, making it clear
+that the method will not have any side effects on the argument. You can convert `ByteString` to `byte[]` with the
+`toByteArray()` method and the other way around by using the `ByteString(byte[] buffer)` constructor.
+
 ### Integers
 
 You can use all Java integer types, including their wrapper classes. That is, `byte`, `short`, `char`, `int`,
@@ -86,26 +94,31 @@ the members directly, but that incurs a higher GAS fee when executing the contra
 
 ## Contract Class
 
-Java smart contracts consist of one or more classes each containing some of the contract's
-functionality. Even though they can be multiple classes, there can be only one one main contract
-class (simply called contract class), while the other classes can hold logic and are used by the
-contract class. Only the methods of the contract class are accessible from the outside once the
-contract is deployed.
+NeowJava smart contracts consist of one main contract class and possibly other classes containing functionality used in
+the main class. We refer to this main class as the *contract class* and to the others as *auxiliary classes*. Only
+methods of the contract class are accessible and show up in the contract manifest if they are public.
 
-The contract class can only have static methods and variables. Thus, you should not think of a
-contract as an instantiated object that holds the contract's state in its variables. Think of the
-contract class being the managing entity handling incoming invocations, contract storage and event
-emission. This is different, for example, to Solidity where the contract's state is managed in its
-variables. Although the contract class is static, it can still instantiate and make use of objects.
+Everything on the contract class is static. The concept of creating an instance of it and deploying it on the blockchain
+does not apply here. The contract's state is not saved in its class variables but accessed through a storage API. So
+rather think of the contract class as being the managing entity handling incoming invocations, contract storage and
+event emission but not actually holding state itself. This is different, for example, to Solidity where the class
+variables hold the contract state. Auxiliary classes can be purely static classes too, basically serving as a collection
+of functions which the contract class makes use of. But, they can also be classes in an object-oriented sense that get
+instantiated in the contract class and provide structure and functionality to contract's data.
 
-### Methods
+When compiling a smart contract, the contract class is the input to the compilation. The compiler will also look for and
+compile any auxiliary classes used in the contract class.
 
-All methods on the contract class need to be static, since the contract class is never instantiated.
-Methods that are `public` will show up in the contract's manifest and are callable from
-the outside. Any other access modifier will make the a method invisible to the outside, so it makes
-sense to use the `private` modifier on those methods for readability.
+### Contract Methods
 
-### Variables
+All methods on the contract class need to be static. If you mark a method with the `public` modifier it show up in the
+contract's manifest and is callable from the outside. Any other access modifier will make the a method invisible to
+the outside, i.e., it's not necessary to use `private`. Of course, you can use the `private` modifier to make it
+explicit and to prohibit any auxiliary class to call it. Making methods in auxiliary contract public will not put them
+into the contract manifest. If these classes are in the same package as your contract class it's enough to use no
+access modifier. If they are in another package they need to be public as with normal Java.
+
+### Contract Variables
 
 Similar to the methods, the contract class can only hold static variables. Again, variables of
 the contract class do not map to the contract's storage. These variables are initialized every
