@@ -47,6 +47,11 @@ contracts. You can use `int` without worrying about size restrictions. We recomm
 ignoring `short`, `char`, and `long`. `Byte` and `byte` are useful for indicating small values, like constants,
 and they appear in `byte[]`/`Byte[]`.
 
+With the above said, the question arises: "How do I initialize large integers?". Java will deny your attempts of
+initializing an `int` with values outside of the range [2<sup>-31</sup>, 2<sup>31</sup>-1]. To circumvent this you can
+use the `StringLiteralHelper` and it's method `stringToInt(String number)` that allows you to initialize any integer
+value.
+
 Note that when casting an `int` variable to a `byte`, the underlying value is not truncated from 32 to 8 bit. Merely the
 superficial Java type canges from `int` to `byte`. The same applies if you use wrapper type methods like
 `Integer.byteValue()`. The devpack provides two helper methods `Helper.asByte(int value)` and 
