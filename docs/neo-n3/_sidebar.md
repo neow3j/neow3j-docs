@@ -14,7 +14,7 @@
   - [Setup & Compilation](neo-n3/smart_contract_development/setup_and_compilation.md)
   - [Debugging](neo-n3/smart_contract_development/debugging.md)
   - [Deployment](neo-n3/smart_contract_development/deployment.md)
-  - [Neow3Java](neo-n3/smart_contract_development/neow3java.md)
+  - [NeowJava](neo-n3/smart_contract_development/neowjava.md)
   - [Devpack](neo-n3/smart_contract_development/devpack.md)
 
 

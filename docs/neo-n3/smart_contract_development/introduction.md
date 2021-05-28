@@ -20,8 +20,8 @@ It is important to understand that, even though, on the surface you will be writ
 and the executing virtual machine are not related to Java. Your smart contract code is compiled to byte code that runs
 on the Neo Virtual Machine (NeoVM) and not on the Java Virtual Machine (JVM). Because of the differences between the JVM
 and the NeoVM, the programming experience with Java for Neo is different. We, therefore, define Java for Neo as a Java
-flavour or subset and name it Neow3Java. Section [Neow3Java](neo-n3/smart_contract_development/neow3java.md) discusses
-in which ways Neow3Java deviates from Java and what the pitfalls are when using Neow3Java.
+flavour or subset and name it NeowJava. Section [NeowJava](neo-n3/smart_contract_development/neowjava.md) discusses
+in which ways NeowJava deviates from Java and what the pitfalls are when using NeowJava.
 
 ## Development Environment
 
@@ -41,8 +41,8 @@ Next to the Toolkit, we suggest to install the
 - If you are new to smart contracts, start with the [Setup](neo-n3/smart_contract_development/setup.md). It will guide
   you through the basic **setup, implemtation, and compilation of a simple contract**.
 
-- The principles and differences of developing in **Neow3Java versus Java** are documented in the section 
-  [Neow3Java](neo-n3/smart_contract_development/neow3java.md).
+- The principles and differences of developing in **NeowJava versus Java** are documented in the section 
+  [NeowJava](neo-n3/smart_contract_development/neowjava.md).
 
 - A detailed documentation on the **devpack's API** can be found in the 
   [Devpack](neo-n3/smart_contract_development/devpack.md) section.

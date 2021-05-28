@@ -5,8 +5,8 @@ though we are coding in Java the produced byte code is not meant for the JVM but
 of Java can be used and we call that subset NeowJava.
 
 Blockchain programmers need to be careful with computational resources because every step in their code costs GAS.
-You should avoid using Java's standard library and any library not explicitely implemented for smart contract purposes,
-because such libraries might contain unsupported code or code that is very costly for execution on a blockchain.
+You should **avoid using Java's standard library** and any library not explicitely implemented for smart contract
+purposes, because such libraries might contain unsupported code or code that is costly for execution on a blockchain.
 
 ## Types
 
@@ -125,18 +125,19 @@ access modifier. If they are in another package they need to be public as with n
 
 ### Contract Variables
 
-Similar to the methods, the contract class can only hold static variables. Again, variables of
-the contract class do not map to the contract's storage. These variables are initialized every
-time the contract is invoked, meaning that they cannot be used to store state. Changes to static
-variables are lost as soon as an invocations finishes. Storing state to the contract's storage is
-discussed later.
-The static contract variables don't necessarily have to be final. They can still be used to remember a
-value while an invocation moves through the contract code. Though, if a contract variable is ment
-to be a constant it makes sense to mark it with the `final` keyword. This helps to enforce your
-intentions but is not strictly required by the compiler.
+All variables on the contract class have to be static. Note that these variables do not represent the contract's state.
+Their values are not writtin into the contract's storage. The NeoVM initializes them in every invocation of the
+contract meaning that you cannot use them to store state. Changes to static variables are lost as soon as an invocations
+finishes. Use contract variables for values and objects that you use in multiple methods, always stay the same, and
+don't want to maintain in the contract's storage.
 
-Contract variables can be initialized with constant values (e.g., string literals) but also with
-the return value of a method call as shown in the following examples.
+In general it makes sense to declare a contract variable as final. This has no influence on the compiled contract script
+but can help you while implementing and maintaining the contract. If you need the variable's value to change within a
+contract invocation, the variable can obviously not be final. But, remember that the modified value will be lost after
+the invocation.
+
+You can initialize contract variables with constant values (e.g., string literals) but also with a return value of a
+method call as shown in the following examples.
 
 ```java
 static final int initialSupply = 200_000_000;
@@ -145,12 +146,13 @@ static final StorageContext sc = Storage.getStorageContext();
 static final StorageMap assetMap = sc.createMap(assetPrefix);
 ```
 
-It is also possible to use a static initializer clause. Note, that the instance initializer, i.e. the
-same clause without the `static` keyword, is not supported.
+Neow3j also supports the static initializer clause as shown below. Note, that the instance initializer, i.e. the same
+clause without the `static` keyword, is not supported.
 
 ```java
 static final String assetPrefix;
 static final StorageContext sc;
+
 static {
     assetPrefix = "asset";
     sc = Storage.getStorageContext();
@@ -163,11 +165,8 @@ and convert them to byte arrays, script hashes, or integers. The following examp
 the owner script hash using the owner account's address.
 
 ```java
-static final Hash160 owner = StringLiteralHelper.addressToScriptHash(
-    "NZNos2WqTbu5oCgyfss9kUJgBXJqhuYAaj");
+static final Hash160 owner = StringLiteralHelper.addressToScriptHash("NZNos2WqTbu5oCgyfss9kUJgBXJqhuYAaj");
 ```
-
-
 
 ## Exceptions
 

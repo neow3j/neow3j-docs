@@ -4,10 +4,10 @@ By default, the `neow3jCompile` Gradle task will output a `.nefdbgnfo` file that
 compiled smart contract. The file is placed in the same folder as the NEF and contract manifest, i.e., usually at
 `./build/neow3j`. The file is actually a zip archive containing a JSON file, if you want to take a look inside.
 
-The produced debugging information is meant to be used with the [Neo
+The debugging information is meant to be used with the [Neo
 Debugger](https://github.com/neo-project/neo-debugger), which is part of the Visual Studio Code (VSCode) extension pack
 called [Neo Blockchain Toolkit](https://marketplace.visualstudio.com/items?itemName=ngd-seattle.neo-blockchain-toolkit).
-We recommend using VSCode with the Neo Blockchain Toolkit to write, manually test and debug Java smart contracts. 
+**We recommend using VSCode and the Neo Blockchain Toolkit to write, test, and debug NeowJava smart contracts.** 
 
 Once the debugger is installed and a Gradle project for your contract is in place, you must add a
 `launch.config` that tells VSCode how to run/debug the contract. To achieve this, select "Add
