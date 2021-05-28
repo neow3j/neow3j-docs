@@ -130,35 +130,44 @@ The account used in the transfer must be constructed from the public keys involv
 Then create the transaction by using the method `getUnsignedTransaction()` in the `TransactionBuilder` and follow the steps
 in [this Section](dapp_development/contract_invocation.md#signing-a-transaction-with-a-multi-sig-account) to sign the transaction.
 
-
 ## Non-fungible Token Contracts (NEP-11)
 
 > **Note:** This section is currently out of date with the current version of neow3j.
 
 neow3j provides a wrapper class `NonFungibleToken` that can interact with token contracts that support the
-[NEP-11](https://github.com/neo-project/proposals/pull/41) standard.
+[NEP-11](https://github.com/neo-project/proposals/pull/41) standard. Take a look at the standard for detailed
+information about non-fungible tokens on the Neo blockchain.
 
-For the following methods of the wrapper, it is important to understand that the standard supports non-divisible as well
-as divisible non-fungible tokens. This means that for divisible tokens, a token can have multiple owners. Each owner
-owns a fraction of that token and each of these fractions are owned completely by that owner. You can use the method
-`balanceOf()` to get the owned fraction of a token. The method `ownersOf()` and `tokensOf()` return an enumerator of all
-the owners of a token and an enumerator of all tokens that an account holds (non-divisible or fractions).
+It is important to understand that the standard supports non-divisible as well as divisible non-fungible tokens.
+This means that for divisible tokens, a token can have multiple owners. Each owner owns a fraction of that token.
+The provided wrapper class supports both divisible and non-divisible tokens, while methods that are only intended
+for divisible tokens are not allowed to be used for non-divisible tokens, vice-versa.
 
-There are two transfer methods, one for non-divisible and one for divisible tokens - `transfer()` and
-`transferFraction()`. E.g. to transfer `0.2` fractions of a divisible token with `tokenID` `1` and 2 decimals, you can
-use the following code example that produces the transfer script and creates a `TransactionBuilder` that then can be
-signed and sent:
+NFTs support the basic methods like in the fungible standard NEP-17, such as `symbol`, `decimals` and `totalSupply`.
+
+Both divisible and non-divisible token contracts implement the method `balanceOf(owner)`. While on non-divisible tokens
+this method returns the number of tokens owned, on divisible tokens it returns the number of tokens any amount is owned by
+the provided address. To get the amount owned of a specific token, you can use the method `balanceOf(owner, tokenId)` that is
+specifically implemented for divisible tokens.
+
+Further, NFTs provide the methods `tokens`, `tokensOf` and `ownerOf`. The method `ownerOf` returns the single owner of a
+non-divisible token. With divisible tokens, this method returns an iterator with all owners that own a share of this token.
+
+Then, there are two transfer methods, one for non-divisible and one for divisible tokens that are both called `transfer`.
+One has an additional parameter for the amount to transfer a fraction of a token, e.g. if you want to transfer 0.2 of a divisible
+token with 3 decimals and token id `1`, then you can use 200 (= 0.2 * 10^3) as the fraction amount. The following code example
+illustrates the setup of a transfer script and a `TransactionBuilder` that can then be signed and sent.
 
 ```java
-NFToken nft = new NFToken("ebc856327332bcffb7587a28ef8d144df6be8537", neow3j);
+NonFungibleToken nft = new NonFungibleToken("ebc856327332bcffb7587a28ef8d144df6be8537", neow3j);
 Hash160 to = new Hash160("6367377798df20bb04737d34fa2dda19a283dbb5");
-TransactionBuilder builder = nft.transferFraction(wallet, account1.getScriptHash(), to, new byte[]{1});
+TransactionBuilder builder = nft.transfer(wallet, account1.getScriptHash(), to, new BigInteger("200"), new byte[]{1});
 ```
 
-Further, you can get the properties of each token with the method `properties()`.
+The NEP-11 has an optional method `properties` that returns the properties of a token. You can get a tokens properties as shown below.
 
 ```java
-NFTokenProperties properties = nft.properties(new byte[]{1});
+NFTokenState properties = nft.properties(new byte[]{1});
 String name = properties.getName();
 String description = properties.getDescription();
 String image = properties.getImage();
