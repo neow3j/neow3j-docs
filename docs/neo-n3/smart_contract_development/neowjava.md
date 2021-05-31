@@ -184,12 +184,33 @@ objects it only does a reference comparison. I.e. if you need a comparison by va
 You should avoid using the `String.equals()` method because that will compile the whole `equals()` method into neo-vm
 code which is redundant, since using the `==` operator will already do a value comparison.
 
+## Instance of
 
-## Unsupported Java Features
+The neow3j compiler supports the `instanceof` keyword for only for the following types:
 
-- Floating point numbers: `float` and `double` are not supported by the neo-vm. Everything happens with integers.
+- `int`, `byte`, `short`, `char`, `long`
+- `boolean`
+- `byte[]`
+- `java.lang.String`
+- `io.neow3j.devpack.ByteString`
+- `io.neow3j.devpack.Map`
+- `io.neow3j.devpack.List`
+- `io.neow3j.devpack.InteropInterface`
+- `io.neow3j.devpack.Iterator.Struct`
 
-- Enum: Java's enums are not supported yet.
+This is because only these types have a corresponding stack item on the NeoVM for which a type check can be made. The
+NeoVM will represent all other classes that you create as Array stack items without any type information.  Thus,
+checking the type with `instanceof` is not possible. The neow3j compiler will throw an error if you try to put any other
+type than what's on the list above on the right side of `instanceof`.
 
-- Class field variables: As discussed before, static field variables are only supported on the main contract class. They
-  are ignored on other classes.
+## Unsupported Features
+
+First of all, the neow3j compiler is based on Java 8. Thus, any Java features added in higher versions are not
+supported. Other features that Java 8 includes but the neow3j compiler does not support are:
+
+- Floating point numbers, i.e., `float`/`Float` and `double`/`Double`. Floating point numbers are not supported by the
+  NeoVM and can, thus, not be used in NeowJava smart contracts. Everything happens with integers.
+
+- Enums
+
+- Lambda Expressions
