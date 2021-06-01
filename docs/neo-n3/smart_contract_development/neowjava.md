@@ -15,19 +15,27 @@ items don't all have a matching type provided by Java and its standard library. 
 map to the corresponding stack item on the NeoVM. The following table shows which Java types map to which NeoVM stack
 items. 
 
-| Java type                      | NeoVM stack item | Description  |
-|--------------------------------|------------------|--------------|
-| `int`/`Integer`                | Integer          | Java integers have a corresponding integer stack item on the NeoVM. The difference to normal Java integers is the range. On the NeoVM the integer range is not restricted to [2<sup>-31</sup>, 2<sup>31</sup>-1]. We discuss integers in more depth below. |   
-| `boolean`/`Boolean`            | Boolean          | Java's `boolean` maps to the Boolean stack item on the NeoVM. But, the NeoVM also uses Integer stack items in the range [0,1] for boolean values. Don't worry if you get an Integer stack item as a return value even if your contract method returns a `boolean`. 
-| `io.neow3j.devpack.ByteString` | ByteString       | A NeoVM ByteString is an immutable byte array. This is a type introduced by the devpack because there exists no corresponding Java type for the ByteString stack item. |
-| `java.lang.String`             | ByteString       | Java `String`s map to UTF-8 ByteStrings on the NeoVM. Thus, converting from `String` to `ByteString`, e.g., via `new ByteString(String s)` does not add any costs to a contract. |
-| `byte[]`/`Byte[]`              | Buffer           | Java's byte arrays map to a stack item called Buffer on the NeoVM. The difference to `ByteString` is that they are mutable. |
-| `io.neow3j.devpack.Map`        | Map              | The NeoVM has a dedicated type for maps for which the devpack provides a corresponding `Map` type. Note that it is not possible to use `java.utils.Map` instead. | 
-| `io.neow3j.devpack.List`       | Array            | The NeoVM has a dedicated type for arrays of other types. The devpack provides a corresponding type with the `List` class. Note, that it's not possible to use `java.utils.List` instead. Instead of using `List` you can also use array definitions as usual in Java, e.g., `String[]` can be used in place of `List<String>`. |
-| `io.neow3j.devpack.Hash160`    | ByteString       | `Hash160` is useful to ensure correct handling of contract and account hashes. On the NeoVM they map to a ByteString. Conversion from `Hash160` to `ByteString` does. |
-| `io.neow3j.devpack.Hash256`    | ByteString       | `Hash256` was added to the devpack to ensure correct handling of block and transaction hashes. On the NeoVM they are represented by a ByteString. Therefore, the conversion to `ByteString` does not actually add an instruction on the NeoVM. |
-| `io.neow3j.devpack.ECPoint`    | ByteString       | `ECPoint` was added to the devpack to ensure correct handling of elliptic curve points. On the NeoVM they are represented by a ByteString. Therefore, the conversion to `ByteString` does not actually add an instruction on the NeoVM. |
+| Java type                      | Stack Item | Description |
+|--------------------------------|------------|-------------|
+| `int`/`Integer`                | Integer    | Java integers have a corresponding integer stack item on the NeoVM. The difference to normal Java integers is the range. On the NeoVM the integer range is not restricted to [2<sup>-31</sup>, 2<sup>31</sup>-1]. We discuss integers in more depth below. |   
+| `boolean`/`Boolean`            | Boolean    | Java's `boolean` maps to the Boolean stack item on the NeoVM. But, the NeoVM also uses Integer stack items in the range [0,1] for boolean values. Don't worry if you get an Integer stack item as a return value even if your contract method returns a `boolean`. |
+| `io.neow3j.devpack.ByteString` | ByteString | A NeoVM ByteString is an immutable byte array. This is a type introduced by the devpack because there exists no corresponding Java type for the ByteString stack item. |
+| `java.lang.String`             | ByteString | Java `String`s map to UTF-8 ByteStrings on the NeoVM. Thus, converting from `String` to `ByteString`, e.g., via `new ByteString(String s)` does not add any costs to a contract. |
+| `io.neow3j.devpack.Hash160`    | ByteString | `Hash160` is useful to ensure correct handling of contract and account hashes. On the NeoVM they map to ByteString. |
+| `io.neow3j.devpack.Hash256`    | ByteString | `Hash256` is useful to ensure correct handling of block and transaction hashes. On the NeoVM they map to ByteString. |
+| `io.neow3j.devpack.ECPoint`    | ByteString | `ECPoint` is useful to ensure correct handling of elliptic curve points. On the NeoVM they map to ByteString. |
+| `byte[]`/`Byte[]`              | Buffer     | Java's byte arrays map to a stack item called Buffer on the NeoVM. The difference to `ByteString` is that they are mutable. |
+| `io.neow3j.devpack.Map`        | Map        | The NeoVM has a dedicated stack item for maps for which the devpack provides a corresponding `Map` type. Note that it is not possible to use `java.utils.Map` instead. | 
+| `io.neow3j.devpack.List`       | Array      | The NeoVM has a dedicated stack item for arrays (other than byte array) for which the devpack provides a corresponding `List` type. Note, that it's not possible to use `java.utils.List` instead. |
+| Arrays like `int[]`            | Array      | Instead of using `List` you can also use arrays as usual in Java, e.g., `String[]` can be used in place of `List<String>`. |
+| `io.neow3j.devpack.Iterator.Struct` | Struct | The NeoVM's Struct stack item is similar to Array. The devpack uses it only for key-value pairs when iterating over contract storage entries. |
+| Custom Objects                 | Array      | All other classes, or rather instances of these classes, are represented as Arrays on the NeoVM. A more detailed explanation is given below. |
 
+Java uses the categories of primitive and complex types. If we carry this concept over to NeowJava we have the following
+primitive types: `int` (and all other number types), `boolean`, `byte[]`, `ByteString`, `String`, `Hash160`, `Hash256`,
+and `ECPoint`. So, even though some of these types are complex types in the Java world, on the NeoVM they are primitive
+types.  
+The complex types are `List`, arrays, `Map`, `Iterator.Struct`, and custom objects.
 
 ### Byte Arrays
 
@@ -170,19 +178,37 @@ static final Hash160 owner = StringLiteralHelper.addressToScriptHash("NZNos2WqTb
 
 ## Exceptions
 
-Exceptions and try-catch blocks are supported and can be used as in normal Java applications. Though, only the
-`java.lang.Exception` class can be used to throw exceptions. Either with or without one string argument. Because only one
-type of exception is available you cannot have multiple catch clauses per try clause, nor multiple different exceptions
-handled by one catch block.
+Neow3j supports exceptions and try-catch blocks, but restricts you to using the `java.lang.Exception` class. You can
+either use the constructor with a string argument (`new Exception(String message)`) or the one without any arguments
+(`new Exception()`).  No other exception types are permitted. This restriction implies that you cannot have multiple
+catch clauses that each handle a different exception type. 
 
-## Equality
+## Type Comparison
 
-If you want to compare two variables you should generally use the `==` operator. On simple types like integers or
-strings, this will first perform a reference comparison and, if that fails, do a value comparison. For arrays and
-objects it only does a reference comparison. I.e. if you need a comparison by value, you need to write an equals method.
+NeowJava has a few caveats when it comes to type comparison. As you know, in Java, the `==` operator compares primitive
+data types by value and complex type by reference. In NeowJava this is similar but with some exceptions. 
+The types that compare by value are: 
 
-You should avoid using the `String.equals()` method because that will compile the whole `equals()` method into neo-vm
-code which is redundant, since using the `==` operator will already do a value comparison.
+- `int` (and all other number types)
+- `boolean`
+- `String`
+- `ByteString`
+- `Hash160`
+- `Hash256` 
+- `ECPoint`
+- `Iterator.Struct` 
+
+If we take the example of `String`, we see that in NeowJava using `==` or `equals(String s)` does the same (comparison
+by value), while in Java `==` is a reference comparison.
+
+The types that compare by reference are:
+- `byte[]`
+- `List`
+- Arrays (e.g., `int[]`) 
+- `Map`
+- Custom objects. 
+
+If you want to compare does types by value you need to write extra methods to do so, i.e., implement `equals(...)`.
 
 ## Instance of
 
@@ -203,6 +229,14 @@ NeoVM will represent all other classes that you create as Array stack items with
 checking the type with `instanceof` is not possible. The neow3j compiler will throw an error if you try to put any other
 type than what's on the list above on the right side of `instanceof`.
 
+## Inheritance
+
+Every Java class that doesn't explicitely extend another class is a subclass of `Object` and has access to its methods
+even without overwriting them. However, NeowJava prohibits usage of `Object` methods like `toString` or `equals`
+if they are not explicitely overridden. 
+
+Inheritance with the `extends` keyword is supported but interfaces are not.
+
 ## Unsupported Features
 
 First of all, the neow3j compiler is based on Java 8. Thus, any Java features added in higher versions are not
@@ -214,3 +248,5 @@ supported. Other features that Java 8 includes but the neow3j compiler does not 
 - Enums
 
 - Lambda Expressions
+
+- Interfaces
