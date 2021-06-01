@@ -24,7 +24,7 @@ The `MemeGovernance` has a built-in voting mechanism, so that every change on th
 
 ### Specification MemeGovernance
 
-**getMemeContract**
+#### getMemeContract
 
 ```json
 {
@@ -36,7 +36,7 @@ The `MemeGovernance` has a built-in voting mechanism, so that every change on th
 ```
 Returns the address of the underlying `MemeContract`.
 
-**getVotingTime**
+#### getVotingTime
 
 ```json
 {
@@ -48,7 +48,7 @@ Returns the address of the underlying `MemeContract`.
 ```
 Returns the timeframe (number of blocks) to vote for a proposal.
 
-**getMinVotesInFavor**
+#### getMinVotesInFavor
 
 ```json
 {
@@ -60,7 +60,7 @@ Returns the timeframe (number of blocks) to vote for a proposal.
 ```
 Gets the minimum votes in favor for a proposal to be accepted.
 
-**proposeNewMeme**
+#### proposeNewMeme
 
 ```json
 {
@@ -99,7 +99,7 @@ Creates a proposal to add a new meme.
 > - no closed **and** accepted proposal with the same `memeId`. (A closed proposal that was not accepted can be overwritten.)
 > - no meme with the same `memeId`.
 
-**proposeRemoval**
+#### proposeRemoval
 
 ```json
 {
@@ -121,7 +121,7 @@ Creates a proposal to remove an existing meme.
 > Requires:
 > - an existing meme with the same `memeId`.
 
-**vote**
+#### vote
 
 ```json
 {
@@ -154,7 +154,7 @@ Vote for a proposal (in favor or against).
 > Requires:
 > - an open proposal for the given `memeId`.
 
-**execute**
+#### execute
 
 ```json
 {
@@ -173,12 +173,12 @@ Vote for a proposal (in favor or against).
 
 Executes a finished proposal. If the proposal was about to create a meme, the meme with its properties is created on the `MemeContract`. If the proposal was about removing a meme, the meme is removed from the `MemeContract`.
 
-> **Note**: If the proposal was not accepted, it's just removed.
+> **Note**: If the proposal was not accepted, it's removed.
 
-> **Requires:**
+> Requires:
 > - a closed proposal for the specified `memeId`.
 
-**getProposals**
+#### getProposals
 
 ```json
 {
@@ -186,18 +186,22 @@ Executes a finished proposal. If the proposal was about to create a meme, the me
   "safe": true,
   "parameters": [
       {
-          "name": "startingIndex",
+          "name": "startingIndex", // The first index in the iterator on the contract.
           "type": "Integer"
       }
   ],
   "returntype": "Array"
 }
 ```
-Gets the proposals.
+Gets a list of proposals that have not been executed. The returned array holds the proposals in the structure explained in detail [below](#meme-and-proposal-structure).
+
+- `startingIndex`: the starting index of the list to be returned. The returned list has a maximum length limit of N. To get the first N proposals, use 0 as ´startingIndex´. If there exist more than N proposals, use a multiple of N as ´startingIndex´.
+
+> **Note:** The contract iterates through the proposals, creates an array of those and returns that array. The `startingIndex` marks the first proposal that is added to this array. This method is intended to be used by RPCs, since those are not made for processing large data, the deployed contract has a limit of 100 entries in the returned array. If the contract holds more than 100 proposals, you can get the data by making multiple calls and increasing `startingIndex` by 100 for each RPC.
 
 ### Specification MemeContract
 
-**getMeme**
+#### getMeme
 
 ```json
 {
@@ -212,28 +216,26 @@ Gets the proposals.
   "returntype": "Array"
 }
 ```
-Returns the meme properties of the specified meme id. (see )
+Returns the meme properties of the specified meme id. The returned array is explained in detail [below](#meme-and-proposal-structure).
 
-**getMemes**
+#### getMemes
 
-```json
+```javascript
 {
   "name": "getMemes",
   "safe": true,
   "parameters": [
     {
-      "name": "startingIndex",
+      "name": "startingIndex", // The first index in the iterator on the contract.
       "type": "Integer"
     }
   ],
   "returntype": "Array"
 }
 ```
-Returns a list of existing memes.
+Gets a list of existing memes. The returned array holds the memes in the structure explained in detail [below](#meme-and-proposal-structure).
 
-> **Note:** The returned list has a maximum length limit of N.
-
-- `startingIndex`: the starting index of the list to be returned. To get the first N memes, use 0 as ´startingIndex´. If there exist more than N memes, use a multiple of N as ´startingIndex´.
+- `startingIndex`: the starting index of the list to be returned. This method is handled the same way as the function `getProposals` (see [above](#getproposals)).
 
 ### Additional notes
 
@@ -247,24 +249,24 @@ Both contracts are linked to each other upon an initialization invocation after 
 
 The properties of a meme are passed in an array of the following structure:
 
-```json
+```javascript
 {
     "type": "Array",
     "value": [
         {
-            "name": "id",
+            "name": "id", // The id of the meme.
             "type": "String"
         },
         {
-            "name": "description",
+            "name": "description", // The description of the meme
             "type": "String"
         },
         {
-            "name": "url",
+            "name": "url", // The url of the meme.
             "type": "String"
         },
         {
-            "name": "imageHash",
+            "name": "imageHash", // The sha-256 hash of the image of the above url.
             "type": "String"
         }
     ]
@@ -272,32 +274,32 @@ The properties of a meme are passed in an array of the following structure:
 ```
 
 A proposal is returned as an array of the following structure:
-```json
+```javascript
 {
     "type": "Array",
     "value": [
         {
-            "name": "meme",
-            "type": "Array" // Meme Array as above
+            "name": "meme", // Reference to the meme that this proposal refers to (structure as above).
+            "type": "Array"
         },
         {
-            "name": "create", // whether the proposal is about to create a new meme or remove an existing one.
+            "name": "create", // Whether the proposal is about to create or remove the above meme.
             "type": "Boolean"
         },
         {
-            "name": "voteInProgress",
+            "name": "voteInProgress", // True, if this proposal can be voted for, false, if the voting is closed.
             "type": "Boolean"
         },
         {
-            "name": "finalizationBlock",
+            "name": "finalizationBlock", // The last block number that accepts any vote.
             "type": "Integer"
         },
         {
-            "name": "votesInFavor",
+            "name": "votesInFavor", // The number of votes in favor of the proposal.
             "type": "Integer"
         },
         {
-            "name": "votesAgainst",
+            "name": "votesAgainst", // The number of votes against the proposal.
             "type": "Integer"
         }
     ]
