@@ -20,7 +20,12 @@ There are two contracts, the `MemeContract` and the `MemeGovernance`. The `MemeG
 > - **MemeContract:** _8cdad4b33692fb3e4d16d8ae0ec4e5f5324c702a_
 > - **MemeGovernance:** _44588563c5a96a9d92c5b698e796c2eea7c99f0a_
 
-The `MemeGovernance` has a built-in voting mechanism, so that every change on the `MemeContract` has to pass a vote.
+The `MemeGovernance` has a built-in voting mechanism, so that every change on the `MemeContract` has to pass a vote. Users can vote in favor or against a proposal. For a proposal to be accepted, the following criteria must be met:
+- the voting time frame needs to be over (see [getVotingTime](#getVotingTime)).
+- the proposal needs a minimum of votes in favor (see [getMinVotesInFavor](#getMinVotesInFavor)).
+- the proposal needs to have more votes in favor than against.
+
+When a proposal passes its vote, it can be executed (see [execute](#execute)) and thus persisted on the ´MemeContract´.
 
 ### Specification MemeGovernance
 
@@ -46,7 +51,7 @@ Returns the address of the underlying `MemeContract`.
   "returntype": "Integer"
 }
 ```
-Returns the timeframe (number of blocks) to vote for a proposal.
+Returns the timeframe (number of blocks) to vote for a proposal after it was created.
 
 #### getMinVotesInFavor
 
