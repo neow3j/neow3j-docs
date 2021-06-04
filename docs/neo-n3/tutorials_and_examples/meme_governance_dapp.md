@@ -16,9 +16,9 @@ The dApp implements a governance protocol, where users can:
 
 There are two contracts, the `MemeContract` and the `MemeGovernance`. The `MemeGovernance` is the owner of the `MemeContract` and as such is the only entitled entity that can change the state of the `MemeContract`.
 
-> The contracts are deployed on the Neo N3 Test Net (RC2) with the following addresses:
-> - **MemeContract:** _3b4572c517d08a8ba46632cc35f45f4ca8081a01_
-> - **MemeGovernance:** _43000f84c46df29e25d58a089d5564dbe23c15bc_
+> The contracts are deployed on the Neo N3 Test Net with the following addresses:
+> - **MemeContract:** _8cdad4b33692fb3e4d16d8ae0ec4e5f5324c702a_
+> - **MemeGovernance:** _44588563c5a96a9d92c5b698e796c2eea7c99f0a_
 
 The `MemeGovernance` has a built-in voting mechanism, so that every change on the `MemeContract` has to pass a vote.
 
@@ -26,7 +26,7 @@ The `MemeGovernance` has a built-in voting mechanism, so that every change on th
 
 #### getMemeContract
 
-```json
+```javascript
 {
   "name": "getMemeContract",
   "safe": true,
@@ -38,7 +38,7 @@ Returns the address of the underlying `MemeContract`.
 
 #### getVotingTime
 
-```json
+```javascript
 {
   "name": "getVotingTime",
   "safe": true,
@@ -50,7 +50,7 @@ Returns the timeframe (number of blocks) to vote for a proposal.
 
 #### getMinVotesInFavor
 
-```json
+```javascript
 {
   "name": "getMinVotesInFavor",
   "safe": true,
@@ -62,25 +62,25 @@ Gets the minimum votes in favor for a proposal to be accepted.
 
 #### proposeNewMeme
 
-```json
+```javascript
 {
   "name": "proposeNewMeme",
   "safe": false,
   "parameters": [
       {
-          "name": "memeId",
-          "type": "ByteArray"
-      },
-      {
-          "name": "description",
+          "name": "memeId", // A unique id/name for this new meme.
           "type": "String"
       },
       {
-          "name": "url",
+          "name": "description", // A description of the meme.
           "type": "String"
       },
       {
-          "name": "imageHash",
+          "name": "url", // An image url that points directly to the meme file.
+          "type": "String"
+      },
+      {
+          "name": "imageHash", // The SHA-256 hash of the meme file found under the provided url.
           "type": "String"
       }
   ],
@@ -89,26 +89,21 @@ Gets the minimum votes in favor for a proposal to be accepted.
 ```
 Creates a proposal to add a new meme.
 
-- `memeId`: The id of the new meme. It can be any byte array.
-- `description`: A short description of the meme.
-- `url`: The image url that points directly to the meme file.
-- `imageHash`: The SHA-256 hash of the meme file found under the provided url.
-
-> Requires:
-> - no open (voting in progress) proposal with the same `memeId`.
-> - no closed **and** accepted proposal with the same `memeId`. (A closed proposal that was not accepted can be overwritten.)
-> - no meme with the same `memeId`.
+**Requirements:**
+- no open (voting in progress) proposal with the same `memeId`.
+- no closed **and** accepted proposal with the same `memeId`. (A closed proposal that was not accepted can be overwritten.)
+- no meme with the same `memeId`.
 
 #### proposeRemoval
 
-```json
+```javascript
 {
   "name": "proposeRemoval",
   "safe": false,
   "parameters": [
       {
-          "name": "memeId",
-          "type": "ByteArray"
+          "name": "memeId", // The id/name of an existing meme to be removed.
+          "type": "String"
       }
   ],
   "returntype": "Void"
@@ -116,71 +111,63 @@ Creates a proposal to add a new meme.
 ```
 Creates a proposal to remove an existing meme.
 
-- `memeId`: The id of an existing meme to be removed.
-
-> Requires:
-> - an existing meme with the same `memeId`.
+**Requirements:**
+- an existing meme with the same `memeId`.
 
 #### vote
 
-```json
+```javascript
 {
   "name": "vote",
   "safe": false,
   "parameters": [
       {
-          "name": "memeId",
-          "type": "ByteArray"
+          "name": "memeId", // The id/name of the meme that this proposal is about.
+          "type": "String"
       },
       {
-          "name": "voter",
+          "name": "voter", // The voter's script hash.
           "type": "Hash160"
       },
       {
-          "name": "inFavor",
+          "name": "inFavor", // True to vote in favor and false to vote against a proposal.
           "type": "Boolean"
       }
   ],
   "returntype": "Void"
 }
 ```
-
-- `memeId`: The id of the meme that this proposal is about.
-- `vote`: The voter's script hash.
-- `inFavor`: True to vote in favor and false to vote against a proposal.
-
 Vote for a proposal (in favor or against).
 
-> Requires:
-> - an open proposal for the given `memeId`.
+**Requirements:**
+- an open proposal for the given `memeId`.
+- the voter is required to be a signer (with called by entry scope).
 
 #### execute
 
-```json
+```javascript
 {
   "name": "execute",
   "safe": false,
   "parameters": [
       {
-          "name": "memeId",
-          "type": "ByteArray"
+          "name": "memeId", // The meme id/name that the proposal was about.
+          "type": "String"
       }
   ],
   "returntype": "Boolean"
 }
 ```
-- `memeId`: The meme id the proposal was about.
-
 Executes a finished proposal. If the proposal was about to create a meme, the meme with its properties is created on the `MemeContract`. If the proposal was about removing a meme, the meme is removed from the `MemeContract`.
 
 > **Note**: If the proposal was not accepted, it's removed.
 
-> Requires:
-> - a closed proposal for the specified `memeId`.
+**Requirements:**
+- a closed proposal for the specified `memeId`.
 
 #### getProposals
 
-```json
+```javascript
 {
   "name": "getProposals",
   "safe": true,
@@ -195,22 +182,20 @@ Executes a finished proposal. If the proposal was about to create a meme, the me
 ```
 Gets a list of proposals that have not been executed. The returned array holds the proposals in the structure explained in detail [below](#meme-and-proposal-structure).
 
-- `startingIndex`: the starting index of the list to be returned. The returned list has a maximum length limit of N. To get the first N proposals, use 0 as ´startingIndex´. If there exist more than N proposals, use a multiple of N as ´startingIndex´.
-
-> **Note:** The contract iterates through the proposals, creates an array of those and returns that array. The `startingIndex` marks the first proposal that is added to this array. This method is intended to be used by RPCs, since those are not made for processing large data, the deployed contract has a limit of 100 entries in the returned array. If the contract holds more than 100 proposals, you can get the data by making multiple calls and increasing `startingIndex` by 100 for each RPC.
+> **Note:** The returned list size is limited. This method is intended to be used by RPCs, since those are not made for processing large data, the deployed contract has a limit of 100 entries in the returned array. If the contract holds more than 100 proposals, you can get the data by making multiple calls and increasing `startingIndex` by 100 for each RPC. E.g. use 0 to get the first 100 proposals.
 
 ### Specification MemeContract
 
 #### getMeme
 
-```json
+```javascript
 {
   "name": "getMeme",
   "safe": true,
   "parameters": [
     {
-      "name": "memeId",
-      "type": "ByteArray"
+      "name": "memeId", // The id/name of the meme.
+      "type": "String"
     }
   ],
   "returntype": "Array"
@@ -235,7 +220,7 @@ Returns the meme properties of the specified meme id. The returned array is expl
 ```
 Gets a list of existing memes. The returned array holds the memes in the structure explained in detail [below](#meme-and-proposal-structure).
 
-- `startingIndex`: the starting index of the list to be returned. This method is handled the same way as the function `getProposals` (see [above](#getproposals)).
+> **Note:** The starting index is handled the same way as in the function `getProposals` (see [above](#getProposals)).
 
 ### Additional notes
 
@@ -244,6 +229,8 @@ Both contracts are linked to each other upon an initialization invocation after 
 - Sets the owner on the `MemeContract` to the address of the `MemeGovernance`.
 - Sets the memeContract to the provided address on the `MemeGovernance`.
 - Sets the owner of the `MemeGovernance` to the zero address.
+
+> **Note:** You can check whether the contracts are initialized by calling the function `getOwner` on both contracts. The contracts are correctly initialized/linked, if the owner of the `MemeGovernance` contract is the zero address and the owner of the `MemeContract` is the address of the `MemeGovernance` contract.
 
 ### Meme and Proposal Structure
 
@@ -254,11 +241,11 @@ The properties of a meme are passed in an array of the following structure:
     "type": "Array",
     "value": [
         {
-            "name": "id", // The id of the meme.
+            "name": "id", // The unique id/name of the meme.
             "type": "String"
         },
         {
-            "name": "description", // The description of the meme
+            "name": "description", // The description of the meme.
             "type": "String"
         },
         {
