@@ -214,7 +214,7 @@ If you want to compare does types by value you need to write extra methods to do
 
 The neow3j compiler supports the `instanceof` keyword for only for the following types:
 
-- `int`, `byte`, `short`, `char`, `long`
+- `int` (and all other number types)
 - `boolean`
 - `byte[]`
 - `java.lang.String`
@@ -235,7 +235,8 @@ Every Java class that doesn't explicitely extend another class is a subclass of 
 even without overwriting them. However, NeowJava prohibits usage of `Object` methods like `toString` or `equals`
 if they are not explicitely overridden. 
 
-Inheritance with the `extends` keyword is supported but interfaces are not.
+Suport for inheritance with the `extends` keyword is in development. It currently only works properly with Contract
+Interfaces as described [here](neo-n3/smart_contract_development/devpack.md#smart-contract-interfaces).
 
 ## Unsupported Features
 
