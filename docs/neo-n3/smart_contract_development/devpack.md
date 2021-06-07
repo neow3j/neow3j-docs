@@ -17,6 +17,18 @@ You can find the documentation on it in the official
 [Neo docs](https://docs.neo.org/v3/docs/en-us/reference/scapi/fw/dotnet/neo.html). 
 
 
+## Hashes
+
+As with neow3j SDK, the devpack provides special types for hashes too. Use `Hash160` for contract and account hashes and
+`Hash256` for transaction and block hashes. The underlying stack item of both of these types is a NeoVM byte string,
+thus, changing to and from `ByteString` doesn't require an actual conversion. Though, when you use the constructors
+`Hash160(ByteString value)` an `Hash256(ByteString value)` the devpack inserts checks that make sure the value is a
+valid hash of the respective size.
+
+You can use the `isValid()` method if a contract method takes a hash as a parameter and you can't be sure if the
+underlying actually is a valid hash. The compiler and NeoVM don't automatically include such checks because that implies
+more GAS consumption even if you don't need such a check. 
+
 ## Storage
 
 Every smart contract on the Neo blockchain has its own key-value storage. This storage is accessed
@@ -48,7 +60,7 @@ the `io.neow3j.devpack.contracts` package. All of Neo's native contracts are rep
 e.g., interfaces to access token contracts.
 
 If you need to call a method of a native contract, e.g., get the hash of the latest block, use the corresponding static
-method on the contract interface. 
+method on the contract interface. An overview of the functionality of the native contracts is described in 
 
 ```java
 Hash256 blockHash = LedgerContract.currentHash();
@@ -90,6 +102,14 @@ class MyTokenContract extends FungibleToken {
 
 }
 ```
+
+## Native Contracts
+
+### StdLib
+
+When using the `StdLib.jsonSerialize(Object o)` method for a value or object that contains a byte string or byte array
+(e.g., `ByteString`, `byte[]`, or `Hash160`) make sure to first Base64-encoded that value. Otherwise, it will be
+interpreted as a UTF-8 encoded string, which might lead to errors. It will not be presented in the JSON as a hexadecimal string.
 
 ## Events
 
