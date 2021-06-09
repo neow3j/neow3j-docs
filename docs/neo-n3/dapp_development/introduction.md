@@ -17,16 +17,16 @@ _core_ module is a dependency of the _contract_ module, so if you add _contract_
 will get the _core_ module as well.
 
 **`io.neow3j:core`** contains
-  - Basic definitions and enums
+  - Basic definitions and enums.
   - Utility methods of which the most notable classes are, e.g., for handling hex strings. 
-  - Cryptographic methods related to key pairs (class `ECKeyPair`) and signatures (class `Sign`)
+  - Cryptographic methods related to key pairs (class `ECKeyPair`) and signatures (class `Sign`).
   - Wallet and account management, i.e., the handling of key pairs or reading from and writing to NEP-6 wallet files.
   - Interaction with the Neo blockchain, i.e., communication via JSON-RPC with a Neo node. 
   - The `Transaction` and `ScriptBuilder` classes that are fundamental for constructing contract invocations of any
     kind.
 
-**`io.neow3j:contract`** contain
-- Functionality related to smart contracts. 
+**`io.neow3j:contract`** contains
+- Functionality related to smart contracts.
 - Classes that allow easy interaction with native contracts.
 - Classes that represent and allow easy interaction with contracts following a certain standard, like the NEP-17 token
   standard.
