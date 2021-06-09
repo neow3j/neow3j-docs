@@ -172,6 +172,53 @@ Once an event is declared, it can then be used in contract methods by calling it
     }
 ```
 
+## Special Contract Methods
+
+There are a couple of contract methods that have a special purpose. The neow3j devpack provides annotations to mark them
+in your contract code. Using the annotations will make it easier to spot the methods in your code and allows the
+compiler to make checks that help finding errors in these methods faster.
+
+### _deploy
+
+This method is called right after a contract is deployed or updated. More precisely, the *ContractManamgement* contract
+will call this method on your contract when you invoke `deploy` or `update` on the *ContractManagement*. You can use it
+to setup and configure your contract at deploy-time. 
+Use the devpack's `io.neow3j.devpack.annotations.OnDeployment` annotation on the designated method. Your method's name
+does not have to be `_deploy`, but can be anything. Although, in the contract manifest it will show up under the name
+`_deploy`. The method's signature must be `void methodName(Object data, boolean isUpdate)`.
+
+### verify
+
+This method is called if your contract is invoked with the verification trigger. For example, when a contract owns
+tokens and you issue a withdraw transaction that transfers those tokens to another account/contract, the contract
+is called with the verification trigger. In other words the contract's `verify` method is called. Most often the
+`verify` method contains a simple witness check on the owner of the contract.
+Use the devpack's `io.neow3j.devpack.annotations.OnVerification` annotation on the designated method. Your method's name
+does not have to be `verify`, but can be anything. Although, in the contract manifest it will show up under the name
+`verify`. The method must return a boolean and can have any number of parameters.
+
+Note, that the verification method must not fire any events. If you fire an event from within your `verify` method,
+verification will fail everytime.
+
+### onNEP17Payment
+
+Your contract requires this method to be able to receive tokens from NEP-17 contracts, i.e., fungible tokens like NEO or
+GAS. Any contract that follows the NEP-17 standard will call this method on your contract if some of its tokens are
+transferred to your contract. 
+Use the devpack's `io.neow3j.devpack.annotations.OnNEP17Payment` annotation on the designated method. Your method's name
+does not have to be `onNEP17Payment`, but can be anything. Although, in the contract manifest it will show up under the
+name `onNEP17Payment`. The method's signature must be `void methodName(Hash160 sender, int amount, Object data)`.
+
+### onNEP11Payment
+
+Your contract requires this method to be able to receive tokens from NEP-17 contracts, i.e., non-fungible tokens. Any
+contract that follows the NEP-11 standard will call this method on your contract if some of its tokens are transferred
+to your contract. Use the devpack's `io.neow3j.devpack.annotations.OnNEP11Payment` annotation on the designated method.
+Your method's name does not have to be `onNEP11Payment`, but can be anything. Although, in the contract manifest it will
+show up under the name `onNEP11Payment`. The method's signature must be `void methodName(Hash160 sender, int amount,
+ByteString tokenId, Object data)`.
+
+
 ## Annotations
 
 The devpack provides several annotations to be used on smart contract classes and methods. All annotation are contained

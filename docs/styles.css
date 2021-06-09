@@ -11,3 +11,11 @@
   font-weight: 300;
   text-align: center;
 }
+
+.markdown-section h3 {
+  font-size: 1.3rem;
+}
+
+.markdown-section h4 {
+  font-size: 1.1rem;
+}
