@@ -219,8 +219,97 @@ show up under the name `onNEP11Payment`. The method's signature must be `void me
 ByteString tokenId, Object data)`.
 
 
-## Annotations
+## Permissions, Trusts, Groups, Safe Methods, and Call Flags
+
+The basis of authorization on the Neo blockchain are cryptographic signatures. Users attach signatures to contract
+invocations to proove that they are authorized to perform certain actions in a smart contract. This authorization can be
+misused by smart contracts. A malicious contract can use the signature to perform a token transfer unintended by the
+user. To prevent that, Neo applies witness scopes that allow the user to restrict the use of their witness/signature. By
+default a witness is only valid in the contract that is the entry point of an invocation. The scope can be extended to
+specific contracts, groups of contracts or to a global scope.
+
+### Groups
+
+Smart contract groups are designated by an EC public key. The contract manifest contains the affiliation of a contract
+with a group as shown below.
+
+```json
+"groups": [
+    {
+        "pubkey":"033a4d051b04b7fc0230d2b1aaedfd5a84be279a5361a7358db665ad7857787f1b",
+        "signature":"DEA2r+67KlQc/dIvEdOXMIGCm7x+V5vXT5ZRtGRwOlDxBuqzur/OU8OSitiYn5f6tQywog8FziGp5S2VI2/5Wnxj"
+    }
+],
+```
+
+The public key identifies the group and the signature is proof that the originator of the contract was in possession of
+the corresponding private key material. The signature is created from the contract's hash and needs to be
+Base64-encoded. Thus, if you want to add your contract to a group you first need to compile it, calculate the contract
+hash, create the signature over that hash and extend the contract manifest with the group's public key and the produced
+signature. Note, that the contract hash depends on the account used to deploy the contract. I.e., you need to know in
+advance which account you will use to deploy the contract. To retrieve the contract hash and produce the signature you
+can use the neow3j SDK as in the following example code.
+
+```java
+Hash160 sender = ...;
+ContractManifest manifest = ...;
+NefFile nefFile = ...;
+Hash160 contractHash = SmartContract.calcContractHash(sender, nefFile.getCheckSumAsInteger(), manifest.getName());
+
+ECKeyPair keyPair = ...;
+Sign.SignatureData sig = Sign.signMessage(contractHash.toArray(), keyPair);
+String encSig = Base64.encode(sig.getConcatenated());
+```
+
+You will have to modify the contract manifest JSON file and add the produced encoded signature and the public
+key to the `groups` section manually.
+
+### Permissions 
+
+Besides witness scopes, smart contract security is improved by a system of permissions and trusts that a contract
+developer can define for her contract. Permissions define which contracts your contract is permitted to call. They are
+actively enforced, meaning that once defined in the contract's manifest, any calls from within your contract to
+contracts and methods not contained in the permissions will fail. To define permissions use the 
+`io.neow3j.devpack.annotations.Permission` annotation on class level of your contract class. By default your contract
+will have no permissions. 
+
+The following is an example configuration. It allows your contract to call any method of the contract
+with hash `726cb6e0cd8628a1350a611384688911ab75f51b`, the methods `getBalance` and `transfer` of the contract with hash
+`d2a4cff31913016155e38e474a2c06d08be276cf`, and the method `commonMethodName` of any contract in the group with public key
+`033a4d051b04b7fc0230d2b1aaedfd5a8  4be279a5361a7358db665ad7857787f1b`.
+
+```java
+@Permission(contract = "726cb6e0cd8628a1350a611384688911ab75f51b", methods = "*")
+@Permission(contract = "d2a4cff31913016155e38e474a2c06d08be276cf", methods = ["getBalance", "transfer"])
+@Permission(contract = "033a4d051b04b7fc0230d2b1aaedfd5a84be279a5361a7358db665ad7857787f1b", methods = "commonMethodName")
+public class MyContract {
+```
+
+If you want to allow your contract to call any other contract, use the wildcard permission 
+`@Permission(contract = "*", methods = "*")`.
+
+### Trusts
+
+Trusts define what contracts can call your contract, but, in contrast to permissions they are not enforeced. I.e., you
+cannot deter other contracts from calling yours. Trusts are only a definition that wallets and other dApps can use to
+tell the user when a contract is invoked that doesn't trust the calling contract. 
+
+By default the trust probperty is empty, i.e., no contracts are trusted. Use the `io.neow3j.devpack.annotations.Trust`
+annotation to define trusts like in the following example. The first entry is based on a single smart contract hash and
+the second one on a public key of a contract group.
+
+```java
+@Trust("acce6fd80d44e1796aa0c2c625e9e4e0ce39efc0")
+@Trust("033a4d051b04b7fc0230d2b1aaedfd5a84be279a5361a7358db665ad7857787f1b")
+public class MyContract {
+```
+
+If you want to trust any contract use the wildcard option `@Trust("*")`.
+
+<!-- ### Safe methods -->
+
+<!-- ## Annotations
 
 The devpack provides several annotations to be used on smart contract classes and methods. All annotation are contained
 in the [`io.neow3j.devpack.annotations`](https://javadoc.io/doc/io.neow3j/devpack/latest/io/neow3j/devpack/annotations/package-summary.html)
-package. Check the Javadocs for more information on what the annotations do.
+package. Check the Javadocs for more information on what the annotations do. -->
