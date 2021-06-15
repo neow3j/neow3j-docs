@@ -306,7 +306,23 @@ public class MyContract {
 
 If you want to trust any contract use the wildcard option `@Trust("*")`.
 
-<!-- ### Safe methods -->
+### Safe methods
+
+Methods that don't change state of a contract and don't fire events can be safely invoked in a read-only mode. To signal
+that to the Neo network, you can use the `io.neow3j.devpack.annotations.Safe` annotation on method-level. The method
+will be tagged as safe in the contract's manifest.
+
+If your `@Safe`-annotate a method does change state or fire an event, invocations of that method will fail.
+
+
+### Call Flags
+
+Call flags allow you to restrict the actions of a contract you call within your contract. For example, you can deny
+further calls to other contracts, changing blockchain state, or firing events.
+
+The possible flags are defined and docuemented in `io.neow3j.devpack.constants.CallFlags` and are ment to be used in the
+`call` method of the `io.neow3j.devpack.Contract` class.
+
 
 <!-- ## Annotations
 
