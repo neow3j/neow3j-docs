@@ -109,7 +109,8 @@ class MyTokenContract extends FungibleToken {
 
 When using the `StdLib.jsonSerialize(Object o)` method for a value or object that contains a byte string or byte array
 (e.g., `ByteString`, `byte[]`, or `Hash160`) make sure to first Base64-encoded that value. Otherwise, it will be
-interpreted as a UTF-8 encoded string, which might lead to errors. It will not be presented in the JSON as a hexadecimal string.
+interpreted as a UTF-8 encoded string, which might lead to errors. It will not be presented in the JSON as a hexadecimal
+string.
 
 ## Events
 
@@ -153,13 +154,11 @@ be declared inside of a method body.
     private static Event2Args<Integer, String> onTransfer;
 ```
 
-It is not necessary to initialize the variables with an actual instance. This is counter-intuitive
-for a Java developer, but remember, we are not developing for the JVM here, but for the neo-vm. The
-variables are simply a definition of an event, with a name, the number and type of state parameters
-that the event can take. All event classes follow the naming schema `Event[n]Args`, where `n` is the
-number of state parameters the event takes. The `@DisplayName` annotation is optional and can be
-used to define a different name for the event than the variable name. If it is not used, the
-variable name is the event name.
+It is not necessary to initialize the variables with an actual instance. This is counter-intuitive for a Java developer,
+but, the variables are not meant to have an actual value. They are only definitions, with a name and the number and
+types of state parameters. All event classes follow the naming schema `Event[n]Args`, where `n` is the number of state
+parameters the event takes. The `@DisplayName` annotation is optional and can be used to define a different name for the
+event than the variable name. If it is not used, the variable name is the event name.
 
 Once an event is declared, it can then be used in contract methods by calling its `fire(...)` method. 
 
@@ -306,7 +305,7 @@ public class MyContract {
 
 If you want to trust any contract use the wildcard option `@Trust("*")`.
 
-### Safe methods
+### Safe Methods
 
 Methods that don't change state of a contract and don't fire events can be safely invoked in a read-only mode. To signal
 that to the Neo network, you can use the `io.neow3j.devpack.annotations.Safe` annotation on method-level. The method
