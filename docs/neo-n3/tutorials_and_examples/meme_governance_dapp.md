@@ -14,13 +14,15 @@ The dApp implements a governance protocol, where users can:
 
 ## Contracts
 
-There are two contracts, the `MemeContract` and the `MemeGovernance`. The `MemeGovernance` is the owner of the `MemeContract` and as such is the only entitled entity that can change the state of the `MemeContract`.
+There are two contracts, the `MemeContract` and the `MemeGovernance`. The `MemeGovernance` is the owner of the `MemeContract` and as such is the
+only entitled entity that can change the state of the `MemeContract`.
 
 > The contracts are deployed on the Neo N3 Test Net with the following addresses:
 > - **MemeContract:** _8cdad4b33692fb3e4d16d8ae0ec4e5f5324c702a_
 > - **MemeGovernance:** _44588563c5a96a9d92c5b698e796c2eea7c99f0a_
 
-The `MemeGovernance` has a built-in voting mechanism, so that every change on the `MemeContract` has to pass a vote. Users can vote in favor or against a proposal. For a proposal to be accepted, the following criteria must be met:
+The `MemeGovernance` has a built-in voting mechanism, so that every change on the `MemeContract` has to pass a vote. Users can vote in favor or
+against a proposal. For a proposal to be accepted, the following criteria must be met:
 - the voting time frame needs to be over (see [getVotingTime](#getVotingTime)).
 - the proposal needs a minimum of votes in favor (see [getMinVotesInFavor](#getMinVotesInFavor)).
 - the proposal needs to have more votes in favor than against.
@@ -163,7 +165,8 @@ Vote for a proposal (in favor or against).
   "returntype": "Boolean"
 }
 ```
-Executes a finished proposal. If the proposal was about to create a meme, the meme with its properties is created on the `MemeContract`. If the proposal was about removing a meme, the meme is removed from the `MemeContract`.
+Executes a finished proposal. If the proposal was about to create a meme, the meme with its properties is created on the `MemeContract`. If the
+proposal was about removing a meme, the meme is removed from the `MemeContract`.
 
 > **Note**: If the proposal was not accepted, it's removed.
 
@@ -187,7 +190,9 @@ Executes a finished proposal. If the proposal was about to create a meme, the me
 ```
 Gets a list of proposals that have not been executed. The returned array holds the proposals in the structure explained in detail [below](#meme-and-proposal-structure).
 
-> **Note:** The returned list size is limited. This method is intended to be used by RPCs, since those are not made for processing large data, the deployed contract has a limit of 100 entries in the returned array. If the contract holds more than 100 proposals, you can get the data by making multiple calls and increasing `startingIndex` by 100 for each RPC. E.g. use 0 to get the first 100 proposals.
+> **Note:** The returned list size is limited. This method is intended to be used by RPCs, since those are not made for processing large data,
+> the deployed contract has a limit of 100 entries in the returned array. If the contract holds more than 100 proposals, you can get the data by
+> making multiple calls and increasing `startingIndex` by 100 for each RPC. E.g. use 0 to get the first 100 proposals.
 
 ### Specification MemeContract
 
@@ -229,13 +234,15 @@ Gets a list of existing memes. The returned array holds the memes in the structu
 
 ### Additional notes
 
-Both contracts are linked to each other upon an initialization invocation after deployment. The contracts are first deployed separately. To link them, the creator invokes the method `initialize` on the `MemeGovernance` contract with the address of the `MemeContract` as parameter. This method executes the following:
+Both contracts are linked to each other upon deployment of the governance contract. The contracts are both deployed separately. The meme
+contract is deployed first and then the governance contract is deployed with the meme contract's hash as data parameter. Upon deploying the
+governance contract, the following steps are executed:
 
-- Sets the owner on the `MemeContract` to the address of the `MemeGovernance`.
-- Sets the memeContract to the provided address on the `MemeGovernance`.
-- Sets the owner of the `MemeGovernance` to the zero address.
+- The owner on the `MemeContract` is set to the address of the `MemeGovernance`.
+- The memeContract is set on the `MemeGovernance`.
 
-> **Note:** You can check whether the contracts are initialized by calling the function `getOwner` on both contracts. The contracts are correctly initialized/linked, if the owner of the `MemeGovernance` contract is the zero address and the owner of the `MemeContract` is the address of the `MemeGovernance` contract.
+> **Note:** You can check whether the meme contract is initialized by calling the function `getOwner` on it and then `getMemeContract` on
+> the returned address. The contracts are correctly linked, if the owner of the `MemeContract` is the address of the `MemeGovernance` contract.
 
 ### Meme and Proposal Structure
 
