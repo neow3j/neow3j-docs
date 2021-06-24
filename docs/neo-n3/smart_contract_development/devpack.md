@@ -37,10 +37,13 @@ additional concept between you and the storage potentially allows you to pass th
 contract, which could then access your contract's storage directly. 
 
 In the devpack, the storage context is represented by the `io.neow3j.devpack.neo.StorageContext` class. The pivotal
-class related to contract storage is `io.neow3j.devpack.neo.Storage`. It provides many `put(...)` and `get()` methods
+class related to contract storage is `io.neow3j.devpack.neo.Storage`. It provides many `put(...)` and `get(...)` methods
 for writing to the storage and reading from it. Each of theses methods requires the storage context as an argument.
 Thus, it makes sense to retrieve the `StorageContext` once with `Storage.getStorageContext()`, store it in a static
 class variable and reuse it every time the storage is accessed. This will save GAS in contract invocations.
+
+Note that the size for storage keys and values is limited to 64 bytes and 65535 bytes, respectively. When using the
+`StorageMap` class, the map prefix counts towards the key size.
 
 
 <!-- Storing and loading objects to and from a contract's storage is possible by using the `StdLib`
