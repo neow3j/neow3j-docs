@@ -14,6 +14,10 @@ The dApp implements a governance protocol, where users can:
 
 ## Contracts
 
+The GitHub repo with the Smart Contracts presented in this section can be found here:
+
+> https://github.com/AxLabs/meme-governance-contracts
+
 There are two contracts, the `MemeContract` and the `MemeGovernance`. The `MemeGovernance` is the owner of the `MemeContract` and as such is the
 only entitled entity that can change the state of the `MemeContract`.
 
@@ -305,6 +309,46 @@ A proposal is returned as an array of the following structure:
 }
 ```
 
-## Frontend dApp
+## dApp: Frontend
 
-TBD.
+The GitHub repo with the frontend presented in this section can be found here:
+
+> https://github.com/AxLabs/meme-governance-frontend
+
+The frontend was built with [NextJS](https://nextjs.org/), and it's composed of:
+
+* **Landing Page:** general information about the Meme Governance dApp
+  * Served on the `/` path, e.g., `http://localhost:8080/`
+* **dApp:** the actual dApp implementation, where all actions are exposed to users
+  * Served on the `/dapp` path, e.g., `http://localhost:8080/dapp`
+  * 🚀 **Full integration to [NeoLine](https://neoline.io/en/) browser wallet**
+
+This project is meant to be used as a boilerplate to bootstrap projects in a fast and easy way.
+
+### Getting Started
+
+Run the following commands on your local environment:
+
+```shell
+git clone --depth=1 https://github.com/AxLabs/meme-governance-frontend.git my-project-name
+cd my-project-name
+npm install
+```
+
+If you're a developer, and want to run locally in **development mode with live reload**:
+
+```shell
+npm run dev
+```
+
+If you want to create an **optimized production build**, then execute:
+
+```shell
+npm run build-prod
+```
+
+To serve the optimized production build, run:
+
+```shell
+npm run start
+```
