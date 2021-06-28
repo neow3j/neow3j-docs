@@ -305,7 +305,7 @@ A proposal is returned as an array of the following structure:
 }
 ```
 
-## dApp: Frontend
+## Frontend
 
 The GitHub repo with the frontend presented in this section can be found here:
 
