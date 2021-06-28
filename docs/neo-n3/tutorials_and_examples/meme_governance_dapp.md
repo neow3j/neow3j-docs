@@ -18,14 +18,10 @@ The GitHub repo with the Smart Contracts presented in this section can be found 
 
 > https://github.com/AxLabs/meme-governance-contracts
 
-There are two contracts, the `MemeContract` and the `MemeGovernance`. The `MemeGovernance` is the owner of the `MemeContract` and as such is the
-only entitled entity that can change the state of the `MemeContract`.
+There are two contracts, the `MemeContract` and the `GovernanceContract`. The `GovernanceContract` is the owner of the
+`MemeContract` and as such is the only entitled entity that can change the state of the `MemeContract`.
 
-> The contracts are deployed on the Neo N3 Test Net with the following addresses:
-> - **MemeContract:** _8cdad4b33692fb3e4d16d8ae0ec4e5f5324c702a_
-> - **MemeGovernance:** _44588563c5a96a9d92c5b698e796c2eea7c99f0a_
-
-The `MemeGovernance` has a built-in voting mechanism, so that every change on the `MemeContract` has to pass a vote. Users can vote in favor or
+The `GovernanceContract` has a built-in voting mechanism, so that every change on the `MemeContract` has to pass a vote. Users can vote in favor or
 against a proposal. For a proposal to be accepted, the following criteria must be met:
 - the voting time frame needs to be over (see [getVotingTime](#getVotingTime)).
 - the proposal needs a minimum of votes in favor (see [getMinVotesInFavor](#getMinVotesInFavor)).
@@ -33,7 +29,7 @@ against a proposal. For a proposal to be accepted, the following criteria must b
 
 When a proposal passes its vote, it can be executed (see [execute](#execute)) and thus persisted on the ´MemeContract´.
 
-### Specification MemeGovernance
+### Specification GovernanceContract
 
 #### getMemeContract
 
@@ -92,7 +88,7 @@ Gets the minimum votes in favor for a proposal to be accepted.
       },
       {
           "name": "imageHash", // The SHA-256 hash of the meme file found under the provided url.
-          "type": "String"
+          "type": "ByteArray"
       }
   ],
   "returntype": "Void"
@@ -242,11 +238,11 @@ Both contracts are linked to each other upon deployment of the governance contra
 contract is deployed first and then the governance contract is deployed with the meme contract's hash as data parameter. Upon deploying the
 governance contract, the following steps are executed:
 
-- The owner on the `MemeContract` is set to the address of the `MemeGovernance`.
-- The memeContract is set on the `MemeGovernance`.
+- The owner on the `MemeContract` is set to the address of the `GovernanceContract`.
+- The `MemeContract` hash is set on the `GovernanceContract` for all future invocations.
 
-> **Note:** You can check whether the meme contract is initialized by calling the function `getOwner` on it and then `getMemeContract` on
-> the returned address. The contracts are correctly linked, if the owner of the `MemeContract` is the address of the `MemeGovernance` contract.
+> **Note:** You can check whether the two contracts are correctly initialized by calling `MemeContract.getOwner()` and
+  `GovernanceContract.getMemeContract()`.  
 
 ### Meme and Proposal Structure
 
@@ -270,7 +266,7 @@ The properties of a meme are passed in an array of the following structure:
         },
         {
             "name": "imageHash", // The sha-256 hash of the image of the above url.
-            "type": "String"
+            "type": "ByteArray"
         }
     ]
 }
