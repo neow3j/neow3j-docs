@@ -31,21 +31,17 @@ represents a wrapper for token contracts that comply with the NEP-11 standard fo
    ----------      ----------         ----------------
 ```
 
-All of these classes provide methods to build scripts and a transactions for invoking the repspective contract. The
-methods return a `TransactionBuilder` that can be used to further configure the transaction, e.g., specify signers or an
-additional network fee. The transaction can then be signed and built, and the returned `Transaction` sent to a Neo node.
-Or an unsigned `Transaction` can be created for later signing.
+All of these classes provide methods to build scripts and a transactions for contract invocation. The methods return a
+`TransactionBuilder` that can be used to further configure the transaction, e.g., specify signers or an additional
+network fee. The transaction can then be signed and built, and the returned `Transaction` sent to a Neo node.  Or an
+unsigned `Transaction` can be created for later signing.
 
 
 ## Fungible Token Contracts (NEP-17)
 
 ### Transfer from the default Account
 
-In the simplest scenario, you have a `Wallet` that contains an `Account` with a public and a private key. E.g. a newly
-created one, as in the example below, or one from a wallet that you loaded from a NEP-6 file. If you instantiated
-the wallet from a NEP-6 file, make sure that the account you want to use has been decrypted either with
-`Account.decryptPrivateKey(...)` or `Wallet.decryptAllAccounts(...)`. This is necessary for automatically creating the
-transaction signature.
+In the simplest scenario, you want to perform a token transfer with the default account of a wallet (see `Wallet.getDefaultAccount()`).
 
 ```java
 Account account1 = Account.fromWIF("L3kCZj6QbFPwbsVhxnB8nUERDy4mhCSrWJew4u5Qh5QmGMfnCTda");
@@ -56,46 +52,38 @@ BigDecimal amount = new BigDecimal("15");
 
 NeoSendRawTransaction response = NeoToken(neow3j)
         .transferFromDefaultAccount(wallet, to, amount)
-        .signers(Signer.calledByEntry(account1.getScriptHash()))
-        .wallet(wallet)
-        .additionalNetworkFee(1L)
         .sign()
         .send();
 ```
 
-In this example, the method `transfer()` builds an invocation script and returns a `TransactionBuilder`. There, the wallet, signers
-and an additional network fee are specified. With the method `sign()` the transaction is build, signed and a `Transaction` is returned
-that is then sent to the Neo network.
+In this example, the method `transferFromDefaultAccount()` builds an invocation script and returns a
+`TransactionBuilder`. The default account of the wallet is automatically set to be the transaction signer with a
+*calledByEntry* witness scope. Calling `sign()` builds the transaction and signs it. The returned `Transaction` is then 
+sent to the Neo network.
 
 ### Transfer using all Accounts in the Wallet
 
-In the previous example, the wallet only holds one account. However, if your wallet contains
-multiple accounts, and your default account may not hold enough token for a transfer you want to
-make, you can use the method `transfer()` which uses your whole wallet to cover a tranfer if
-necessary. That means, that if the default account in the wallet cannot cover the specified amount,
-the other accounts in the wallet are used to cover this amount. The method adds the necessary
-signers and the wallet to the `TransactionBuilder`, so it is not necessary to configure that
-manually.
+In the previous example, the transaction used only one account. However, if your wallet contains multiple accounts, and
+your default account doesn't hold enough tokens for a transfer, you can use the method `transfer()` which uses your
+whole wallet to cover a tranfer. That means, that if the default account in the wallet cannot cover the specified
+amount, the other accounts in the wallet are used to cover it. Neow3j adds the necessary signers and witnesses automatically.
 
 ```java
+Account account1 = Account.fromWIF("L3kCZj6QbFPwbsVhxnB8nUERDy4mhCSrWJew4u5Qh5QmGMfnCTda");
 Account account2 = Account.fromWIF("KwjpUzqHThukHZqw5zu4QLGJXessUxwcG3GinhJeBmqj4uKM4K5z");
 Account account3 = Account.fromWIF("KyHFg26DHTUWZtmUVTRqDHg8uVvZi9dr5zV3tQ22JZUjvWVCFvtw");
-wallet.addAccounts(account2, account3);
+wallet.withAccounts(account1, account2, account3);
 
 NeoSendRawTransaction response = NeoToken(neow3j)
         .transfer(wallet, to, amount)
-        .additionalNetworkFee(1L)
         .sign()
         .send();
 ```
 
-In this example, if the balance of account1 is not high enough to cover the amount, account2 or account3 is used to cover the remaining
-amount (the order is not guaranteed!), then if the amount is still not covered, the remaining account is used. E.g. you want to send 15 Neo
-and account1, 2 and 3 all hold 10 Neo each. The above sent transaction would contain a transfer of 10 Neo from account1 and a transfer of
-5 Neo from account2 or account3.
-
-> **Note:** In the method `transfer()` the full wallet can be used. The order of the used accounts is not explicitly defined.
-> If you want to force a specific order, see the next section.
+In this example, if the balance of account1 is not high enough to cover the amount, account2 or account3 is used to
+cover the remaining amount (the order is not guaranteed!), then if the amount is still not covered, the remaining
+account is used. E.g. you want to send 15 Neo and account1, 2 and 3 all hold 10 Neo each. The above sent transaction
+would contain a transfer of 10 Neo from account1 and a transfer of 5 Neo from account2 or account3.
 
 ### Transfer from specific Accounts
 
