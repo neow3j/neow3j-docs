@@ -90,10 +90,10 @@ implementation is not necessary, since this is only an interface to an actual co
 public static native ByteString findElement(ByteString key);
 ```
 
-The devpack provides abstract contract interfaces, e.g., for contracts that follow a token standard. So, if you want to
-establish a contract interface to a fungible token contract extend the `FungibleToken` class. All methods of a NEP-17
-token contract are already available and the only thing you need to add is the contract hash annotation with the hash of
-the targeted contract. If that contract has some extra methods, simply add them as shown before.
+The devpack provides abstract contract interfaces that already the API of contracts following a standard. For example,
+if you want to establish a contract interface to a fungible token contract extend the `FungibleToken` class. All methods
+of a NEP-17 token contract are already available and the only thing you need to add is the contract hash annotation with
+the hash of the target contract. If that contract has some extra methods, simply add them as shown before.
 
 ```java
 @ContractHash("0xef4073a0f2b305a38ec4050e4d3d28bc40ea63f5")
@@ -103,6 +103,8 @@ class MyTokenContract extends FungibleToken {
 
 }
 ```
+
+Checkout the `io.neow3j.devpack.contracts` package for more such contract interfaces.
 
 ## Native Contracts
 
