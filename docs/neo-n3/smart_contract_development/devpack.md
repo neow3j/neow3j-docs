@@ -23,11 +23,9 @@ As with neow3j SDK, the devpack provides special types for hashes too. Use `Hash
 `Hash256` for transaction and block hashes. The underlying stack item of both of these types is a NeoVM byte string,
 thus, changing to and from `ByteString` doesn't require an actual conversion. Though, when you use the constructors
 `Hash160(ByteString value)` an `Hash256(ByteString value)` the devpack inserts checks that make sure the value is a
-valid hash of the respective size.
-
-You can use the `isValid()` method if a contract method takes a hash as a parameter and you can't be sure if the
-underlying actually is a valid hash. The compiler and NeoVM don't automatically include such checks because that implies
-more GAS consumption even if you don't need such a check. 
+valid hash of the respective size. If it is not, the VM will stop in a FAULT state.  
+You can use `Hash160.isValid(Object obj)`/`Hash256.isValid(Object obj)` before using the constructor to check if the
+object is a valid hash. That way you don't risk a VM halt.
 
 ## Storage
 
