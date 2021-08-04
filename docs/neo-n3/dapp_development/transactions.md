@@ -38,8 +38,13 @@ The transaction signers are used to pay for the transaction fees and might be re
 witness checks. The order of the signers is important because only the first signer will be used to pay for the
 transaction fees. You can set it explicitely with the `firstSigner(Hash160 account)` method or use the more general
 `signers(Signer... signers)` method. Signers are associated with a witness scope that restricts how their witness on the
-transaction can be used in an invocation. For example, if an signer is only needed for fee payment the witness scope can
-be reduced to *None*. Checkout the `Signer` class and `WitnessScope` enum for other possible configurations.
+transaction can be used in an invocation. For example, if a signer is only needed for fee payment the witness scope can
+be reduced to *None*. There are two signer classes to be aware of. The `AccountSigner` and the `ContractSigner`. Use
+`AccountSigner` for signers that are backed by an account. It provides static builder methods for all witness scopes.
+Use `ContractSigner` if the signer is a smart contract. This kind of signer doesn't require a signature for the witness
+but will call the contract's `verify(...)` method when the transaction is executed. A contract signer cannot pay the
+transaction fees and therefore does not provide a builder method for the *None* witness scope. The `ContractSigner`'s
+builder methods can take contract parameters in case the contract's `verify(...)` method has extra parameters.
 
 The last important property to set on the builder is the wallet. The wallet is required for two reasons. Firstly, the
 builder requires the verification scripts of the signers to fetch the correct network fee. If a signer is not available
