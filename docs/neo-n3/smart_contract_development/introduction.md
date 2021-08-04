@@ -56,4 +56,4 @@ Next to the Toolkit, we suggest to install the
   section. 
 
 - More **smart contract examples** can be found in the
-  [neow3j-examples](https://github.com/neow3j/neow3j-examples-java/tree/master/neo-n3-examples) repository. -->
+  [neow3j-examples](https://github.com/neow3j/neow3j-examples-java) repository. -->

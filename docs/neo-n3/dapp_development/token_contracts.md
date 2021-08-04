@@ -123,7 +123,7 @@ in [this Section](dapp_development/contract_invocation.md#signing-a-transaction-
 > **Note:** This section is currently out of date with the current version of neow3j.
 
 neow3j provides a wrapper class `NonFungibleToken` that can interact with token contracts that support the
-[NEP-11](https://github.com/neo-project/proposals/pull/41) standard. Take a look at the standard for detailed
+[NEP-11](https://github.com/neo-project/proposals/blob/master/nep-11.mediawiki) standard. Take a look at the standard for detailed
 information about non-fungible tokens on the Neo blockchain.
 
 It is important to understand that the standard supports non-divisible as well as divisible non-fungible tokens.
