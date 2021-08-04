@@ -115,6 +115,21 @@ When using the `StdLib.jsonSerialize(Object o)` method for a value or object tha
 interpreted as a UTF-8 encoded string, which might lead to errors. It will not be presented in the JSON as a hexadecimal
 string.
 
+### Neo Name Service
+
+The Neo Name Service contract (NNS) is technically not a native contract but is maintained and issued by the Neo
+Foundation. The devpack provides a contract interface to the NNS with the class
+`io.neow3j.devpack.contracts.NeoNameService`. Note, that this class does not have a fixed script hash, since it is not a
+native contract. If you want to use the class in your contract you have to extend it and annotate the extending class
+with the `@ContractHash` annotation.
+
+```java
+@ContractHash("a92fbe5bf164170a624474841485b20b45a26047")
+class MyNeoNameService extends NeoNameService { }
+```
+
+Make sure that the script hash is equal to the current script hash of the NNS contract.
+
 ## Events
 
 Neo smart contracts can fire events. They appear, for example, in the [application
