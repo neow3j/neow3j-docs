@@ -7,7 +7,7 @@ _secp256r1_, which, of course, is congruent with NEO.
 Neow3j provides many convenient methods to perform operations related to key pairs and NEO addresses.
 
 You can find running code examples related to key pairs and addresses
-[here](https://github.com/neow3j/neow3j-examples-java/tree/master/src/main/java/io/neow3j/examples/keys).
+[here](https://github.com/neow3j/neow3j-examples-java/tree/neo-legacy/examples/src/main/java/io/neow3j/examples/keys).
 
 ## Create a new Key Pair
 
