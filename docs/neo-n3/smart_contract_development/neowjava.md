@@ -139,19 +139,26 @@ contract meaning that you cannot use them to store state. Changes to static vari
 finishes. Use contract variables for values and objects that you use in multiple methods, always stay the same, and
 don't want to maintain in the contract's storage.
 
-In general it makes sense to declare a contract variable as final. This has no influence on the compiled contract script
-but can help you while implementing and maintaining the contract. If you need the variable's value to change within a
-contract invocation, the variable can obviously not be final. But, remember that the modified value will be lost after
-the invocation.
-
-You can initialize contract variables with constant values (e.g., string literals) but also with a return value of a
-method call as shown in the following examples.
-
+You can apply the `final` keyword to a static variable if you want to prohibit changes to its value. But, be aware that
+static, final variables that are initialised with a constant value (i.e., not derived from a method call) will be inlined
+wherever they are used. For example, the following variable will not be reused throughout the rest of the contract but
+its value will be copied to all the script locations where it is used.
 ```java
 static final int initialSupply = 200_000_000;
-static final String totalSupplyKey = "totalSupply";
-static final StorageContext sc = Storage.getStorageContext();
-static final StorageMap assetMap = sc.createMap(assetPrefix);
+```
+This is fine with small values but might become GAS-intensive with very large values, like long strings, that are used
+often in the smart contract. It bloats the resulting script and incurs higher GAS costs when invoking the contracts
+methods that use the variable multiple times.
+
+You can initialize contract variables with constant values (e.g., string literals) but also with a return value of a
+method call as shown in the following examples. As mentioned above, the variables that are dynamically initialised, are
+not inlined when marking them with `final`.
+
+```java
+static int initialSupply = 200_000_000;
+static String totalSupplyKey = "totalSupply";
+static StorageContext sc = Storage.getStorageContext();
+static StorageMap assetMap = sc.createMap(assetPrefix);
 ```
 
 Neow3j also supports the static initializer clause as shown below. Note, that the instance initializer, i.e. the same
