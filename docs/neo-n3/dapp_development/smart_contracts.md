@@ -156,15 +156,13 @@ NeoInvokeFunction response = new SmartContract(scriptHash, neow3j)
 The `NeoInvokeFunction` holds information about the GAS amount consumed in the contract execution, the VM exit state
 (e.g. HALT or FAULT), and the VM's stack, i.e. the return value.
 
+## Contract Interfaces
 
-## Specific Contract Types
-
-The `SmartContract` class is the most generic of neow3j's gateways to contracts. There are several subclasses that
-implement the more specific methods of Neo's native contracts and the contracts that follow Neo's token standards.
-Token contracts are discussed separately in Section [Token Contracts](neo-n3/dapp_development/token_contracts.md).
-they include fungible and non-fungible token contracts, and their Neo native implementations `NeoToken` and `GasToken`.
-The other available contract classes are discussed below. The native contracts among them do not need to be instantiated
-with a contract hash, since their hash is static and known to the neow3j SDK.
+There are several subclasses of `SmartContract` that implement a sort of interface to Neo's native contracts and
+contracts that follow token standards. Here, the word interface means that these classes provide an interface to
+interact with the deployed contracts. Token contracts are discussed separately in Section [Token
+Contracts](neo-n3/dapp_development/token_contracts.md). They include fungible and non-fungible tokens such as `NeoToken`
+and `GasToken`. The other available contract classes are discussed below. 
 
 ### ContractManagement
 
