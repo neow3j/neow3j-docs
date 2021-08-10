@@ -111,7 +111,7 @@ ContractParameter accountParam = ContractParameter.hash160(account.getScriptHash
 
 NeoSendRawTransaction response = new SmartContract(scriptHash, neow3j)
         .invokeFunction("register", domainParam, accountParam)
-        .signers(Signer.calledByEntry(account.getScriptHash()))
+        .signers(AccountSigner.calledByEntry(account))
         .wallet(wallet)
         .sign()
         .send();
@@ -123,7 +123,7 @@ contract that simply increments a number every time it gets called.
 ```java
 NeoSendRawTransaction response = new SmartContract(contract, neow3j)
         .invokeFunction("increment")
-        .signers(Signer.calledByEntry(account.getScriptHash()))
+        .signers(AccountSigner.calledByEntry(account))
         .wallet(wallet)
         .sign()
         .send();
@@ -150,7 +150,7 @@ ContractParameter accountParam = ContractParameter.hash160(account.getScriptHash
 List<ContractParameter> params = Arrays.asList(domainParam, accountParam);
 
 NeoInvokeFunction response = new SmartContract(scriptHash, neow3j)
-        .callInvokeFunction(funtion, params, Signer.calledByEntry(account.getScriptHash()));
+        .callInvokeFunction(funtion, params, AccountSigner.calledByEntry(account));
 ```
 
 The `NeoInvokeFunction` holds information about the GAS amount consumed in the contract execution, the VM exit state

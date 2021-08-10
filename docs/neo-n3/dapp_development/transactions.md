@@ -65,7 +65,7 @@ byte[] script = new ScriptBuilder().contractCall(NeoToken.SCRIPT_HASH, "symbol",
 
 Transaction tx = new TransactionBuilder(neow3j)
     .script(script)
-    .signers(Signer.calledByEntry(account))
+    .signers(AccountSigner.calledByEntry(account))
     .wallet(wallet)
     .sign();
 
@@ -108,7 +108,7 @@ Wallet wallet = Wallet.withAccounts(multiSig);
 byte[] script = ...
 Transaction tx = new TransactionBuilder(neow3j)
         .script(script)
-        .signers(Signer.calledByEntry(multiSig))
+        .signers(AccountSigner.calledByEntry(multiSig))
         .wallet(wallet)
         .sign();
 
@@ -154,7 +154,7 @@ for priority. Use the method `additionalNetworkFee()` as in the example below.
 ```java
 Transaction tx = new TransactionBuilder(neow3j)
         .script(script)
-        .signers(Signer.calledByEntry(multiSig))
+        .signers(AccountSigner.calledByEntry(multiSig))
         .wallet(wallet)
         .additionalNetworkFee(10_000L)
         .sign();

@@ -29,7 +29,7 @@ try (FileInputStream s = new FileInputStream(contractManifestFile)) {
 
 NeoSendRawTransaction response = new ContractManagement(neow)
         .deploy(nefFile, manifest)
-        .signers(Signer.global(a.getScriptHash()))
+        .signers(AccountSigner.global(a))
         .wallet(w)
         .sign()
         .send();
