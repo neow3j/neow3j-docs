@@ -131,13 +131,12 @@ explicit and to prohibit any auxiliary class to call it. Making methods in auxil
 into the contract manifest. If these classes are in the same package as your contract class it's enough to use no
 access modifier. If they are in another package they need to be public as with normal Java.
 
-### Contract Variables
+### Contract Variables (Static Variables)
 
 All variables on the contract class have to be static. Note that these variables do not represent the contract's state.
 Their values are not written into the contract's storage. The NeoVM initializes them in every invocation of the
 contract meaning that you cannot use them to store state. Changes to static variables are lost as soon as an invocations
-finishes. Use contract variables for values and objects that you use in multiple methods, always stay the same, and
-don't want to maintain in the contract's storage.
+finishes. 
 
 You can apply the `final` keyword to a static variable if you want to prohibit changes to its value. But, be aware that
 static, final variables that are initialised with a constant value (i.e., not derived from a method call) will be inlined
@@ -150,6 +149,10 @@ This is fine with small values but might become GAS-intensive with very large va
 often in the smart contract. It bloats the resulting script and incurs higher GAS costs when invoking the contracts
 methods that use the variable multiple times.
 
+In classes that are not the main contract class, the only static variables that are currently supported are final static
+variables that are initialized with a constant value, as `initialSupply` above. Other static variables will lead to a
+compielr error. 
+
 You can initialize contract variables with constant values (e.g., string literals) but also with a return value of a
 method call as shown in the following examples. As mentioned above, the variables that are dynamically initialised, are
 not inlined when marking them with `final`.
@@ -161,8 +164,8 @@ static StorageContext sc = Storage.getStorageContext();
 static StorageMap assetMap = sc.createMap(assetPrefix);
 ```
 
-Neow3j also supports the static initializer clause as shown below. Note, that the instance initializer, i.e. the same
-clause without the `static` keyword, is not supported.
+Neow3j also supports the static initializer clause as shown below. But, the instance initializer, i.e., the same
+clause without the `static` keyword is not supported.
 
 ```java
 static final String assetPrefix;
@@ -174,10 +177,9 @@ static {
 }
 ```
 
-For convenience in variable initialization, the devpack offers the `StringLiteralHelper`.
-As its name suggests, it operates on string literals. It offers methods that take string literals
-and convert them to byte arrays, script hashes, or integers. The following example uses it to set
-the owner script hash using the owner account's address.
+For convenience in variable initialization, the devpack offers the `StringLiteralHelper`.  As its name suggests, it
+operates on string literals. It offers methods that take string literals and convert them to byte arrays, script hashes,
+or integers. The following example uses it to set the owner script hash using the owner account's address.
 
 ```java
 static final Hash160 owner = StringLiteralHelper.addressToScriptHash("NZNos2WqTbu5oCgyfss9kUJgBXJqhuYAaj");
