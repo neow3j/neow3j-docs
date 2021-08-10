@@ -133,9 +133,8 @@ Make sure that the script hash is equal to the current script hash of the NNS co
 ## Events
 
 Neo smart contracts can fire events. They appear, for example, in the [application
-logs](https://docs.neo.org/v3/docs/en-us/reference/rpc/latest-version/api/getapplicationlog.html) 
-of a contract invocation. In order that others can know what events a contract can fire, they should be
-listed in the manifest. The below JSON shows how this could look.
+logs](https://docs.neo.org/v3/docs/en-us/reference/rpc/latest-version/api/getapplicationlog.html) of a contract
+invocation. The events that a contract can fire are listed in its manifest. The JSON below shows how this could look.
 
 ```json
 "events": [
@@ -155,14 +154,13 @@ listed in the manifest. The below JSON shows how this could look.
 ]
 ```
 
-An event is defined by its name and the state parameters that are passed with it. The devpack allows
-you to define and use events with up to 16 state parameters. The classes representing these events are located in the
+An event is defined by its name and the state parameters that are passed with it. The devpack allows you to define and
+use events with up to 16 state parameters. The classes representing these events are located in the
 [`io.neow3j.devpack.events`](https://javadoc.io/doc/io.neow3j/devpack/latest/io/neow3j/devpack/events/package-summary.html)
-package. The interface `EventInterface` is only used as a marker for all the available event classes. It is not meant
-for usage in a contract.
+package. 
 
 Events are declared in static contract variables as shown in the following code snippet. They cannot
-be declared inside of a method body.
+be declared inside of a method body or in classes that are not the main contract class.
 
 ```java
     @DisplayName("mint")

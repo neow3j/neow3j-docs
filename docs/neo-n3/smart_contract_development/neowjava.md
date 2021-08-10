@@ -134,7 +134,7 @@ access modifier. If they are in another package they need to be public as with n
 ### Contract Variables
 
 All variables on the contract class have to be static. Note that these variables do not represent the contract's state.
-Their values are not writtin into the contract's storage. The NeoVM initializes them in every invocation of the
+Their values are not written into the contract's storage. The NeoVM initializes them in every invocation of the
 contract meaning that you cannot use them to store state. Changes to static variables are lost as soon as an invocations
 finishes. Use contract variables for values and objects that you use in multiple methods, always stay the same, and
 don't want to maintain in the contract's storage.
