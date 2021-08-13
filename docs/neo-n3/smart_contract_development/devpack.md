@@ -295,7 +295,7 @@ with hash `726cb6e0cd8628a1350a611384688911ab75f51b`, the methods `getBalance` a
 
 ```java
 @Permission(contract = "726cb6e0cd8628a1350a611384688911ab75f51b", methods = "*")
-@Permission(contract = "d2a4cff31913016155e38e474a2c06d08be276cf", methods = ["getBalance", "transfer"])
+@Permission(contract = "d2a4cff31913016155e38e474a2c06d08be276cf", methods = {"getBalance", "transfer"})
 @Permission(contract = "033a4d051b04b7fc0230d2b1aaedfd5a84be279a5361a7358db665ad7857787f1b", methods = "commonMethodName")
 public class MyContract {
 ```
