@@ -11,8 +11,7 @@ on how to use `ContractManagement` for deployment.
 
 ```java
 Neow3j neow = Neow3j.build(new HttpService("http://localhost:40332"));
-Account a = Account.fromWIF( "L24Qst64zASL2aLEKdJtRLnbnTbqpcRNWkWJ3yhDh2CLUtLdwYK2")
-Wallet w = Wallet.withAccounts(a);
+Account account = Account.fromWIF( "L24Qst64zASL2aLEKdJtRLnbnTbqpcRNWkWJ3yhDh2CLUtLdwYK2")
 
 File contractNefFile = Paths.get("build", "neow3j", "ContractName" + ".nef").toFile();
 File contractManifestFile = Paths.get("build", "neow3j", "ContractName" + ".manifest.json").toFile();
@@ -23,10 +22,10 @@ try (FileInputStream s = new FileInputStream(contractManifestFile)) {
     manifest = ObjectMapperFactory.getObjectMapper().readValue(s, ContractManifest.class);
 }
 
-NeoSendRawTransaction response = new ContractManagement(neow)
+NeoSendRawTransaction response = new ContractManagement(neow3j)
         .deploy(nefFile, manifest)
-        .signers(AccountSigner.global(a))
-        .wallet(w)
+        .signers(AccountSigner.calledByEntry(account)
+                .setAllowedContracts(ContractManagement.SCRIPT_HASH))
         .sign()
         .send();
 ```
@@ -45,8 +44,7 @@ contract. Here's an example.
 ```java
 ContractParameter param = ContractParameter.hash160(alice);
 NeoSendRawTransaction response = contractMgmt.deploy(nef, manifest, param)
-        .signers(Signer.feeOnly(alice))
-        .wallet(wallet)
+        .signers(AccountSigner.none(account)) // only needed to pay fees
         .sign()
         .send();
 ```
