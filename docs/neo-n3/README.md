@@ -2,7 +2,7 @@
     <img src="../images/neow3j-neo3.png" alt="Logo" id="logo">
 </div>
 
-<h1 id="cover-header">neow3j <small>3.12.0</small></h1>
+<h1 id="cover-header">neow3j <small>3.13.0</small></h1>
 
 Neow3j is a development toolkit that provides easy and reliable tools to build Neo dApps and Smart Contracts using the Java
 platform (Java, Kotlin, Android). It is an open-source project developed by the Neo community and maintained by
@@ -11,15 +11,15 @@ platform (Java, Kotlin, Android). It is an open-source project developed by the 
 
 ## Features 🚀
 
-* Support for Neo's JSON-RPC API
+* Support for the JSON-RPC API of the Neo node
 * Observable pattern for monitoring the Neo blockchain
 * Wallet and Account model supporting NEP-6
 * Multi-sig address utilities
 * Passphrase-protected private keys (NEP-2)
 * Mnemonic utilities (BIP-39)
+* Building, signing, and sending transactions
 * Token transfers
 * Smart contract invocations
-* Building, signing, and sending raw transactions
 * Smart contract deployment
 * Smart contract development and compilation in Java
 * Android support from API 24, which covers [~49%](https://developer.android.com/about/dashboards/) 
@@ -37,7 +37,7 @@ To make use of all neow3j SDK features, add the `io.neow3j:contract` dependency 
 __Gradle__
 
 ```groovy
-implementation 'io.neow3j:contract:3.12.0'
+implementation 'io.neow3j:contract:3.13.0'
 ```
 
 __Maven__
@@ -46,7 +46,7 @@ __Maven__
 <dependency>
     <groupId>io.neow3j</groupId>
     <artifactId>contract</artifactId>
-    <version>3.12.0</version>
+    <version>3.13.0</version>
 </dependency>
 ```
 
@@ -58,7 +58,7 @@ you want to play around with the devpack, add the `io.neow3j:devpack` dependency
 __Gradle__
 
 ```groovy
-implementation 'io.neow3j:devpack:3.12.0'
+implementation 'io.neow3j:devpack:3.13.0'
 ```
 
 __Maven__
@@ -67,21 +67,22 @@ __Maven__
 <dependency>
     <groupId>io.neow3j</groupId>
     <artifactId>devpack</artifactId>
-    <version>3.12.0</version>
+    <version>3.13.0</version>
 </dependency>
 ```
 
-For information on how to compile a smart contract hop over to the contract
-[Compilation](neo-n3/smart_contract_development/compilation.md#compilation) section.
+For information on how to compile a smart contract hop over to the 
+[Setup & Compilation](neo-n3/smart_contract_development/setup_and_compilation.md) section.
 
 ## Requirements
 
 Neow3j requires **Java 8** or higher. For Android applications this implies the use of API level >= 24.
 
 Neow3j does **not include a blockchain node**. I.e., it does not synchronize with other nodes nor store or verify
-blockchain information locally. It depends on a connection to a Neo node to retrieve blockchain information.  If you
-want to run your own node check out the [official documentation](https://docs.neo.org/v3/docs/en-us/node/introduction.html) 
-on how to set one up.  For local development we recommend using [Neo Express](https://github.com/neo-project/neo-express).
+blockchain information locally. It depends on a connection to a Neo node to retrieve blockchain information. If you want
+to run your own node check out the [official documentation](https://docs.neo.org/v3/docs/en-us/node/introduction.html) 
+on how to set one up.  For local development we recommend using 
+[Neo Express](https://github.com/neo-project/neo-express).
 
 ## Why the name "neow3j"? 🤔
 

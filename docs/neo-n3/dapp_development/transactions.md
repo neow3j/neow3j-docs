@@ -38,15 +38,14 @@ The transaction signers are used to pay for the transaction fees and might be re
 witness checks. The order of the signers is important because only the first signer will be used to pay for the
 transaction fees. You can set it explicitely with the `firstSigner(Hash160 account)` method or use the more general
 `signers(Signer... signers)` method. Signers are associated with a witness scope that restricts how their witness on the
-transaction can be used in an invocation. For example, if an signer is only needed for fee payment the witness scope can
-be reduced to *None*. Checkout the `Signer` class and `WitnessScope` enum for other possible configurations.
-
-The last important property to set on the builder is the wallet. The wallet is required for two reasons. Firstly, the
-builder requires the verification scripts of the signers to fetch the correct network fee. If a signer is not available
-in the wallet an empty verification script is used instead, which will end up in a wrong network fee and an invalid
-transaction.  Secondly, the builder can use the accounts in the wallet to match with the signers and attempt to
-automatically generate the necessary signatures for them when calling the `sign()` method. I.e., the wallet will not
-show up on the final transaction but provides the private key material to sign the transaction. 
+transaction can be used in an invocation. For example, if a signer is only needed for fee payment the witness scope can
+be reduced to *None*. There are two signer classes to be aware of. The `AccountSigner` and the `ContractSigner`. Use
+`AccountSigner` for signers that are backed by an account. It provides static builder methods for all witness scopes. 
+A transaction requires at least one `AccountSigner` that will pay for the fees.
+Use `ContractSigner` if the signer is a smart contract. This kind of signer doesn't require a signature for the witness
+but will call the contract's `verify(...)` method when the transaction is executed. A contract signer cannot pay the
+transaction fees and therefore does not provide a builder method for the *None* witness scope. The `ContractSigner`'s
+builder methods can take contract parameters in case the contract's `verify(...)` method has extra parameters.
 
 The following is a simple example of how building, signing, and sending a transaction might look.
 
@@ -69,18 +68,18 @@ tx.send();
 
 ## Signing Transactions
 
-As you have seen in the last section, the `TransactionBuilder` offers a `sign()` method that attempts to add the correct
-signatures according to what it finds in the list of signers and what accounts are in the provided wallet. 
-This even works with multi-sig addresses, if all accounts required for the multi-sig address are available in the
-wallet. 
+As you have seen in the last section, the `TransactionBuilder` offers a `sign()` method. It attempts to add the correct
+signatures according to what it finds in the list of signers. If you add an `AccountSigner` that holds a private key,
+the `sign()` method can automatically create the signature/witness for that signer. If the account doesn't have a key,
+e.g., because it is a multi-sig account, you will need to provide the witness manually.
+Witnesses for `ContractSigners` are also added automatically with `sign()`.
 
-But, you can have more control over the signing process in case you need it. Instead of calling the automatic `sign()`
-function, you can use `getUnsignedTransaction()` on the builder and retrieve the transaction with an empty list of
+To sign manually, use `getUnsignedTransaction()` on the builder and retrieve the transaction with an empty list of
 witnesses. Now it is up to you to add the necessary witnesses. You can get the serialized transaction bytes and create
-a witness from it.
+a witness from it as shown below.
 
 ```java
-Transaction tx = ...
+Transaction tx = txBuilder.getUnsignedTransaction();
 Account account = Account.fromWIF("L24Qst64zASL2aLEKdJtRLnbnTbqpcRNWkWJ3yhDh2CLUtLdwYK2");
 ECKeyPair keyPair = account.getECKeyPair();
 byte[] txBytes = tx.getHashData();
@@ -89,37 +88,24 @@ tx.addWitness(witness);
 tx.send();
 ```
 
-Maybe you are working with a multi-sig address as a transaction signer but don't have all private keys available. In
-that case you will need to share the serialized transaction bytes with all the entities that possess the required keys
-and make them create a signature that you can include in witnesses on the transaction.
+When you are working with mutli-sig accounts you can use one of the `addMultiSigWitness(...)` convenience methods.
+For example:
 
 ```java
-// All key pairs involved in the multi-sig account.
-List<ECKeyPair.ECPublicKey> publicKeys = ...
-// The minimumm amount of signatures necessary when using the multi-sig account.
-int signingThreshold = ...
+// The multi-sig account holding its verification script.
 Account multiSig = Account.createMultiSigAccount(publicKeys, signingThreshold);
-Wallet wallet = Wallet.withAccounts(multiSig);
-byte[] script = ...
+
+// Collect signatures
+Sign.SignatureData[] signatures = ...
+
+// Create and get unsigned transaction. Then, add a witness for the multi-sig account.
 Transaction tx = new TransactionBuilder(neow3j)
         .script(script)
-        .signers(Signer.calledByEntry(multiSig))
-        .wallet(wallet)
-        .sign();
-
-byte[] txBytes = tx.getHashData();
-// Collect the signatures.
-List<Sign.SignatureData> signatures = ...
-// Create a witness for the multi-sig signer.
-Witness witness = Witness.createMultiSigWitness(signatures, multiSig.getVerificationScript());
-tx.addWitness(witness);
-tx.send();
+        .signers(AccountSigner.calledByEntry(multiSig))
+        .getUnsignedTransaction()
+        .addMultiSigWitness(multiSig.getVerificationScript(), signatures)
+        .send();
 ```
-
-As you can see, the transaction builder still requires a wallet which holds the multi-sig account even though no
-automatic signing is happening. The builder needs the multi-sig account's verification script to fetch the network fee.
-It gets this verification script from the account in the wallet.
-
 
 ## Tracking Transactions
 
@@ -149,8 +135,7 @@ for priority. Use the method `additionalNetworkFee()` as in the example below.
 ```java
 Transaction tx = new TransactionBuilder(neow3j)
         .script(script)
-        .signers(Signer.calledByEntry(multiSig))
-        .wallet(wallet)
+        .signers(AccountSigner.calledByEntry(acc))
         .additionalNetworkFee(10_000L)
         .sign();
 ```

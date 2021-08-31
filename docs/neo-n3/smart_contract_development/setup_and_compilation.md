@@ -28,7 +28,7 @@ directory `src/main/java`.
 ```groovy
 plugins {
     id 'java'
-    id 'io.neow3j.gradle-plugin' version "3.12.0"
+    id 'io.neow3j.gradle-plugin' version "3.13.0"
 }
 ```
 
@@ -56,7 +56,7 @@ smart contract code.
 
 ```groovy
 dependencies {
-    implementation 'io.neow3j:devpack:3.12.0'
+    implementation 'io.neow3j:devpack:3.13.0'
 }
 ```
 
@@ -95,7 +95,7 @@ The neow3j compiler can also be invoked programmatically from within another Jav
 Gradle:
 
 ```groovy
-implementation 'io.neow3j:compiler:3.12.0',
+implementation 'io.neow3j:compiler:3.13.0',
 ```
 
 Maven:
@@ -104,7 +104,7 @@ Maven:
 <dependency>
     <groupId>io.neow3j</groupId>
     <artifactId>compiler</artifactId>
-    <version>3.12.0</version>
+    <version>3.13.0</version>
 </dependency>
 ```
 
