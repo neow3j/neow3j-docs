@@ -59,7 +59,7 @@ byte[] script = new ScriptBuilder().contractCall(NeoToken.SCRIPT_HASH, "symbol",
 
 Transaction tx = new TransactionBuilder(neow3j)
     .script(script)
-    .signers(Signer.calledByEntry(account))
+    .signers(AccountSigner.calledByEntry(account))
     .wallet(wallet)
     .sign();
 

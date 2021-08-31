@@ -173,3 +173,15 @@ if (response.hasError()) {
     throw new Exception("Failed to close the  wallet. Error message: " + response.getError().getMessage());
 }
 ```
+
+## Neo-Express
+
+The class `io.neow3j.protocol.Neow3jExpress` extends the methods of `Neow3j` with methods that are specific to
+neo-express. [Neo-express](https://github.com/neo-project/neo-express) is a developer tool that enables a fast workflow. It is basically a tool for managing and configuring private networks for development purposes.
+Neo-express exposes several RPC methods additional to normal Neo nodes. These are available through `Neow3jExpress`. Use `Neow3jExpress` just like `Neow3j` but with an URL that points to a neo-express instance.
+
+```java
+Neow3jExpress neow3j = Neow3jExpress.build(new HttpService("http://localhost:40332"));
+```
+
+This API is especially of interest to developers that create developer tools using neo-express as the local Neo network.

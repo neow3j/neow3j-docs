@@ -23,11 +23,9 @@ As with neow3j SDK, the devpack provides special types for hashes too. Use `Hash
 `Hash256` for transaction and block hashes. The underlying stack item of both of these types is a NeoVM byte string,
 thus, changing to and from `ByteString` doesn't require an actual conversion. Though, when you use the constructors
 `Hash160(ByteString value)` an `Hash256(ByteString value)` the devpack inserts checks that make sure the value is a
-valid hash of the respective size.
-
-You can use the `isValid()` method if a contract method takes a hash as a parameter and you can't be sure if the
-underlying actually is a valid hash. The compiler and NeoVM don't automatically include such checks because that implies
-more GAS consumption even if you don't need such a check. 
+valid hash of the respective size. If it is not, the VM will stop in a FAULT state.  
+You can use `Hash160.isValid(Object obj)`/`Hash256.isValid(Object obj)` before using the constructor to check if the
+object is a valid hash. That way you don't risk a VM halt.
 
 ## Storage
 
@@ -92,10 +90,10 @@ implementation is not necessary, since this is only an interface to an actual co
 public static native ByteString findElement(ByteString key);
 ```
 
-The devpack provides abstract contract interfaces, e.g., for contracts that follow a token standard. So, if you want to
-establish a contract interface to a fungible token contract extend the `FungibleToken` class. All methods of a NEP-17
-token contract are already available and the only thing you need to add is the contract hash annotation with the hash of
-the targeted contract. If that contract has some extra methods, simply add them as shown before.
+The devpack provides abstract contract interfaces that already the API of contracts following a standard. For example,
+if you want to establish a contract interface to a fungible token contract extend the `FungibleToken` class. All methods
+of a NEP-17 token contract are already available and the only thing you need to add is the contract hash annotation with
+the hash of the target contract. If that contract has some extra methods, simply add them as shown before.
 
 ```java
 @ContractHash("0xef4073a0f2b305a38ec4050e4d3d28bc40ea63f5")
@@ -106,6 +104,8 @@ class MyTokenContract extends FungibleToken {
 }
 ```
 
+Checkout the `io.neow3j.devpack.contracts` package for more such contract interfaces.
+
 ## Native Contracts
 
 ### StdLib
@@ -115,12 +115,26 @@ When using the `StdLib.jsonSerialize(Object o)` method for a value or object tha
 interpreted as a UTF-8 encoded string, which might lead to errors. It will not be presented in the JSON as a hexadecimal
 string.
 
+### Neo Name Service
+
+The Neo Name Service contract (NNS) is technically not a native contract but is maintained and issued by the Neo
+Foundation. The devpack provides a contract interface to the NNS with the class
+`io.neow3j.devpack.contracts.NeoNameService`. Note, that this class does not have a fixed script hash, since it is not a
+native contract. If you want to use the class in your contract you have to extend it and annotate the extending class
+with the `@ContractHash` annotation.
+
+```java
+@ContractHash("a92fbe5bf164170a624474841485b20b45a26047")
+class MyNeoNameService extends NeoNameService { }
+```
+
+Make sure that the script hash is equal to the current script hash of the NNS contract.
+
 ## Events
 
 Neo smart contracts can fire events. They appear, for example, in the [application
-logs](https://docs.neo.org/v3/docs/en-us/reference/rpc/latest-version/api/getapplicationlog.html) 
-of a contract invocation. In order that others can know what events a contract can fire, they should be
-listed in the manifest. The below JSON shows how this could look.
+logs](https://docs.neo.org/v3/docs/en-us/reference/rpc/latest-version/api/getapplicationlog.html) of a contract
+invocation. The events that a contract can fire are listed in its manifest. The JSON below shows how this could look.
 
 ```json
 "events": [
@@ -140,14 +154,13 @@ listed in the manifest. The below JSON shows how this could look.
 ]
 ```
 
-An event is defined by its name and the state parameters that are passed with it. The devpack allows
-you to define and use events with up to 16 state parameters. The classes representing these events are located in the
+An event is defined by its name and the state parameters that are passed with it. The devpack allows you to define and
+use events with up to 16 state parameters. The classes representing these events are located in the
 [`io.neow3j.devpack.events`](https://javadoc.io/doc/io.neow3j/devpack/latest/io/neow3j/devpack/events/package-summary.html)
-package. The interface `EventInterface` is only used as a marker for all the available event classes. It is not meant
-for usage in a contract.
+package. 
 
 Events are declared in static contract variables as shown in the following code snippet. They cannot
-be declared inside of a method body.
+be declared inside of a method body or in classes that are not the main contract class.
 
 ```java
     @DisplayName("mint")
@@ -282,7 +295,7 @@ with hash `726cb6e0cd8628a1350a611384688911ab75f51b`, the methods `getBalance` a
 
 ```java
 @Permission(contract = "726cb6e0cd8628a1350a611384688911ab75f51b", methods = "*")
-@Permission(contract = "d2a4cff31913016155e38e474a2c06d08be276cf", methods = ["getBalance", "transfer"])
+@Permission(contract = "d2a4cff31913016155e38e474a2c06d08be276cf", methods = {"getBalance", "transfer"})
 @Permission(contract = "033a4d051b04b7fc0230d2b1aaedfd5a84be279a5361a7358db665ad7857787f1b", methods = "commonMethodName")
 public class MyContract {
 ```

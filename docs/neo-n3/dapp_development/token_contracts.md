@@ -96,7 +96,7 @@ account is used for the remaining amount, et cetera.  The method adds the necess
 ```java
 NeoSendRawTransaction response = NeoToken(neow3j)
         .transferFromSpecificAccounts(wallet, to, amount, account3.getScriptHash(), account2.getScriptHash())
-        .signers(Signer.calledByEntry(account3.getScriptHash()), Signer.calledByEntry(account2.getScriptHash()))
+        .signers(AccountSigner.calledByEntry(account3), AccountSigner.calledByEntry(account2))
         .wallet(wallet)
         .additionalNetworkFee(1L)
         .sign()
