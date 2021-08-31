@@ -112,7 +112,6 @@ ContractParameter accountParam = ContractParameter.hash160(account.getScriptHash
 NeoSendRawTransaction response = new SmartContract(scriptHash, neow3j)
         .invokeFunction("register", domainParam, accountParam)
         .signers(AccountSigner.calledByEntry(account))
-        .wallet(wallet)
         .sign()
         .send();
 ```
@@ -124,7 +123,6 @@ contract that simply increments a number every time it gets called.
 NeoSendRawTransaction response = new SmartContract(contract, neow3j)
         .invokeFunction("increment")
         .signers(AccountSigner.calledByEntry(account))
-        .wallet(wallet)
         .sign()
         .send();
 ```
@@ -174,8 +172,7 @@ available and allows you to deploy new contracts with neow3j. For example:
 ```java
 Transaction tx = new ContractManagement(neow3j)
         .deploy(nef, manifest)
-        .signers(calledByEntry(account1.getScriptHash()))
-        .wallet(w)
+        .signers(AccountSigner.calledByEntry(account1)))
         .sign();
 ```
 
