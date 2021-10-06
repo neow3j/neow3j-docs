@@ -16,6 +16,7 @@
   - [Deployment](neo-n3/smart_contract_development/deployment.md)
   - [NeowJava](neo-n3/smart_contract_development/neowjava.md)
   - [Devpack](neo-n3/smart_contract_development/devpack.md)
+  - [Testing](neo-n3/smart_contract_development/testing.md)
 
 
 - Tutorials & Examples

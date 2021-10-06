@@ -23,18 +23,30 @@ and the NeoVM, the programming experience with Java for Neo is different. We, th
 flavour or subset and name it NeowJava. Section [NeowJava](neo-n3/smart_contract_development/neowjava.md) discusses
 in which ways NeowJava deviates from Java and what the pitfalls are when using NeowJava.
 
-## Development Environment
+## Development Environment 
 
-In theory, you can write smart contracts in any editor or IDE you want, but for the best developer experience we
-recommend using Virtual Studio Code (VSCode). The reason behind this is the [Neo Blockchain
-Toolkit](https://marketplace.visualstudio.com/items?itemName=ngd-seattle.neo-blockchain-toolkit), which was developed
-as a VSCode extension. It allows smart contract deugging, easy setup, control over, and visual access to a local Neo
-blockchain, and it is continuously improving. 
+You can write smart contracts in any editor or IDE you want, but there are some environments, namely Visual Studio Code
+and IntelliJ IDEA, that provide you with extra support for an improved developer experience.  
 
-Next to the Toolkit, we suggest to install the 
-[Java Extension Pack](https://marketplace.visualstudio.com/items?itemName=vscjava.vscode-java-pack) and the 
-[Gradle Extension Pack](https://marketplace.visualstudio.com/items?itemName=richardwillis.vscode-gradle-extension-pack).
+With [**Visual Studio Code**](https://code.visualstudio.com/) you can make use of the [Neo Blockchain
+Toolkit](https://marketplace.visualstudio.com/items?itemName=ngd-seattle.neo-blockchain-toolkit) extension, that is
+developed by [ngdenterprise](https://ngdenterprise.com/). It allows contract debugging, easy contract setup, and
+provides a GUI for manipulating a local neo-express instance.  Next to the Toolkit, we suggest to install the [Java
+Extension Pack](https://marketplace.visualstudio.com/items?itemName=vscjava.vscode-java-pack) and the [Gradle Extension
+Pack](https://marketplace.visualstudio.com/items?itemName=richardwillis.vscode-gradle-extension-pack).
 
+[**IntelliJ**](https://www.jetbrains.com/idea/download/) is obviously a good choice because it has already great support
+for Java.  A [Neo plugin](https://plugins.jetbrains.com/plugin/17195-neo) has been implemented for IntelliJ too. It
+provides basic control over neo-express via IntelliJ's UI. For usage instructions and a short video visit the plugin's 
+[github page](https://github.com/irshadnilam/intellij-neo). Debugging smart contracts is not possible with IntelliJ.
+
+
+## Requirements
+
+- A local installation of the [**Java 8 SDK**](https://adoptopenjdk.net/) (or higher) is required for smart contract
+  compilation. 
+
+- For running smart contract tests you need to have [**Docker**](https://www.docker.com/products/docker-desktop) installed locally.
 
 <!-- The documentation on smart contract development is divided into the following sections:
 
