@@ -187,6 +187,8 @@ Once an event is declared, it can then be used in contract methods by calling it
     }
 ```
 
+>**Note:** Events are not allowed to be fired in the [verify method](neo-n3/smart_contract_development/devpack.md?id=verify).
+
 ## Special Contract Methods
 
 There are a couple of contract methods that have a special purpose. The neow3j devpack provides annotations to mark them
@@ -212,8 +214,8 @@ Use the devpack's `io.neow3j.devpack.annotations.OnVerification` annotation on t
 does not have to be `verify`, but can be anything. Although, in the contract manifest it will show up under the name
 `verify`. The method must return a boolean and can have any number of parameters.
 
-Note, that the verification method must not fire any events. If you fire an event from within your `verify` method,
-verification will fail everytime.
+>**Note:** The Neo node does not allow the verify method to fire any event. The compiler will throw an exception
+>if an event is fired within this method.
 
 ### onNEP17Payment
 
