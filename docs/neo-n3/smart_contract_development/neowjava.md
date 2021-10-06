@@ -192,6 +192,19 @@ either use the constructor with a string argument (`new Exception(String message
 (`new Exception()`).  No other exception types are permitted. This restriction implies that you cannot have multiple
 catch clauses that each handle a different exception type. 
 
+## Assertions
+
+Assertions in NeowJava are handled like exceptions, they are catchable and a message can be passed. You can pass a
+message by adding a colon with a string or a method that returns a string. In the following example, if the witness
+check fails, an exception is thrown with the message `No authorization.`.
+
+```java
+assert Runtime.checkWitness(owner) : "No authorization.";
+```
+
+>**Note:** The NeoVM supports an Opcode `ASSERT`, however, it does not (yet) allow to pass a message, hence the above
+>workaround.
+
 ## Type Comparison
 
 NeowJava has a few caveats when it comes to type comparison. As you know, in Java, the `==` operator compares primitive
