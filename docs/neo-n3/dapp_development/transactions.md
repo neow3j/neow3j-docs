@@ -30,10 +30,10 @@ remain valid before it is included in a block. If it does not get included befor
 discarded by the network. The default value is set as the maximum supported by the connected network. The transaction
 *version* is by default set to 0 which you will most probably not have to change.
 
-The properties that are of most interest are the transation's script and the signers. As mentioned before, the script
+The properties that are of most interest are the transaction's script and the signers. As mentioned before, the script
 determines the actual effects of the transaction on the blockchain state. How to build the script itself is not
 discussed here. Neow3j has many classes that will provide you with a `TransactionBuilder` holding a preconfigured
-script.
+script.  
 The transaction signers are used to pay for the transaction fees and might be required by the transaction's script for
 witness checks. The order of the signers is important because only the first signer will be used to pay for the
 transaction fees. You can set it explicitely with the `firstSigner(Hash160 account)` method or use the more general
@@ -41,7 +41,7 @@ transaction fees. You can set it explicitely with the `firstSigner(Hash160 accou
 transaction can be used in an invocation. For example, if a signer is only needed for fee payment the witness scope can
 be reduced to *None*. There are two signer classes to be aware of. The `AccountSigner` and the `ContractSigner`. Use
 `AccountSigner` for signers that are backed by an account. It provides static builder methods for all witness scopes. 
-A transaction requires at least one `AccountSigner` that will pay for the fees.
+A transaction requires at least one `AccountSigner` that will pay for the fees.  
 Use `ContractSigner` if the signer is a smart contract. This kind of signer doesn't require a signature for the witness
 but will call the contract's `verify(...)` method when the transaction is executed. A contract signer cannot pay the
 transaction fees and therefore does not provide a builder method for the *None* witness scope. The `ContractSigner`'s
@@ -106,6 +106,10 @@ Transaction tx = new TransactionBuilder(neow3j)
         .addMultiSigWitness(multiSig.getVerificationScript(), signatures)
         .send();
 ```
+
+If you need to sign a transaction manually and also require a witness for a contract signer, you can use the method
+`Witness.createContractWitness(List<ContractParameter> verifyParams)` to create a witness for the contract signer. Then,
+add it with `addWitness(Witness witness)` to the transaction.
 
 ## Tracking Transactions
 
