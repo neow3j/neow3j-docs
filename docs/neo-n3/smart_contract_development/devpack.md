@@ -318,15 +318,24 @@ If you want to allow your contract to call any other contract, use the wildcard 
 
 Trusts define what contracts can call your contract, but, in contrast to permissions they are not enforeced. I.e., you
 cannot deter other contracts from calling yours. Trusts are only a definition that wallets and other dApps can use to
-tell the user when a contract is invoked that doesn't trust the calling contract. 
+tell the user when a contract is invoked that doesn't trust the calling contract.
 
-By default the trust probperty is empty, i.e., no contracts are trusted. Use the `io.neow3j.devpack.annotations.Trust`
+By default the trust property is empty, i.e., no contracts are trusted. Use the `io.neow3j.devpack.annotations.Trust`
 annotation to define trusts like in the following example. The first entry is based on a single smart contract hash and
 the second one on a public key of a contract group.
 
 ```java
-@Trust("acce6fd80d44e1796aa0c2c625e9e4e0ce39efc0")
-@Trust("033a4d051b04b7fc0230d2b1aaedfd5a84be279a5361a7358db665ad7857787f1b")
+@Trust(contract = "acce6fd80d44e1796aa0c2c625e9e4e0ce39efc0")
+@Trust(contract = "033a4d051b04b7fc0230d2b1aaedfd5a84be279a5361a7358db665ad7857787f1b")
+public class MyContract {
+```
+
+To trust a native contract, instead of adding its hash to the `contract` attribute, you can use the `nativeContract`
+attribute the same way as it is used in the `@Permission` annotation as specified
+[above](neo-n3/smart_contract_development/devpack.md#Permissions). In the following example, the native StdLib is trusted:
+
+```java
+@Trust(nativeContract = NativeContract.StdLib)
 public class MyContract {
 ```
 
