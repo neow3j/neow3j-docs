@@ -19,7 +19,7 @@ The prerequisites are:
   that can be used with the private key
 
 The UTXOs can be retieved by calling `getUnspents(String address)` on a `Neow3j`
-object (see ["Using the Newow3j Object"](using_the_neow3j_object.md)).
+object (see ["Using the Neow3j Object"](using_the_neow3j_object.md)).
 The response will contain the UTXOs of the provided address per global asset
 (e.g. NEO). In this example it is assumed that one NEO UTXO is available for the
 account of which you possess the private key in WIF.
