@@ -288,7 +288,7 @@ developer can define for her contract. Permissions define which contracts your c
 actively enforced, meaning that once defined in the contract's manifest, any calls from within your contract to
 contracts and methods not contained in the permissions will fail. To define permissions use the 
 `io.neow3j.devpack.annotations.Permission` annotation on class level of your contract class. By default your contract
-will have no permissions. 
+will have no permissions.
 
 The following is an example configuration. It allows your contract to call any method of the contract
 with hash `726cb6e0cd8628a1350a611384688911ab75f51b`, the methods `getBalance` and `transfer` of the contract with hash
@@ -300,6 +300,15 @@ with hash `726cb6e0cd8628a1350a611384688911ab75f51b`, the methods `getBalance` a
 @Permission(contract = "d2a4cff31913016155e38e474a2c06d08be276cf", methods = {"getBalance", "transfer"})
 @Permission(contract = "033a4d051b04b7fc0230d2b1aaedfd5a84be279a5361a7358db665ad7857787f1b", methods = "commonMethodName")
 public class MyContract {
+```
+
+To set a permission for a native contract, you can instead use the `nativeContract` field in the annotation together with
+the enum `NativeContract`. As you may have noticed, the second permission in the example code above refers to the native
+GasToken contract. As it is a native contract, you can instead also use the following annotation, which results in the
+exact same outcome.
+
+```java
+@Permission(nativeContract = NativeContract.GasToken, methods = {"getBalance", "transfer"})
 ```
 
 If you want to allow your contract to call any other contract, use the wildcard permission 
