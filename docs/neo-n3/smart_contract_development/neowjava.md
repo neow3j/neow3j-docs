@@ -104,6 +104,23 @@ example is the `io.neow3j.devpack.neo.Transaction` class. After retrieving a `Tr
 instance variables on the object. Of course, we could add getter and setter methods to the classes instead of accessing
 the members directly, but that incurs a higher GAS fee when executing the contract, because of the extra method call.
 
+###  Multi-dimensional Arrays
+
+Arrays with multiple dimensions are supported. To create a multi-dimensional array without initialization, it is required
+to specify the first (and only the first) dimension size. You can, for example, create the following two-dimensional array
+and later set the value at index `1` to an array that consists of values of type `String`.
+
+```java
+String[][] arr = new String[2][];
+arr[1] = new String[]{"hello", " ", "world", "!"};
+```
+
+The above multi-dimensional array can also be initialized directly when creating it.
+
+```java
+String[][] arr = new String[][]{null, new String[]{"hello", " ", "world", "!"}};
+```
+
 
 ## Contract Class
 
