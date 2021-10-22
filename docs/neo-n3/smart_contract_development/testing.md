@@ -5,7 +5,7 @@ with a specific chain setup. Neow3j offers a test library that allows convenient
 This library lives in the `io.neow3j:devpack-test` module separate from the `devpack`.
 
 After setting up a smart contract project with Gradle as described in the
-[Setup](neo-n3/smart_conract_development/setup_and_compilation.md) guide you are ready to write contract tests.
+[Setup](neo-n3/smart_contract_development/setup_and_compilation.md) guide you are ready to write contract tests.
 
 The [boilerplate repository](https://github.com/neow3j/neow3j-boilerplate) contains an example test, which we use here to explain the basics of a smart contract test. 
 
