@@ -206,8 +206,22 @@ static final Hash160 owner = StringLiteralHelper.addressToScriptHash("NZNos2WqTb
 
 Neow3j supports exceptions and try-catch blocks, but restricts you to using the `java.lang.Exception` class. You can
 either use the constructor with a string argument (`new Exception(String message)`) or the one without any arguments
-(`new Exception()`).  No other exception types are permitted. This restriction implies that you cannot have multiple
-catch clauses that each handle a different exception type. 
+(`new Exception()`). In case no message is provided, a default message `"error"` is passed.
+
+There is a special case for assertions described [below](#assertions), otherwise, no other exception types are
+permitted. This restriction implies that you cannot have multiple catch clauses that each handle a different
+exception type.
+
+If you want to get the exception message in case of a caught exception, you can use the method `getMessage()` as in
+the following example:
+
+```java
+try {
+    throw new Exception("Not allowed.");
+} catch (Exception e) {
+    e.getMessage(); // equals "Not allowed."
+}
+```
 
 ## Assertions
 
