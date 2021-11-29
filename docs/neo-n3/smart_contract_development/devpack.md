@@ -359,6 +359,57 @@ The possible flags are defined and docuemented in `io.neow3j.devpack.constants.C
 `call` method of the `io.neow3j.devpack.Contract` class.
 
 
+## Placeholder Substitution
+
+The devpack offers the possibility to substitute strings used in a contract before compiling it. Any string literal in
+the main contract class can be substituted, even annotation values. Currently, this feature is not supported in
+auxiliary classes used in the contract class.
+
+You have to compile the contract programmatically to be able to use this feature. Checkout
+[this](neo-n3/smart_contract_development/setup_and_compilation.md#programmatic-compilation) section for information on
+how to compile programmatically. The `Compiler` provides a `compile` method that takes a `Map<String, String>`
+parameter. This is the substitution map that tells the compiler which strings are placeholder strings (the map's keys)
+and which values they should be replaced with (the map's values).
+
+```java
+    Map<String, String> substitutionMap = new HashMap<>();
+    substitutionMap.put("<contract_hash>", "da65b600f7124ce6c79950c1772a36403104f2be");
+    substitutionMap.put("<event_name", "TheEvent");
+    ...
+    CompilationUnit res = new Compiler().compile(YourSmartContract.class.getName(), substitutionMap);
+```
+
+Here's an example of how a smart contract using placeholders might look.
+
+```java
+    @Permission(contract = "<contract_hash>", methods = "*")
+    static class PlaceholderSubstitutionContract {
+
+        static final String aString = "<a_string>";
+        static final Hash160 OWNER = StringLiteralHelper.addressToScriptHash("<account_address>");
+
+        @DisplayName("<event_name>")
+        static Event1Arg<String> event;
+
+        public static String method() {
+            String s2 = "<another_string>";
+            return s1 + s2;
+        }
+
+        public static Hash160 getOwner() {
+            return OWNER;
+        }
+    }
+```
+
+Even though the example consistently uses "<>" for placeholder strings, this is not mandatory. You can use any format,
+but be careful that you don't replace strings by accident.
+
+The placeholder substitution feature works in contract tests too. See
+[this](neo-n3/smart_contract_development/testing.md#deployment-configuration) section for more information.
+
+
+
 <!-- ## Annotations
 
 The devpack provides several annotations to be used on smart contract classes and methods. All annotation are contained
