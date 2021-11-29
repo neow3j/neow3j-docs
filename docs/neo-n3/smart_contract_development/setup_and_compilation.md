@@ -51,6 +51,8 @@ artifacts are published there. This is followed by the dependencies block. Here 
 `io.neow3j:devpack` module, which is needed for writing smart contract code. Additionally, we use neow3j's
 `devpack-test` module and JUnit 5 for testing the smart contract.
 
+> **Note:** For `devpack-test` to work, you need to have Docker installed and the Docker deamon must be running.
+
 ```groovy
 repositories {
     mavenCentral()
@@ -72,10 +74,10 @@ tasks.withType(Test) {
 }
 ```
 
-Lastly, there is a block called `neow3jCompiler`, which configures the `neow3jCompile` task. The contract that we want
-to compile is declared by its fully qualified name with the `className` property. The `debug` property determines if the
-compilation should produce debugging inforamtion for the Neo Debugger. There is a third property, which is not shown
-here, called `outputDir` which specifies a directory for placing the compilation results. By default this is
+Lastly, there is a block called `neow3jCompiler`, which configures the `neow3jCompile` Gradle task. The contract that we
+want to compile is declared by its fully qualified name with the `className` property. The `debug` property determines
+if the compilation should produce debugging inforamtion for the Neo Debugger. There is a third property, which is not
+shown here, called `outputDir` which specifies a directory for placing the compilation results. By default this is
 `build/neow3j`.
 
 ```groovy

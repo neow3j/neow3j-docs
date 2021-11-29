@@ -2,145 +2,124 @@
 
 Thoroughly testing a smart contract requires deploying it on a running Neo instance and invoking its methods possibly
 with a specific chain setup. Neow3j offers a test library that allows convenient smart contract testing on top of JUnit.
-This library lives in the `io.neow3j:devpack-test` module separate from the `devpack`.
+This library lives in the `io.neow3j:devpack-test` module.
 
 After setting up a smart contract project with Gradle as described in the
-[Setup](neo-n3/smart_contract_development/setup_and_compilation.md) guide you are ready to write contract tests.
+[Setup](neo-n3/smart_contract_development/setup_and_compilation.md) guide you are also setup for writing contract tests.
 
-The [boilerplate repository](https://github.com/neow3j/neow3j-boilerplate) contains an example test, which we use here to explain the basics of a smart contract test. 
+Checkout the [boilerplate repository](https://github.com/neow3j/neow3j-boilerplate) for a simple example of a contract test class.
 
 ## Test Configuration
 
-A contract test must be annotated with `@ContractTest`. Besides adding some JUnit related functionality it also allows you to configure the test. Here's an example of how this might look:
+A contract test must be annotated with `@ContractTest`. Besides adding JUnit-related functionality it also allows you to
+configure the test. Here's an example of how this might look:
 
 ```java
-@ContractTest(blockTime = 1, contractClass = HelloWorldSmartContract.class)
+@ContractTest(contracts = HelloWorldSmartContractTest.class, blockTime = 1)
 public class HelloWorldSmartContractTest {
 ```
 
-**Contract Class**
+**Contracts**
 
-Most importantly you need to specify the contract under test via the `contractClass` property. The specified contract will be automatically compiled and deployed before all tests (similar to a method annotated with `@BeforeAll`). 
+Most importantly, you need to specify the contracts under test via the `contracts` property. The specified contracts will
+be automatically compiled and deployed before all tests in this test class.
 
 **Block Time**
 
-Smart contract tests run on a neo-express instance that, by default, produces blocks in the interval of 1 second. You
+Smart contract tests run on an underlyig Neo blockchain implementation that produces blocks in a fixed time interval. You
 can change that interval with the `blockTime` property. 
 
 **Batch File**
 
-Neo-Express has a **batch** functionality that allows you to execute a series of commands that alter the blockchain
-state before running it. You can, thereby, initialize the blockchain to a desired state before running the tests. Place
-the batch file in the *resources* directory (i.e., *src/test/resources*) and set the name of the file in the `batchFile`
-property. The batch file is applied once before all tests.
+Some Neo blockchain implementations, like neo-express, have a **batch** functionality that allows you to execute a
+series of commands that alter the blockchain state before running it. You can, thereby, initialize the blockchain to a
+desired state before running the tests. Place the batch file in the *resources* directory (i.e., *src/test/resources*)
+and set the name of the file in the `batchFile` property. The batch file is applied once before all tests.
 
 Checkout the official neo-express
 [documentation](https://github.com/neo-project/neo-express/blob/master/docs/command-reference.md#neoxp-batch) on how to
-write a batch file. 
+write a batch file for neo-express.
 
 **Checkpoint File**
 
-Neo-Express has a **checkpoint** functionality that allows you to load a blockchain state - a checkpoint - that was
-previously exported from another neo-express instance. You can use this functionality in tests by applying such a
-checkpoint before tests are run. The blockchain will then start running starting at the state of the checkpoint.
-Place the checkpoint file in the *resources* directory (i.e., *src/test/resources*) and set the name of the file in the
-`checkpoint` property. The checkpoint file is applied once before all tests. If a batch file is also configured, the
-checkpoint is applied first.
+Some Neo blockchain implementations, like neo-express, have a **checkpoint** functionality that allows you to load a
+blockchain state - a checkpoint - that was previously exported from another blockchain instance. You can use this
+functionality in tests by applying such a checkpoint before tests are run. The blockchain will then start running
+starting at the state of the checkpoint.  Place the checkpoint file in the *resources* directory (i.e.,
+*src/test/resources*) and set the name of the file in the `checkpoint` property. The checkpoint file is applied once
+before all tests. If a batch file is also configured, the checkpoint is applied first.
 
 Checkout the official neo-express
 [documentation](https://github.com/neo-project/neo-express/blob/master/docs/command-reference.md#neoxp-checkpoint) on
-how to generate a checkpoint file. 
+how to generate a checkpoint file for neo-express. 
 
-**Neo-Express Configuration**
+**Chain Configuration**
 
-Neo-Express instances are configured via .neo-express configuration files that specify things like the key material for
-the consensus node, pre-setup accounts and blockchain parameters. The devpack-test library contains a default
-configuration with one consensus node and an account with the name "Alice" that controls the consensus node's private
-key. You can use a custom configuration by adding a .neo-express file to the *resources* directory (i.e.,
-*src/test/resources*) and set the name of the file in the `neoxpConfig` property. The default configuration will be overwritten.
-As a template for the file you can use the library's default config file [here](<!-- TODO Insert link -->).
+The underlying blockchain instance can be configured via a configuration file. E.g., neo-express is configured via
+a .neo-express configuration file that specify, among others, the key material for the consensus node, preset accounts
+and blockchain parameters. The devpack-test library contains a default neo-express configuration file with one consensus
+node and an account that controls the consensus node's private key. You can use a custom configuration by adding a
+configuration file to the *resources* directory (i.e., *src/test/resources*) and set the name of the file in the
+`neoxpConfig` property. The default configuration will be overwritten. As a template for the file you can use the
+library's default neo-express config file [here](<!-- TODO Insert link to the file on master -->).
 
 Checkout the official neo-express
 [documentation](https://github.com/neo-project/neo-express/blob/master/docs/settings.md) on what settings can be used in
-the config file.
+a neo-express config file.
 
-## Test Extenstion
+## Test Extension
 
 Next to the `@ContractTest` annotation you have to add the `ContractTestExtension` to your test class. It is a JUnit 5
-test extension that hooks into the before and after stages of the test class. It starts a test container, runs the
-neo-express instance, applies batches and checkpoints, compiles and deploys your contract, and tears everything down
-after all tests were run.
+test extension that hooks into the before and after stages of the test class. It configures and starts the test
+blockchain, applies batche and checkpoint files, compiles and deploys your contract, and tears everything down after all
+tests were run.
 
 ```java
     @RegisterExtension
     private static ContractTestExtension ext = new ContractTestExtension();
 ```
 
-Furthermore, it provides several methods to control the neo-express instance. You can stop and restart neo-express,
-create new accounts, make assert transfers and retrieve accounts by name.  E.g., `ext.getAccount("Alice")` will check if
-the account with name "Alice" exists on the neo-express instance, fetch its key material, and return an `Account` object
-that can be used, e.g., for signing transactions.
+The `ContractTestExtension` has a second constructor that takes an instance of `TestBlockchain`. This provides
+flexbility for the underlying Neo blockchain implementation used for the tests. Currently only one implementation of
+`TestBlockchain` exists. It uses neo-express in a docker container. In the future other implementations could be added,
+e.g., for running tests directly on the testnet but with limited capabilities compared to a neo-express instance.
 
-## Test Parameters
-
-When annotating your test with the `@ContractTest` annotation, you can make use of a test constructor and automatic
-parameter injection. The available parameters are `Neow3jExpress`, `SmartContract` and `NeoExpressTestContainer`. Add a
-constructor to your test and add does classes as parameters to make JUnit inject them into your test. You don't need to
-add all of them. Add only the ones you actually need in the tests.
+The `ContractTestExtension` provides several methods to control the blockchain instance. You can halt, resume, and
+fast-forward block production, create new accounts or retrieve the genesis accounts with its associated private keys.
+Furthermore, it provides access to a `Neow3j` configured to do RPC method calls to the underlying blockchain and access
+to the `SmartContract` objects representing the deployed contracts. You could retrieve both in a setup method before
+all tests and set them as static variables on your test class.
 
 ```java
-    private Neow3jExpress neow3j;
-    private SmartContract smartContract;
-    private NeoExpressTestContainer container;
-
-    public HelloWorldSmartContractTest(Neow3jExpress neow3j, SmartContract contract, NeoExpressTestContainer container) {
-        this.neow3j = neow3j;
-        this.smartContract = contract;
-        this.container = container;
+    @BeforeAll
+    public static void setUp() {
+        neow3j = ext.getNeow3j();
+        contract = ext.getDeployedContract(HelloWorldSmartContract.class);
     }
 ```
 
-**SmartContract**
+## Deployment Configuration
 
-The most important parameter is the `SmartContract` instance that will allow you to make calls to the deployed smart
-contract. You can use it as described in the SDK's [section](neo-n3/dapp_development/smart_contracts.md) on smart
-contracts. 
-Here's an example:
+The `devpack-test` allows you to configure the deployment of you smart contracts under test by adding a static
+configuration method for each contract. The methods must be annotated with `@DeployConfig` and the annotation's value
+must be set with the class of the contract this configuration is meant for. The method must have a void return type and
+take at least an argument of type `DeployConfiguration` and can additionally take an argument of type `DeployContext`.
+Configuration happens on the `DeployConfiguration` object. Currently, it allows you to set the deployment parameter and
+mappings for placeholder string substitution (described [here](<!-- TODO: Insert link to placeholder docs -->)).
 
 ```java
-    @Test
-    public void invokeBongoCat() throws IOException {
-        NeoInvokeFunction result = smartContract.callInvokeFunction(BONGO_CAT);
-        assertEquals(result.getInvocationResult().getStack().get(0).getString(), "neowwwwwwwwww");
+    @DeployConfig(ExampleContract.class)
+    public static void config2(DeployConfiguration config, DeployContext ctx) {
+        SmartContract sc = ctx.getDeployedContract(AnotherContract.class);
+        config.setDeployParam(ContractParameter.hash160(sc.getScriptHash()));
+        config.setSubstitution("<owner_address>", OWNER_ADDRESS);
+        config.setSubstitution("<contract_hash>", PERMISSION);
     }
-}
+
 ```
 
-Beware that `smartContract.callInvokeFunction(...)` does not change the blockchain state while `smartContrat.invokeFunction(...)` does.
+The example shows, that you can access other contracts under test if they are preceeding in the order of deployment.
+This allows you to grab the contract hash and use it as a deployment parameter in another contract.
 
-If your contract is a token contract, e.g., a non-fungible token, you could use an instance of `FungibleToken` or
-`NonFungibleToken` as described [here](neo-n3/dapp_development/token_contracts.md). This gives you a bit more
-convenience. Just get the script hash of the contract from the `SmartContract` object and create a token contract
-instance with it.
-
-**Neow3jExpress**
-
-The `Neow3jExpress` parameter provides you access to all RPC methods of the neo-express node. Some functions of
-`Neow3jExpress` (and its base class `Neow3j`) are explained [here](neo-n3/dapp_development/interacting_with_a_node.md).
-One method that is often used in tests is `getApplicationLog`. Once you issued a transaction with
-`SmartContract.invokeFunction(...)`, you can use the application logs to inspect the transactions result on the running
-blockchain. Here's an example:
-
-```java
-Hash256 txHash = contract.invokeFunction("method")
-        .signers(AccountSigner.calledByEntry(account))
-        .sign().send().getSendRawTransaction().getHash();
-Await.waitUntilTransactionIsExecuted(txHash, neow3j);
-NeoApplicationLog log = neow3j.getApplicationLog(txHash).send().getApplicationLog();
-assertEquals(log.getExecutions().get(0).getStack().get(0).getInteger().intValue(), 1);
-```
-
-**NeoExpressTestContainer**
-
-The `NeoExpressTestContainer` is available for cases in which you need more fine-grained control over the test container
-on which the tests are run.
+Note that you must not access the `ContractTestExtension` in the configuration methods. It will not be in a consistent
+state at the time these methods get called.
