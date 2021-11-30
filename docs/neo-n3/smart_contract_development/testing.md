@@ -105,7 +105,8 @@ configuration method for each contract. The methods must be annotated with `@Dep
 must be set with the class of the contract this configuration is meant for. The method must have a void return type and
 take at least an argument of type `DeployConfiguration` and can additionally take an argument of type `DeployContext`.
 Configuration happens on the `DeployConfiguration` object. Currently, it allows you to set the deployment parameter and
-mappings for placeholder string substitution (described [here](<!-- TODO: Insert link to placeholder docs -->)).
+mappings for placeholder string substitution (described
+[here](neo-n3/smart_contract_development/devpack.md#placeholder-substitution)).
 
 ```java
     @DeployConfig(ExampleContract.class)
@@ -121,5 +122,9 @@ mappings for placeholder string substitution (described [here](<!-- TODO: Insert
 The example shows, that you can access other contracts under test if they are preceeding in the order of deployment.
 This allows you to grab the contract hash and use it as a deployment parameter in another contract.
 
-Note that you must not access the `ContractTestExtension` in the configuration methods. It will not be in a consistent
+Note, that you can set only one deployment parameter. That is according to the standardized `_deploy` method in smart
+contracts. It takes only one deployment parameter. Thus, if you want to pass multiple parameters, pack them into an
+array parameter.
+
+Also note, that you must not access the `ContractTestExtension` in the configuration methods. It will not be in a consistent
 state at the time these methods get called.
