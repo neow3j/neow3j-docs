@@ -247,6 +247,9 @@ for (int i = 0; i < arr.length; i++) {
 }
 ```
 
+You can use `io.neow3j.devpack.List` instead of Java arrays. It provides more convenience than plain arrays but is
+represented as the same stack item on the NeoVM, i.e., does not bring more execution overhead with it.
+
 ## Type Comparison
 
 NeowJava has a few caveats when it comes to type comparison. As you know, in Java, the `==` operator compares primitive
