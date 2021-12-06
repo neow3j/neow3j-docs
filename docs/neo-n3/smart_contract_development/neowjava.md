@@ -233,8 +233,19 @@ check fails, an exception is thrown with the message `No authorization.`.
 assert Runtime.checkWitness(owner) : "No authorization.";
 ```
 
->**Note:** The NeoVM supports an Opcode `ASSERT`, however, it does not (yet) allow to pass a message, hence the above
->workaround.
+## Arrays
+
+You can use arrays as usual. The only ristriction are multi-dimensional arrays. With these you cannot set more than the
+first dimension. Meaning, when you instantiate a multi-dimensional array you cannot specify the length of all other
+dimensions than the first one.  Thus, the expression `new String[10][4]` will fail, but `new String[10][]` will compile.
+To set the second dimensions you could cycle through the first dimension and initialize each slot as follows.
+
+```java
+String[][] arr = new String[10][];
+for (int i = 0; i < arr.length; i++) {
+    arr[i] = new String[4];
+}
+```
 
 ## Type Comparison
 
