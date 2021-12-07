@@ -127,5 +127,7 @@ Note, that you can set only one deployment parameter. That is according to the s
 contracts. It takes only one deployment parameter. Thus, if you want to pass multiple parameters, pack them into an
 array parameter.
 
-Also note, that you must not access the `ContractTestExtension` in the configuration methods. It will not be in a consistent
-state at the time these methods get called.
+Also note, if you use a `setUp` method annotated with `@BeforeAll`, beware that deployment configuration methods are
+invoked before the `setUp` method. Thus, things that you set up there, will not be available yet in the configuration
+methods. The same is true for access to the `ContractTestExtension` object. It is not yet in a consistent state when the
+configuration methods are called, i.e., don't use the `ContractTestExtension` object in the config methods.
