@@ -61,7 +61,8 @@ and blockchain parameters. The devpack-test library contains a default neo-expre
 node and an account that controls the consensus node's private key. You can use a custom configuration by adding a
 configuration file to the *resources* directory (i.e., *src/test/resources*) and set the name of the file in the
 `neoxpConfig` property. The default configuration will be overwritten. As a template for the file you can use the
-library's default neo-express config file [here](<!-- TODO Insert link to the file on master -->).
+library's default neo-express config file
+[here](https://github.com/neow3j/neow3j/blob/master-3.x/test-tools/src/main/resources/default.neo-express).
 
 Checkout the official neo-express
 [documentation](https://github.com/neo-project/neo-express/blob/master/docs/settings.md) on what settings can be used in
