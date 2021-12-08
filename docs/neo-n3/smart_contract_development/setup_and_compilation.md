@@ -27,7 +27,7 @@ compilation.
 ```groovy
 plugins {
     id 'java'
-    id 'io.neow3j.gradle-plugin' version "3.13.1"
+    id 'io.neow3j.gradle-plugin' version "3.14.0"
 }
 ```
 
@@ -59,10 +59,10 @@ repositories {
 }
 
 dependencies {
-    implementation 'io.neow3j:devpack:3.13.1'
+    implementation 'io.neow3j:devpack:3.14.0'
 
     testImplementation 'org.junit.jupiter:junit-jupiter:5.8.0', 
-            'io.neow3j:devpack-test:3.13.1'
+            'io.neow3j:devpack-test:3.14.0'
 }
 ```
 
@@ -109,7 +109,7 @@ The neow3j compiler can also be invoked programmatically from within another Jav
 Gradle:
 
 ```groovy
-implementation 'io.neow3j:compiler:3.13.1',
+implementation 'io.neow3j:compiler:3.14.0',
 ```
 
 Maven:
@@ -118,7 +118,7 @@ Maven:
 <dependency>
     <groupId>io.neow3j</groupId>
     <artifactId>compiler</artifactId>
-    <version>3.13.1</version>
+    <version>3.14.0</version>
 </dependency>
 ```
 
