@@ -103,15 +103,16 @@ all tests and set them as static variables on your test class.
 
 The `devpack-test` allows you to configure the deployment of you smart contracts under test by adding a static
 configuration method for each contract. The methods must be annotated with `@DeployConfig` and the annotation's value
-must be set with the class of the contract this configuration is meant for. The method must have a void return type and
-take at least an argument of type `DeployConfiguration` and can additionally take an argument of type `DeployContext`.
-Configuration happens on the `DeployConfiguration` object. Currently, it allows you to set the deployment parameter and
-mappings for placeholder string substitution (described
-[here](neo-n3/smart_contract_development/devpack.md#placeholder-substitution)).
+must be set with the class of the contract this configuration is meant for. The method must return `DeployConfiguration`
+and take either no or an optional argument of type `DeployContext`. Configuration happens on the `DeployConfiguration`
+object. Currently, it allows you to set the deployment parameter, mappings for placeholder string substitution
+(described [here](neo-n3/smart_contract_development/devpack.md#placeholder-substitution)), and the signer of the deploy
+transaction (single and multi-sig accounts).
 
 ```java
     @DeployConfig(ExampleContract.class)
-    public static void config2(DeployConfiguration config, DeployContext ctx) {
+    public static DeployConfiguration config2(DeployContext ctx) {
+        DeployConfiguration config = new DeployConfiguration();
         SmartContract sc = ctx.getDeployedContract(AnotherContract.class);
         config.setDeployParam(ContractParameter.hash160(sc.getScriptHash()));
         config.setSubstitution("<owner_address>", "NXXazKH39yNFWWZF5MJ8tEN98VYHwzn7g3");
@@ -128,6 +129,5 @@ contracts. It takes only one deployment parameter. Thus, if you want to pass mul
 array parameter.
 
 Also note, if you use a `setUp` method annotated with `@BeforeAll`, beware that deployment configuration methods are
-invoked before the `setUp` method. Thus, things that you set up there, will not be available yet in the configuration
-methods. The same is true for access to the `ContractTestExtension` object. It is not yet in a consistent state when the
-configuration methods are called, i.e., don't use the `ContractTestExtension` object in the config methods.
+invoked before such a `setUp` method. Thus, things that you set up there, will not be available yet in the configuration
+methods. If you rely on accounts in the configuration method, set them up in the static constructor of your test class.
