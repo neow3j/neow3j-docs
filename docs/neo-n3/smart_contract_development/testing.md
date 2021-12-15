@@ -108,6 +108,8 @@ and take either no or an optional argument of type `DeployContext`. Configuratio
 object. Currently, it allows you to set the deployment parameter, mappings for placeholder string substitution
 (described [here](neo-n3/smart_contract_development/devpack.md#placeholder-substitution)), and the signer of the deploy
 transaction (single and multi-sig accounts).
+The `DeployContext` parameter allows you to access contracts that are preceeding in the deployment order. It also
+provides the deployment transaction hashes.
 
 ```java
     @DeployConfig(ExampleContract.class)
@@ -115,10 +117,12 @@ transaction (single and multi-sig accounts).
         DeployConfiguration config = new DeployConfiguration();
         SmartContract sc = ctx.getDeployedContract(AnotherContract.class);
         config.setDeployParam(ContractParameter.hash160(sc.getScriptHash()));
+
         config.setSubstitution("<owner_address>", "NXXazKH39yNFWWZF5MJ8tEN98VYHwzn7g3");
         config.setSubstitution("<contract_hash>", "ef4073a0f2b305a38ec4050e4d3d28bc40ea63f5");
-    }
 
+        config.setSigner(AccountSigner.calledByEntry(anAccount));
+    }
 ```
 
 The example shows, that you can access other contracts under test if they are preceeding in the order of deployment.
