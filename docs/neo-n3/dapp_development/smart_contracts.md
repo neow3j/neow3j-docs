@@ -99,10 +99,7 @@ account that is registered under the domain name "neo.com".
 
 ```java
 Neow3j neow3j = Neow3j.build(new HttpService("http://localhost:40332"));
-
 Account account = Account.fromWIF("L3kCZj6QbFPwbsVhxnB8nUERDy4mhCSrWJew4u5Qh5QmGMfnCTda");
-Wallet wallet = Wallet.withAccounts(account);
-
 Hash160 scriptHash = new Hash160("0x1a70eac53f5882e40dd90f55463cce31a9f72cd4");
 String function = "register";
 

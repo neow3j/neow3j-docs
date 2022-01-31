@@ -1,52 +1,38 @@
 # Devpack
 
-The neow3j devpack provides classes, methods and annotations required for writing smart contracts in
-Java. For example, if your smart contract needs to verify a transaction signature, the devpack offers
-a method for that. Or, if you want to publish detailed information about the contract in its
-manifest, you can use one of the devpack's annotations.
-The following sections describe the devpack's API, frequently used concepts and constructs. 
-
-
-## Neo Smart Contract API
-
-The biggest part of the devpack is the Neo smart contract API. It provides many functionalities, for
-example, retrieving blockchain information, access a contract's storage area, and interact with the
-execution environment in which a contract is run. This API is the same for all Neo smart contract devpacks, e.g.
-[neo-boa](https://github.com/CityOfZion/neo-boa) or [neo-go](https://github.com/nspcc-dev/neo-go).
-You can find the documentation on it in the official 
-[Neo docs](https://docs.neo.org/v3/docs/en-us/reference/scapi/fw/dotnet/neo.html). 
+The neow3j devpack provides classes, methods and annotations required for writing smart contracts in Java. For example,
+if your smart contract needs to verify a transaction signature, the devpack offers a method for that. Or, if you want to
+publish detailed information about the contract in its manifest, you can use one of the devpack's annotations.
+The following sections describe the devpack's API, frequently used concepts and constructs. Not every class is described
+here. Use the [Javadocs](https://javadoc.io/doc/io.neow3j/devpack/latest/overview-summary.html) as well to get an
+overview of the devpacks capabilities.
 
 
 ## Hashes
 
-As with neow3j SDK, the devpack provides special types for hashes too. Use `Hash160` for contract and account hashes and
+As with neow3j SDK, the devpack provides special types for hashes. Use `Hash160` for contract and account hashes and
 `Hash256` for transaction and block hashes. The underlying stack item of both of these types is a NeoVM byte string,
-thus, changing to and from `ByteString` doesn't require an actual conversion. Though, when you use the constructors
-`Hash160(ByteString value)` an `Hash256(ByteString value)` the devpack inserts checks that make sure the value is a
-valid hash of the respective size. If it is not, the VM will stop in a FAULT state.  
-You can use `Hash160.isValid(Object obj)`/`Hash256.isValid(Object obj)` before using the constructor to check if the
-object is a valid hash. That way you don't risk a VM halt.
+thus, changing to and from `ByteString` doesn't require an actual conversion. When you use the constructors
+`Hash160(ByteString value)` an `Hash256(ByteString value)` the devpack does **not** check if the value is a valid hash
+with correct size. Use `Hash160.isValid(Object o)` or `Hash256.isValid(Object o)` on an object if you need to check for
+validity. 
 
 ## Storage
 
-Every smart contract on the Neo blockchain has its own key-value storage. This storage is accessed
-via a so called storage context. The context is the gateway to the contract's storage. This
-additional concept between you and the storage potentially allows you to pass the context to another
-contract, which could then access your contract's storage directly. 
+Every smart contract on the Neo blockchain has its own key-value store. This storage is accessed via a so called storage
+context. The context is the gateway to the contract's storage. This additional concept between you and the storage
+potentially allows you to pass the context to another contract, which could then access your contract's storage
+directly. In the devpack, the storage context is represented by the `io.neow3j.devpack.StorageContext` class. 
 
-In the devpack, the storage context is represented by the `io.neow3j.devpack.neo.StorageContext` class. The pivotal
-class related to contract storage is `io.neow3j.devpack.neo.Storage`. It provides many `put(...)` and `get(...)` methods
-for writing to the storage and reading from it. Each of theses methods requires the storage context as an argument.
-Thus, it makes sense to retrieve the `StorageContext` once with `Storage.getStorageContext()`, store it in a static
-class variable and reuse it every time the storage is accessed. This will save GAS in contract invocations.
+Methods for accessing storage are on the classes `io.neow3j.devpack.Storage` and `io.neow3j.devpack.StorageMap`. They
+provide many `put` and `get` methods for different key and return types. Because the storage context is always required
+for such method calls, it makes sense to retrieve the `StorageContext` once with `Storage.getStorageContext()`, store it
+in a static class variable and reuse it every time the storage is accessed. This can save GAS in contract invocations.
+Use the `StorageMap` if you want to reserve a segment of the storage for a specific purpose. Storage maps use a prefix
+that is appended to every key used in that map. 
 
-Note that the size for storage keys and values is limited to 64 bytes and 65535 bytes, respectively. When using the
-`StorageMap` class, the map prefix counts towards the key size.
-
-
-<!-- Storing and loading objects to and from a contract's storage is possible by using the `StdLib`
-native contract. Use `StdLib.serialize(Object obj)` before writting the object to storage and
-`StdLib.deserialize(byte[] bytes)` after fetching the object from storage. -->
+Note that the size for storage keys and values is limited to 64 bytes and 65535 bytes, respectively. When using a
+`StorageMap` the map prefix counts towards the key size.
 
 
 ## Smart Contract Interfaces

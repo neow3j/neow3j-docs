@@ -10,32 +10,21 @@ purposes, because such libraries might contain unsupported code or code that is 
 
 ## Types
 
-The NeoVM works with types called stack items (because the NeoVM is a stack machine). These stack
-items don't all have a matching type provided by Java and its standard library. Thus, the devpack adds new types that
-map to the corresponding stack item on the NeoVM. The following table shows which Java types map to which NeoVM stack
-items. 
+The NeoVM works with types called stack items - the NeoVM is a stack machine. The neow3j devpack maps Java types to
+those stack item types. The following table shows the devpack's most important Java types and their correspdongin NeoVM
+stack items.
 
-| Java type                      | Stack Item | Description |
-|--------------------------------|------------|-------------|
-| `int`/`Integer`                | Integer    | Java integers have a corresponding integer stack item on the NeoVM. The difference to normal Java integers is the range. On the NeoVM the integer range is not restricted to [2<sup>-31</sup>, 2<sup>31</sup>-1]. We discuss integers in more depth below. |   
-| `boolean`/`Boolean`            | Boolean    | Java's `boolean` maps to the Boolean stack item on the NeoVM. But, the NeoVM also uses Integer stack items in the range [0,1] for boolean values. Don't worry if you get an Integer stack item as a return value even if your contract method returns a `boolean`. |
-| `io.neow3j.devpack.ByteString` | ByteString | A NeoVM ByteString is an immutable byte array. This is a type introduced by the devpack because there exists no corresponding Java type for the ByteString stack item. |
-| `java.lang.String`             | ByteString | Java `String`s map to UTF-8 ByteStrings on the NeoVM. Thus, converting from `String` to `ByteString`, e.g., via `new ByteString(String s)` does not add any costs to a contract. |
-| `io.neow3j.devpack.Hash160`    | ByteString | `Hash160` is useful to ensure correct handling of contract and account hashes. On the NeoVM they map to ByteString. |
-| `io.neow3j.devpack.Hash256`    | ByteString | `Hash256` is useful to ensure correct handling of block and transaction hashes. On the NeoVM they map to ByteString. |
-| `io.neow3j.devpack.ECPoint`    | ByteString | `ECPoint` is useful to ensure correct handling of elliptic curve points. On the NeoVM they map to ByteString. |
-| `byte[]`/`Byte[]`              | Buffer     | Java's byte arrays map to a stack item called Buffer on the NeoVM. The difference to `ByteString` is that they are mutable. |
-| `io.neow3j.devpack.Map`        | Map        | The NeoVM has a dedicated stack item for maps for which the devpack provides a corresponding `Map` type. Note that it is not possible to use `java.utils.Map` instead. | 
-| `io.neow3j.devpack.List`       | Array      | The NeoVM has a dedicated stack item for arrays (other than byte array) for which the devpack provides a corresponding `List` type. Note, that it's not possible to use `java.utils.List` instead. |
-| Arrays like `int[]`            | Array      | Instead of using `List` you can also use arrays as usual in Java, e.g., `String[]` can be used in place of `List<String>`. |
-| `io.neow3j.devpack.Iterator.Struct` | Struct | The NeoVM's Struct stack item is similar to Array. The devpack uses it only for key-value pairs when iterating over contract storage entries. |
-| Custom Objects                 | Array      | All other classes, or rather instances of these classes, are represented as Arrays on the NeoVM. A more detailed explanation is given below. |
-
-Java uses the categories of primitive and complex types. If we carry this concept over to NeowJava we have the following
-primitive types: `int` (and all other number types), `boolean`, `byte[]`, `ByteString`, `String`, `Hash160`, `Hash256`,
-and `ECPoint`. So, even though some of these types are complex types in the Java world, on the NeoVM they are primitive
-types.  
-The complex types are `List`, arrays, `Map`, `Iterator.Struct`, and custom objects.
+| Java type                      | Stack Item Type | Description |
+|--------------------------------|-----------------|-------------|
+| `int`/`Integer`                | Integer         | Java integers have a corresponding integer stack item on the NeoVM. The difference to normal Java integers is the range. On the NeoVM the integer range is not restricted to [2<sup>-31</sup>, 2<sup>31</sup>-1]. We discuss integers in more depth below. |   
+| `boolean`/`Boolean`            | Boolean         | Java's `boolean` maps to the Boolean stack item on the NeoVM. But, the NeoVM also uses Integer stack items in the range [0,1] for boolean values. Don't worry if you get an Integer stack item as a return value even if your contract method returns a `boolean`. |
+| `byte[]`/`Byte[]`              | Buffer          | Java's byte array maps to a stack item called Buffer on the NeoVM. This is a mutable byte aray.
+| `io.neow3j.devpack.ByteString` | ByteString      | This is an immutable byte array. The NeoVM ByteString type does not have a corresponding type in Java, thus, `ByteString` was introduced by the devpack. |
+| `java.lang.String`             | ByteString      | The Java `String` is represented as a UTF-8 encoded byte array on the NeoVM. The stack item type is ByteString. |
+| `io.neow3j.devpack.Map`        | Map             | The NeoVM has a dedicated stack item type for maps. The devpack provides a corresponding `Map` type. Note, that it is not possible to use `java.utils.Map` instead. | 
+| `io.neow3j.devpack.List`       | Array           | The NeoVM has a dedicated stack item type for arrays that are not byte arrays. The devpack provides a corresponding `List` type . Note, that it's not possible to use `java.utils.List` instead. |
+| Arrays like `int[]`            | Array           | Instead of using `List` you can also use array types, e.g., `String[]`. They are also represented with the Array stack item type. |
+| Custom Objects                 | Array           | All other classes, or rather instances of these classes, are represented as Arrays on the NeoVM. A more detailed explanation is given below. |
 
 ### Byte Arrays
 
@@ -77,6 +66,30 @@ methods.
 Neow3j supports string concatenation with the `+` operator but mixing in other types is not. For example, 
 `"hello" + "world"` works, but `"hello" + 5` does not. 
 
+### Arrays
+
+You can use arrays as usual. You will only face some restrictions with multi-dimensional arrays. When initialising a
+multi-dimensional array you cannot specify the length of all other dimensions but the first one.  Thus, the expression
+`new String[10][4]` will fail, but `new String[10][]` will compile. To set the second dimensions you could cycle
+through the first dimension and initialize each slot as follows.
+
+```java
+String[][] arr = new String[10][];
+for (int i = 0; i < arr.length; i++) {
+    arr[i] = new String[4];
+}
+```
+
+Direct instantiatetion with specific values also works. 
+
+```java
+String[][] arr = new String[][]{null, new String[]{"hello", " ", "world", "!"}};
+```
+
+In any case, the compiler will tell you if what you try works or not. You can use `io.neow3j.devpack.List` instead of
+Java arrays. It provides more convenience than plain arrays. It is represented as the same stack item on the NeoVM as an
+array and is, therefore, not more expensive.
+
 ### Objects
 
 Instances of all other devpack classes not mentioned in the above table, and also the classes you define yourself, are
@@ -104,22 +117,6 @@ example is the `io.neow3j.devpack.neo.Transaction` class. After retrieving a `Tr
 instance variables on the object. Of course, we could add getter and setter methods to the classes instead of accessing
 the members directly, but that incurs a higher GAS fee when executing the contract, because of the extra method call.
 
-###  Multi-dimensional Arrays
-
-Arrays with multiple dimensions are supported. To create a multi-dimensional array without initialization, it is required
-to specify the first (and only the first) dimension size. You can, for example, create the following two-dimensional array
-and later set the value at index `1` to an array that consists of values of type `String`.
-
-```java
-String[][] arr = new String[2][];
-arr[1] = new String[]{"hello", " ", "world", "!"};
-```
-
-The above multi-dimensional array can also be initialized directly when creating it.
-
-```java
-String[][] arr = new String[][]{null, new String[]{"hello", " ", "world", "!"}};
-```
 
 
 ## Contract Class
@@ -178,7 +175,7 @@ not inlined when marking them with `final`.
 static int initialSupply = 200_000_000;
 static String totalSupplyKey = "totalSupply";
 static StorageContext sc = Storage.getStorageContext();
-static StorageMap assetMap = sc.createMap(assetPrefix);
+static StorageMap assetMap = new StorageMap(sc, "assets");
 ```
 
 Neow3j also supports the static initializer clause as shown below. But, the instance initializer, i.e., the same
@@ -233,22 +230,6 @@ check fails, an exception is thrown with the message `No authorization.`.
 assert Runtime.checkWitness(owner) : "No authorization.";
 ```
 
-## Arrays
-
-You can use arrays as usual. The only ristriction are multi-dimensional arrays. With these you cannot set more than the
-first dimension. Meaning, when you instantiate a multi-dimensional array you cannot specify the length of all other
-dimensions than the first one.  Thus, the expression `new String[10][4]` will fail, but `new String[10][]` will compile.
-To set the second dimensions you could cycle through the first dimension and initialize each slot as follows.
-
-```java
-String[][] arr = new String[10][];
-for (int i = 0; i < arr.length; i++) {
-    arr[i] = new String[4];
-}
-```
-
-You can use `io.neow3j.devpack.List` instead of Java arrays. It provides more convenience than plain arrays but is
-represented as the same stack item on the NeoVM, i.e., does not bring more execution overhead with it.
 
 ## Type Comparison
 
