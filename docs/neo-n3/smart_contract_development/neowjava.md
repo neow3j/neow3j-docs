@@ -233,49 +233,27 @@ assert Runtime.checkWitness(owner) : "No authorization.";
 
 ## Type Comparison
 
-NeowJava has a few caveats when it comes to type comparison. As you know, in Java, the `==` operator compares primitive
-data types by value and complex type by reference. In NeowJava this is similar but with some exceptions. 
-The types that compare by value are: 
+As you know, in Java, the `==` operator compares primitive data types by value and complex type by reference. In
+NeowJava behaves differently. When using `==` the following rules apply.
 
-- `int` (and all other number types)
-- `boolean`
-- `String`
-- `ByteString`
-- `Hash160`
-- `Hash256` 
-- `ECPoint`
-- `Iterator.Struct` 
+- The types that compare by value are: `int`, `Integer`, `boolean`, `Boolean`, `String`,
+`ByteString`, `Hash160`, `Hash256`, `ECPoint`, `Iterator.Struct`.  
 
-If we take the example of `String`, we see that in NeowJava using `==` or `equals(String s)` does the same (comparison
-by value), while in Java `==` is a reference comparison.
+- The types that compare by reference are:`byte[]`, `List`, `Map`, arrays (e.g., `int[]`), custom objects. 
 
-The types that compare by reference are:
-- `byte[]`
-- `List`
-- Arrays (e.g., `int[]`) 
-- `Map`
-- Custom objects. 
+If a devpack class provides an `equals` method, you can be assured it is a comparison by value.
+Take `String` as an example. Using `==` to compare two strings in NeowJava will result in a comparison by value. Using
+`equals` does the same.
 
-If you want to compare does types by value you need to write extra methods to do so, i.e., implement `equals(...)`.
+## Type Checking
 
-## Instance of
+The neow3j compiler supports the `instanceof` keyword for the following types:
+`int`, `Integer`,`boolean`, `Boolean`, `byte[]`, `String`, `ByteString`, `Hash160`, `Hash256`, `ECPoint`, `Map`, `List`,
+`InteropInterface`, `Iterator.Struct`, arrays.
 
-The neow3j compiler supports the `instanceof` keyword for only for the following types:
-
-- `int` (and all other number types)
-- `boolean`
-- `byte[]`
-- `java.lang.String`
-- `io.neow3j.devpack.ByteString`
-- `io.neow3j.devpack.Map`
-- `io.neow3j.devpack.List`
-- `io.neow3j.devpack.InteropInterface`
-- `io.neow3j.devpack.Iterator.Struct`
-
-This is because only these types have a corresponding stack item on the NeoVM for which a type check can be made. The
-NeoVM will represent all other classes that you create as Array stack items without any type information.  Thus,
-checking the type with `instanceof` is not possible. The neow3j compiler will throw an error if you try to put any other
-type than what's on the list above on the right side of `instanceof`.
+Custom objects are not supported with the `instanceof` operation. This is because the NeoVM doesn't carry the type
+information with custom objects on the stack. They are represented as array stack items without type information. The neow3j
+compiler will throw an error if you use `instanceof` with an unsupported type.
 
 ## Inheritance
 
