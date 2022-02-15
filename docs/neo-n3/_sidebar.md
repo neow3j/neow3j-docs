@@ -12,11 +12,11 @@
 
   - [Introduction](neo-n3/smart_contract_development/introduction.md)
   - [Setup & Compilation](neo-n3/smart_contract_development/setup_and_compilation.md)
+  - [Testing](neo-n3/smart_contract_development/testing.md)
   - [Debugging](neo-n3/smart_contract_development/debugging.md)
   - [Deployment](neo-n3/smart_contract_development/deployment.md)
   - [NeowJava](neo-n3/smart_contract_development/neowjava.md)
   - [Devpack](neo-n3/smart_contract_development/devpack.md)
-  - [Testing](neo-n3/smart_contract_development/testing.md)
 
 
 - Tutorials & Examples
