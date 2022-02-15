@@ -47,25 +47,3 @@ provides basic control over neo-express via IntelliJ's UI. For usage instruction
   compilation. 
 
 - For running smart contract tests you need to have [**Docker**](https://www.docker.com/products/docker-desktop) installed locally.
-
-<!-- The documentation on smart contract development is divided into the following sections:
-
-- If you are new to smart contracts, start with the [Setup](neo-n3/smart_contract_development/setup.md). It will guide
-  you through the basic **setup, implemtation, and compilation of a simple contract**.
-
-- The principles and differences of developing in **NeowJava versus Java** are documented in the section 
-  [NeowJava](neo-n3/smart_contract_development/neowjava.md).
-
-- A detailed documentation on the **devpack's API** can be found in the 
-  [Devpack](neo-n3/smart_contract_development/devpack.md) section.
-
-- The possibilities of how to **compile a smart contract** are documented in the 
-  [Compilation](neo-n3/smart_contract_development/compilation.md) section.
-
-- For information on **debugging** go to the [Debugging](neo-n3/smart_contract_development/debugging.md) section.
-
-- For information on **contract deployment** check out the [Deployment](neo-n3/smart_contract_development/deployment.md)
-  section. 
-
-- More **smart contract examples** can be found in the
-  [neow3j-examples](https://github.com/neow3j/neow3j-examples-java) repository. -->
