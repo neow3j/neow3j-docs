@@ -1,6 +1,6 @@
 # neow3j Documentation
 
-Welcome to the repository that hosts the documentation the [neow3j](https://neow3j.io) Java library. 
+Welcome to the repository that hosts the documentation of the [neow3j](https://neow3j.io) Java library.
 
 The documentation website runs at http://neow3j.io/.
 
@@ -12,7 +12,7 @@ Besides this documentation you can also get answers and help through:
 ## Running it locally
 
 You can run the documentation website locally with [docsify](https://docsify.js.org/#/).
-Install docsify via the [npm](https://www.npmjs.com/) package manager. 
+Install docsify via the [npm](https://www.npmjs.com/) package manager.
 
 ```
 npm i docsify-cli -g

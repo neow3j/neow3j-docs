@@ -27,7 +27,7 @@ be automatically compiled and deployed before all tests in this test class.
 **Block Time**
 
 Smart contract tests run on an underlyig Neo blockchain implementation that produces blocks in a fixed time interval. You
-can change that interval with the `blockTime` property. 
+can change that interval with the `blockTime` property.
 
 **Batch File**
 
@@ -51,7 +51,7 @@ before all tests. If a batch file is also configured, the checkpoint is applied 
 
 Checkout the official neo-express
 [documentation](https://github.com/neo-project/neo-express/blob/master/docs/command-reference.md#neoxp-checkpoint) on
-how to generate a checkpoint file for neo-express. 
+how to generate a checkpoint file for neo-express.
 
 **Chain Configuration**
 
