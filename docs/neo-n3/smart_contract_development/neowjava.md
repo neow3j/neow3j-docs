@@ -57,7 +57,7 @@ byte. The methods do not truncate the argument, but throw an exception if the va
 
 ### Strings
 
-Intuitively you can use Java's `String` type for strings. But be aware that on the neo-vm a `String` is not represented
+Intuitively you can use Java's `String` type for strings. But be aware that on the NeoVM a `String` is not represented
 as an object, but as a UTF8-encoded ByteString stack item. This means that you cannot make use of `String` instance
 methods like `contains()` or `indexOf()`. The exception is the `length()` method, which works as expected. Checkout the
 `io.neow3j.devpack.Helper` and `io.neow3j.devpack.StringLiteralHelper` clases which offer of String related helper
@@ -249,19 +249,62 @@ Take `String` as an example. Using `==` to compare two strings in NeowJava will 
 
 The neow3j compiler supports the `instanceof` keyword for the following types:
 `int`, `Integer`,`boolean`, `Boolean`, `byte[]`, `String`, `ByteString`, `Hash160`, `Hash256`, `ECPoint`, `Map`, `List`,
-`InteropInterface`, `Iterator.Struct`, arrays.
+`Notification`, `InteropInterface`, `Iterator.Struct`, arrays.
 
 Custom objects are not supported with the `instanceof` operation. This is because the NeoVM doesn't carry the type
 information with custom objects on the stack. They are represented as array stack items without type information. The neow3j
 compiler will throw an error if you use `instanceof` with an unsupported type.
 
+## Structs
+
+For a collection of specific types you can create a class with field variables of different types. On the NeoVM this will
+refer to a struct stack item. In order to use a class as a struct, you can use the annotation `io.neow3j.devpack.annotations.Struct`.
+You can then set up a constructor that sets its values. Have a look at the following example:
+
+```java
+@Struct
+public static class ExampleStruct {
+    public int id;
+    public Hash160 owner;
+    public Map<String, Integer> customValues;
+
+    ExampleStruct(int id, Hash160 owner, Map<String, Integer> customValues) {
+        this.id = id;
+        this.owner = owner;
+        this.customValues = customValues;
+    }
+}
+```
+
 ## Inheritance
 
 Every Java class that doesn't explicitely extend another class is a subclass of `Object` and has access to its methods
 even without overwriting them. However, NeowJava prohibits usage of `Object` methods like `toString` or `equals`
-if they are not explicitely overridden. 
+if they are not explicitely overridden.
 
-Suport for inheritance with the `extends` keyword is in development. It currently only works properly with Contract
+Neow3j supports the inheritance of struct classes, i.e., classes annotated with `@Struct`. You can use the keyword `extends`
+to inherit field variables from another struct. In the following example, by instantiating a `Car`, the created struct on the
+NeoVM will hold both variables `brand` and `model`.
+
+```java
+class Vehicle {
+    public String brand;
+
+    Vehicle(String brand) {
+        this.brand = brand;
+    }
+}
+
+class Car extends Vehicle {
+    public String model;
+
+    Car(String brand, String model) {
+        super(brand);
+        this.model = model;
+    }
+```
+
+Further support for inheritance with the `extends` keyword is in development. It currently only with structs and Contract
 Interfaces as described [here](neo-n3/smart_contract_development/devpack.md#smart-contract-interfaces).
 
 ## Unsupported Features
@@ -270,7 +313,7 @@ First of all, the neow3j compiler is based on Java 8. Thus, any Java features ad
 supported. Other features that Java 8 includes but the neow3j compiler does not support are:
 
 - Floating point numbers, i.e., `float`/`Float` and `double`/`Double`. Floating point numbers are not supported by the
-  NeoVM and can, thus, not be used in NeowJava smart contracts. Everything happens with integers.
+    NeoVM and can, thus, not be used in NeowJava smart contracts. Everything happens with integers.
 
 - Enums
 

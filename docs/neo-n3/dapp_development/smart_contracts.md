@@ -38,9 +38,10 @@ correct type declaration. For example, if you need to pass a script hash of a NE
 the method `ContractParameter.hash160(...)`. It converts the script hash to the expected byte array.
 
 If you invoke a contract that takes an object as a parameter, you need to use a contract parameter of type `Array`.
-As an example, assume the that the `Bongo` class below is the expecte method parameter. 
+As an example, assume the that the `Bongo` struct class below is the expected method parameter. 
 
 ```java
+@Struct
 public class Bongo {
 
     public String lowNote;

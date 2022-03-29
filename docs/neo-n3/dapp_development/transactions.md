@@ -130,7 +130,7 @@ If you call `getApplicationLog()` before the transaction is included in a block 
 ## Adding additional Network Fees
 
 There are two kind of fees one has to pay for a transaction, the system fee and the network fee. The system fee is the
-cost of resources consumed by the execution of a script on the neo-vm. It depends on the number and type of instructions
+cost of resources consumed by the execution of a script on the NeoVM. It depends on the number and type of instructions
 executed in the script. The network fee is paid for the size of the transaction and the effort needed for signature
 verification. Adding a higher network fee than needed gives the transaction priority in the network. Neow3j
 automatically fetches the necessary system and network fees for a transaction, but you can add an additional network fee

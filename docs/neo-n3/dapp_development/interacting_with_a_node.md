@@ -103,7 +103,7 @@ if (response.hasError()) {
 }
 // Get the first execution. Usually there is only one execution.
 NeoApplicationLog.Execution execution = response.getApplicationLog().getExecutions().get(0);
-// Check if the execution ended in a Neo VM state FAULT.
+// Check if the execution ended in a NeoVM state FAULT.
 if (execution.getState().equals(NeoVMStateType.FAULT)) {
     throw new Exception("Invocation failed");
 }

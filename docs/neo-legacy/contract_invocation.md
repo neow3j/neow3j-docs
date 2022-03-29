@@ -183,7 +183,7 @@ If your contract expects certain other information to be provided along with the
 attributes and scripts.
 
 Neow3j already adds some attributes automatically if your invocation does not include any outputs (e.g. fee payments).
-This includes a script attribute that tells the NEO VM which address it should use for validating the transaction's
+This includes a script attribute that tells the NeoVM which address it should use for validating the transaction's
 witness. The second attribute is a remark attribute consisting of some random value. It makes the transaction unique and
 therefore repeatable.
 
