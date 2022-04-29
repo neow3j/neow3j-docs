@@ -222,12 +222,12 @@ try {
 
 ## Assertions
 
-Assertions in NeowJava are handled like exceptions, they are catchable and a message can be passed. You can pass a
-message by adding a colon with a string or a method that returns a string. In the following example, if the witness
-check fails, an exception is thrown with the message `No authorization.`.
+Neow3j supports Java's `assert` statement. It is converted to the `ASSERT` opcode on the Neo VM, which is not catchable.
+If an assertion fails, the Neo VM faults and the transaction reverts. The opcode on the Neo VM does not consume a message.
+Hence, passing a message to Java's `assert` is not allowed, and will result in a `CompilerException` at compile time.
 
 ```java
-assert Runtime.checkWitness(owner) : "No authorization.";
+assert getRemainingBalance() >= 0;
 ```
 
 
