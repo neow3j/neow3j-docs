@@ -68,5 +68,3 @@ Hash160 contractHash = SmartContract.getContractHash(
         nefFile.getCheckSumAsInteger(), 
         manifest.getName());
 ```
-
-

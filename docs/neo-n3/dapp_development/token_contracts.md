@@ -13,7 +13,7 @@ represents a wrapper for token contracts that comply with the NEP-11 standard fo
 `NeoNameService` contract is a specific example for such a contract.
 
 ```
-             Build invocation script                 ->      Specify Tx Signers, etc.     ->   Tx ready to sign and send
+             Build invocation script                 ->      Specify Tx Signers, etc.    ->   Tx ready to sign and send
                  ---------------
                 | SmartContract |
                  ---------------
