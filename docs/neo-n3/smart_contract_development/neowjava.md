@@ -36,13 +36,13 @@ that the method will not have any side effects on the argument. You can convert 
 
 ### Integers
 
-You can use all Java integer types, including their wrapper classes. That is, `byte`, `short`, `char`, `int`,
-`long` and `Byte`, `Short`, `Character`, `Integer`, `Long`. Because the NeoVM knows only one integer stack item, the 
-neow3j compiler treats all these types equally. None of them have any size restrictions. Think of all integer types as
-BigIntegers. This means that Java's definition of an `int` having a size of 32 bit does not hold true for smart
-contracts. You can use `int` without worrying about size restrictions. We recommend using `int`/`Integer` everywhere and
-ignoring `short`, `char`, and `long`. `Byte` and `byte` are useful for indicating small values, like constants,
-and they appear in `byte[]`/`Byte[]`.
+You can use all Java integer types, including their wrapper classes. That is, `byte`, `short`, `char`, `int`, `long` and
+`Byte`, `Short`, `Character`, `Integer`, `Long`. Because the NeoVM knows only one integer stack item, the neow3j
+compiler treats all these types equally. All of them have the same size restrictions. Think of all integer types as
+BigIntegers. This means that Java's definition of an `int` having a size of 32 bit does not hold true for Neo smart
+contracts. The limit is much higher, more precisely, an integer on the NeoVM can take up to 32 bytes. We recommend using
+`int`/`Integer` everywhere and ignoring `short`, `char`, and `long`. `Byte` and `byte` are useful for indicating small
+values, like constants.
 
 With the above said, the question arises: "How do I initialize large integers?". Java will deny your attempts of
 initializing an `int` with values outside of the range [2<sup>-31</sup>, 2<sup>31</sup>-1]. To circumvent this you can
