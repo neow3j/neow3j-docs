@@ -3,7 +3,7 @@
 You can deploy smart contracts with different tools from the Neo ecosystem, for example, with the Neo Blockchain
 Toolkit. Here, we show how to deploy with neow3j. In our smart contract projects, we like to use a separate source set
 to hold deployment related code. Adding such a source set is described in the
-[Setup](neo-n3/smart_contract_development/setup_and_compilation.md] guide.
+[Setup](neo-n3/smart_contract_development/setup_and_compilation.md) guide.
 
 The [boilerplate](https://github.com/neow3j/neow3j-boilerplate) repository shows how this could look like.
 
