@@ -64,7 +64,7 @@ methods like `contains()` or `indexOf()`. The exception is the `length()` method
 methods.
 
 Neow3j supports string concatenation with the `+` operator but mixing in other types is not. For example, 
-`"hello" + "world"` works, but `"hello" + 5` does not. 
+`"hello" + "world"` works, but `"hello" + 5` does not.
 
 ### Arrays
 
@@ -138,10 +138,10 @@ compile any auxiliary classes used in the contract class.
 
 ### Contract Methods
 
-All methods on the contract class need to be static. If you mark a method with the `public` modifier it show up in the
-contract's manifest and is callable from the outside. Any other access modifier will make the a method invisible to
+All methods on the contract class need to be static. If you mark a method with the `public` modifier it will show up in the
+contract's manifest and is callable from the outside. Any other access modifier will make the method invisible to
 the outside, i.e., it's not necessary to use `private`. Of course, you can use the `private` modifier to make it
-explicit and to prohibit any auxiliary class to call it. Making methods in auxiliary contract public will not put them
+explicit and to prohibit any auxiliary class to call it. Making methods in an auxiliary class public will not put them
 into the contract manifest. If these classes are in the same package as your contract class it's enough to use no
 access modifier. If they are in another package they need to be public as with normal Java.
 

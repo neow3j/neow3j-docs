@@ -7,15 +7,14 @@ The following sections describe the devpack's API, frequently used concepts and 
 here. Use the [Javadocs](https://javadoc.io/doc/io.neow3j/devpack/latest/overview-summary.html) as well to get an
 overview of the devpacks capabilities.
 
-
 ## Hashes
 
 As with neow3j SDK, the devpack provides special types for hashes. Use `Hash160` for contract and account hashes and
 `Hash256` for transaction and block hashes. The underlying stack item of both of these types is a NeoVM byte string,
-thus, changing to and from `ByteString` doesn't require an actual conversion. When you use the constructors
-`Hash160(ByteString value)` an `Hash256(ByteString value)` the devpack does **not** check if the value is a valid hash
+thus, changing to and from `ByteString` doesn't require an actual conversion. When you use the constructor
+`Hash160(ByteString value)` or `Hash256(ByteString value)` the devpack does **not** check if the value is a valid hash
 with correct size. Use `Hash160.isValid(Object o)` or `Hash256.isValid(Object o)` on an object if you need to check for
-validity. 
+validity.
 
 ## Storage
 
@@ -27,13 +26,12 @@ directly. In the devpack, the storage context is represented by the `io.neow3j.d
 Methods for accessing storage are on the classes `io.neow3j.devpack.Storage` and `io.neow3j.devpack.StorageMap`. They
 provide many `put` and `get` methods for different key and return types. Because the storage context is always required
 for such method calls, it makes sense to retrieve the `StorageContext` once with `Storage.getStorageContext()`, store it
-in a static class variable and reuse it every time the storage is accessed. This can save GAS in contract invocations.
+in a static class variable and reuse it every time the storage is accessed. This might save GAS in contract invocations.
 Use the `StorageMap` if you want to reserve a segment of the storage for a specific purpose. Storage maps use a prefix
 that is appended to every key used in that map. 
 
 Note that the size for storage keys and values is limited to 64 bytes and 65535 bytes, respectively. When using a
 `StorageMap` the map prefix counts towards the key size.
-
 
 ## Smart Contract Interfaces
 
@@ -46,48 +44,67 @@ contract and allows you to call it from within your own smart contract. These co
 the `io.neow3j.devpack.contracts` package. All of Neo's native contracts are represented here, plus some other classes,
 e.g., interfaces to access token contracts.
 
-If you need to call a method of a native contract, e.g., get the hash of the latest block, use the corresponding static
-method on the contract interface. An overview of the functionality of the native contracts is described in 
+If you need to call a method of a native contract, e.g., get the hash of the latest block, use the corresponding method on the contract interface.
+
+<!-- An overview of the functionality of the native contracts is described in ... -->
 
 ```java
-Hash256 blockHash = LedgerContract.currentHash();
+Hash256 blockHash = new LedgerContract().currentHash();
 ```
 
 Additionally to the existing contract interfaces, you can define your own. The requirements for a valid contract interface
 are:
-- extend the `io.neow3j.devpack.contracts.ContractInterface` abstract class. 
-- annotated the class with the `io.neow3j.devpack.annotations.ContractHash` annotation.
+- extend the `io.neow3j.devpack.contracts.ContractInterface` class.
+- create a constructor with a single `Hash160` parameter and call `super()` without any further logic in the constructor.
 
 A minimal version of a custom contract interface looks like this.
 
 ```java
-@ContractHash("0xef4073a0f2b305a38ec4050e4d3d28bc40ea63f5")
 class MyContract extends ContractInterface {
+    MyContract(Hash160 scriptHash) {
+        super(scriptHash);
+    }
+}
+```
+
+Alternatively, if the contract hash is known at compile time, a constructor with a single `String` parameter can be used:
+
+```java
+class MyContract extends ContractInterface {
+    MyContract(String scriptHash) {
+        super(scriptHash);
+    }
 }
 ```
 
 In this minimal form the class only provides access to the contract's hash via the `getHash()` method inherited from
 `ContractInterface`. Any other contract methods have to be added according to their signature in the contract's
 manifest. Assuming the contract has a method `findElement` with a `ByteString` parameter and a `ByteString` return type,
-you would need to add the following method. Note that the method needs to be static and native. A method body
-implementation is not necessary, since this is only an interface to an actual contract instance on the blockchain.
+you would need to add the following method. Note that the method needs to be native. A method body implementation is not necessary, since this is only an interface to an actual contract instance on the blockchain.
 
 ```java
-public static native ByteString findElement(ByteString key);
+public native ByteString findElement(ByteString key);
 ```
 
-The devpack provides abstract contract interfaces that already the API of contracts following a standard. For example,
-if you want to establish a contract interface to a fungible token contract extend the `FungibleToken` class. All methods
-of a NEP-17 token contract are already available and the only thing you need to add is the contract hash annotation with
-the hash of the target contract. If that contract has some extra methods, simply add them as shown before.
+The devpack provides abstract contract interfaces that already contain the API of contracts following a standard. For example,
+if you want to establish a contract interface to a fungible token contract, you can extend the `FungibleToken` class. All methods
+of a NEP-17 token contract are already available and you can just add extra methods that your contract might hold (simply add them as shown before).
 
 ```java
-@ContractHash("0xef4073a0f2b305a38ec4050e4d3d28bc40ea63f5")
 class MyTokenContract extends FungibleToken {
+    public MyTokenContract(String contractHash) {
+        super(contractHash);
+    }
 
-    public static native int someCustomMethod(String arg);
+    public native int someCustomMethod(String arg);
 
 }
+```
+
+In case your fungible token contract does not hold any other methods, or you don't require them, you can simply initialize a `FungibleToken` with your token contract hash and access its NEP-17 methods.
+
+```java
+new FungibleToken("0xef4073a0f2b305a38ec4050e4d3d28bc40ea63f5").balanceOf(owner);
 ```
 
 Checkout the `io.neow3j.devpack.contracts` package for more such contract interfaces.
@@ -106,12 +123,10 @@ string.
 The Neo Name Service contract (NNS) is technically not a native contract but is maintained and issued by the Neo
 Foundation. The devpack provides a contract interface to the NNS with the class
 `io.neow3j.devpack.contracts.NeoNameService`. Note, that this class does not have a fixed script hash, since it is not a
-native contract. If you want to use the class in your contract you have to extend it and annotate the extending class
-with the `@ContractHash` annotation.
+native contract. If you want to use the class in your contract you can simply initialize an instance of it.
 
 ```java
-@ContractHash("a92fbe5bf164170a624474841485b20b45a26047")
-class MyNeoNameService extends NeoNameService { }
+new NeoNameService("a92fbe5bf164170a624474841485b20b45a26047");
 ```
 
 Make sure that the script hash is equal to the current script hash of the NNS contract.
