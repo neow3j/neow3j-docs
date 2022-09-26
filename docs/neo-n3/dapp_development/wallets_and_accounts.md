@@ -1,9 +1,10 @@
 # Wallets and Accounts
 
 Accounts and wallets are important concepts in blockchain. A Neo account in its basic form is made up of an EC key pair.
-From its public key an address is derived, which is used to identify the account. Besides this simple form there are
-multi-signature (multi-sig) accounts which are made up of multiple public keys that participate in the account. 
-Neow3j uses the same `Account` class to represent both single- and multi-sig accounts.
+From this EC key pair, a `script hash` and an `address` can be derived that are used to identify the account.
+
+Besides this simple form there are also multi-signature (multi-sig) accounts which are made up of multiple public keys that
+participate in the account. Neow3j uses the same `Account` class to represent both single- and multi-sig accounts.
 
 A wallet is a collection of one or more accounts.
 
@@ -18,8 +19,9 @@ Wallet w = Wallet.create();
 This creates a wallet with a new account (with a new key pair). There are other versions of this method that allow us to
 immediately encrypt the new private key or directly write the wallet to a file after creation.
 
-If you have a NEP-6 wallet file exported from some other wallet software, you can use
-`fromNEP6Wallet(...)` which reads the wallet information from the NEP-6 file.
+[NEP-6](https://github.com/neo-project/proposals/blob/master/nep-6.mediawiki) is the wallet standard for Neo. If you have a
+NEP-6 wallet file exported from some other wallet software, you can use `fromNEP6Wallet(...)` which reads the wallet information
+from the NEP-6 file.
 
 ```java
 String absoluteFileName = "/path/to/your/NEP6.wallet";
@@ -31,7 +33,7 @@ Wallet w = Wallet.fromNEP6Wallet(absoluteFileName)
 > encrypted until you call `decryptAllAccounts(String password)` on the wallet. An encrypted account cannot be used for
 > signing transactions.
 
-If you already have `Account` objects you can create a wallet with the method `withAccounts(...)`. Furthermore, you can
+If you already have `Account` objects you can create a wallet with the static method `withAccounts(...)`. Furthermore, you can
 manually set a name, version and [scrypt](https://en.wikipedia.org/wiki/Scrypt) parameters for the wallet. If nothing is
 set, default values are used.
 
@@ -48,22 +50,30 @@ Wallet w = Wallet.withAccounts(Account.create())
 ## Accounts
 
 Accounts in neow3j can be created with or without EC key material. If the private key of the account is available, the
-account can be used for transaction signing.
-The following methods create an account with the private key available. 
+account can be used for signing arbitrary data, which includes transactions or other raw data.
+
+The following methods create an account with the private key available.
 
 - `create()`
 - `new Account(ECkeyPair exKeyPair)`
 - `fromNEP6Account(NEP6Account nep6Acct)` - Requires decryption of the private key with `decryptPrivateKey(...)`. 
 - `fromWIF(String wif)`
 
-The following methods create an account without a private key:
+It is also possible to create an account without a private key. This applies for example for a multi-sig account where
+only the public keys, or its derived verification script are known. You can create an account without a private key with
+the following static methods:
   
- - `fromAddress(String address)`
- - `fromScriptHash(Hash160 scriptHash)`
- - `fromPublicKey(ECPublicKey publicKey)`
- - `fromVerificationScript(VerificationScript script)`
+- `fromAddress(String address)`
+- `fromScriptHash(Hash160 scriptHash)`
+- `fromPublicKey(ECPublicKey publicKey)`
+- `fromVerificationScript(VerificationScript script)`
 
-The label of an account is by default set to its address. After creating an account you can set it's label if needed.
+> **Note:** If you are working with Neo addresses or `watch-only` accounts (i.e., without a private key), you can use
+> the `Hash160` class for that. However, if you are working with wallets, and you're using NEP-6 wallet files, you can
+> use the `Account` class for that.
+
+An account can hold a label that is set to its address by default. If needed you can change it to a custom label with
+the `label(String)` method.
 
 ```java
 Account a = Account.fromWIF("L3kCZj6QbFPwbsVhxnB8nUERDy4mhCSrWJew4u5Qh5QmGMfnCTda")
