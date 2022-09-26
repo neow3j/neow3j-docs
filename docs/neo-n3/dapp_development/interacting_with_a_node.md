@@ -133,7 +133,7 @@ necessary methods to interact and make use of such wallets.
 First a wallet needs to be opened.
 
 ```java
-NeoOpenWallet response = neow.openWallet("/path/to/wallet.json", "walletPassword").send();
+NeoOpenWallet response = neow3j.openWallet("/path/to/wallet.json", "walletPassword").send();
 if (response.hasError()) {
     throw new Exception("Failed to open walled. Error message: " + response.getError().getMessage());
 }
@@ -148,7 +148,7 @@ if (response.getOpenWallet()) {
 Now, with the open wallet, you can list the accounts in that wallet.
 
 ```java
-NeoListAddress response = neow.listAddress().send();
+NeoListAddress response = neow3j.listAddress().send();
 if (response.hasError()) {
     throw new Exception("Failed to fetch wallet accounts. Error message: " + response.getError().getMessage());
 }
@@ -158,7 +158,7 @@ List<NeoAddress> listOfAddresses = response.getAddresses();
 Check the wallets balances.
 
 ```java
-NeoGetWalletBalance response = neow.getWalletBalance(NeoToken.SCRIPT_HASH).send();
+NeoGetWalletBalance response = neow3j.getWalletBalance(NeoToken.SCRIPT_HASH).send();
 if (response.hasError()) {
     throw new Exception("Failed to get wallet balance. Error message: " + response.getError().getMessage());
 }
@@ -168,7 +168,7 @@ String balance = response.getWalletBalance().getBalance();
 And, in the end, close the wallet.
 
 ```java
-NeoCloseWallet response = neow.closeWallet().send();
+NeoCloseWallet response = neow3j.closeWallet().send();
 if (response.hasError()) {
     throw new Exception("Failed to close the  wallet. Error message: " + response.getError().getMessage());
 }
