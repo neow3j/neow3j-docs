@@ -87,7 +87,7 @@ The first two methods can be used for single- and multi-sig accounts. The verifi
 the NEP6Account's script - holds all information needed about the multi-sig account. This includes the signing
 threshold, the number of participants, and the involved public keys.  
 In the latter two methods there is now verification script available. Therefore, one or both of signing threshold and
-number of participants has to be specified explicitely in order such that the multi-sig account can be used as a signer in
+number of participants has to be specified explicitly in order such that the multi-sig account can be used as a signer in
 transactions. The `TransactionBuilder` needs the signing threshold and number of participants to determine the network
 fee that has to be paid for signing with the account.
 
