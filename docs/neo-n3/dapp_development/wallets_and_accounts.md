@@ -83,18 +83,18 @@ Multi-signature accounts can be created with the following methods:
 - `createMultiSigAccount(List<ECPublicKey> publicKeys, int signingThreshold)`
 - `createMultiSigAccount(String address, int signingThreshold, int nrOfParticipants)`
 
-The frist two methods can be used for single- and multi-sig accounts. The verification script - which is available in
+The first two methods can be used for single- and multi-sig accounts. The verification script - which is available in
 the NEP6Account's script - holds all information needed about the multi-sig account. This includes the signing
 threshold, the number of participants, and the involved public keys.  
-In the latter two methods there is now verificaiton script available. Therfore, one or both of signing threshold and
-number of participants has to be specified explicitely in order that the multi-sig account can be used as a signer in
+In the latter two methods there is now verification script available. Therefore, one or both of signing threshold and
+number of participants has to be specified explicitly in order such that the multi-sig account can be used as a signer in
 transactions. The `TransactionBuilder` needs the signing threshold and number of participants to determine the network
 fee that has to be paid for signing with the account.
 
 Multi-sig accounts do not hold EC key pairs. That would defeat the purpose of multi-sig accounts, because
 their key material should be spread over multiple entities.
 
-In the following example a new mutli-sig account is created from three public keys. It's signing threshold is two, i.e.,
+In the following example a new mutli-sig account is created from three public keys. Its signing threshold is two, i.e.,
 for a transaction signed by this account to be successful, at least two of the three participants have to sign.
 
 ```java

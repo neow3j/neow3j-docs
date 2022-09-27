@@ -89,7 +89,7 @@ for divisible tokens are not allowed to be used for non-divisible tokens, vice-v
 
 Both divisible and non-divisible token contracts implement the method `balanceOf(owner)`. It simply returns the number
 of tokens owned by the given address. On divisible tokens this includes fractional amounts of tokens. To get the
-fracitonal amount owned of a specific token, you can use the method `balanceOf(owner, tokenId)` that is specifically
+fractional amount owned of a specific token, you can use the method `balanceOf(owner, tokenId)` that is specifically
 implemented by divisible tokens.
 
 Further, NFTs provide the methods `tokens`, `tokensOf` and `ownerOf`. The method `ownerOf` returns the single owner of a
@@ -101,7 +101,7 @@ Similar to the overloads on the `FungibleToken` class (see previous section), `N
 overloads for the sender address to be either an `Account` or `Hash160`, and for adding a contract parameter that is
 passed to the `onNep11Payment` method if the receiver is a smart contract.
 
-Here's an example for sending 200 fractions of the token with ID 1. The factional amount has to be in accordance with
+Here's an example for sending 200 fractions of the token with ID 1. The fractional amount has to be in accordance with
 the number of decimals the token can have. You can fetch the number of decimals via the `getDecimals()` method or
 calculate the amount via the `toFractions(...)` method.
 

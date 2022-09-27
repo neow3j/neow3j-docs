@@ -32,7 +32,7 @@ if necessary.
 Now that we have a `Neow3j` instance set up, we can start exploring possible interactions with the Neo blockchain. Most
 methods on `Neow3j` construct and return a `Request` object that defines the request and the expected response format. 
 Call `send()` on that request to actually send it to the Neo node. The returned type will be a subclass of `Response`.
-To make sure you don't run into unexptected `NullPointerException`s you can call `hasError()`, `getError()`, or
+To make sure you don't run into unexpected `NullPointerException`s you can call `hasError()`, `getError()`, or
 `throwOnError()` on the response object and handle errors smoothly before trying to access any other response data.
 
 Another set of methods on `Neow3j` are based on RxJava and return `Observable`s that you can subscribe to. They are
@@ -69,7 +69,7 @@ neow3j.subscribeToNewBlocksObservable(true)
 
 ## Inspecting a transaction
 
-You can retrieve transaction information with the block subscritptions from the last sections but you can also be more
+You can retrieve transaction information with the block subscriptions from the last sections but you can also be more
 specific and fetch information about single transactions, e.g., if you sent a transaction to a node and now want to
 check its state on the blockchain. 
 
@@ -83,7 +83,7 @@ Transaction tx = response.getTransaction();
 ```
 
 This `Transaction` object will contain all the information about the transaction, e.g., the fees paid for it, the block
-it was included, or how many blocks have been added since the transadtion was included in a block. If you require the
+it was included in, or how many blocks have been added since the transaction was included in a block. If you require the
 transaction in its raw byte array form you can use the `getRawTransaction` method instead. It will provide a
 Base64-encoded String of the transaction bytes.
 
@@ -119,7 +119,7 @@ The stack included in the application logs will contain all the stack items that
 return stack is made up of one return value that is at index 0. You will need to know what type of stack item the
 invocation returns to be able to interpret it correctly.  
 
-Next to the return value you can also check what notification have been triggered by the transaction. The applications
+Next to the return value you can also check what notifications have been triggered by the transaction. The applications
 log's notifications are one way to track activities of a  smart contract. Currently there is no convenient way to follow
 a smart contract. You will need to subscribe to new blocks, go through all transaction's application logs, and check if
 the logs contain notifications fired by the contract by comparing the contract hash to `notification.getContract()`.
@@ -133,7 +133,7 @@ necessary methods to interact and make use of such wallets.
 First a wallet needs to be opened.
 
 ```java
-NeoOpenWallet response = neow.openWallet("/path/to/wallet.json", "walletPassword").send();
+NeoOpenWallet response = neow3j.openWallet("/path/to/wallet.json", "walletPassword").send();
 if (response.hasError()) {
     throw new Exception("Failed to open walled. Error message: " + response.getError().getMessage());
 }
@@ -148,7 +148,7 @@ if (response.getOpenWallet()) {
 Now, with the open wallet, you can list the accounts in that wallet.
 
 ```java
-NeoListAddress response = neow.listAddress().send();
+NeoListAddress response = neow3j.listAddress().send();
 if (response.hasError()) {
     throw new Exception("Failed to fetch wallet accounts. Error message: " + response.getError().getMessage());
 }
@@ -158,7 +158,7 @@ List<NeoAddress> listOfAddresses = response.getAddresses();
 Check the wallets balances.
 
 ```java
-NeoGetWalletBalance response = neow.getWalletBalance(NeoToken.SCRIPT_HASH).send();
+NeoGetWalletBalance response = neow3j.getWalletBalance(NeoToken.SCRIPT_HASH).send();
 if (response.hasError()) {
     throw new Exception("Failed to get wallet balance. Error message: " + response.getError().getMessage());
 }
@@ -168,7 +168,7 @@ String balance = response.getWalletBalance().getBalance();
 And, in the end, close the wallet.
 
 ```java
-NeoCloseWallet response = neow.closeWallet().send();
+NeoCloseWallet response = neow3j.closeWallet().send();
 if (response.hasError()) {
     throw new Exception("Failed to close the  wallet. Error message: " + response.getError().getMessage());
 }

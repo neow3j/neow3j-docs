@@ -4,7 +4,7 @@ To deploy, invoke or just retrieve information about any contract's state on the
 can be used. It is the most generic class in the neow3j SDK that models a contract. All other contract classes are
 subclasses of this one. On one hand, `SmartContract` offers methods to invoke a contract on the blockchain with the
 result of an actual state change. On the other hand, you can use it to simulate an invocation without actually inducing
-state chagnes. The latter is also used when the invocation only performs read actions. 
+state changes. The latter is also used when the invocation only performs read actions. 
 
 The only method that creates an actual transaction is `invokeFunction(...)`. It builds a script based on the provided
 function name and contract parameters and constructs a `TransactionBuilder` with it. The returned transaction builder
@@ -162,7 +162,7 @@ and `GasToken`. The other available contract classes are discussed below.
 
 ### ContractManagement
 
-The `ContractManagement` contract is a Neo native contract that, as it's name suggests, can be used to manage other
+The `ContractManagement` contract is a Neo native contract that, as its name suggests, can be used to manage other
 contracts. More precisely, it allows you to deploy, update, and delete a contract. In the neow3j SDK the update and
 delete methods cannot be used, because they can only be called from within another contract. But, the deploy method is
 available and allows you to deploy new contracts with neow3j. For example:
@@ -174,7 +174,7 @@ Transaction tx = new ContractManagement(neow3j)
         .sign();
 ```
 
-Producing the necessary NEF (Neo Executable Format) file and contractd manifest is not discussed here but are part of
+Producing the necessary NEF (Neo Executable Format) file and contract manifest is not discussed here but are part of
 the Contract Development [section]().
 
 There are two other methods on `ContracManagement`. They are concerned with the minimum deployment fee. The getter
@@ -194,7 +194,7 @@ transaction is signed by committee members.
 ### RoleManagement
 
 The `RoleManagament` contract is used to assign roles to nodes in the network. A node can be a state validator, an
-oracle node, or a NeoFS "Alphabet" node (respondible for consensus on NeoFS sidechain). 
+oracle node, or a NeoFS "Alphabet" node (responsible for consensus on NeoFS sidechain). 
 
 The designation of a node to a role can only be done via the Neo committee. But you can check the role assignments with
 the `getDesignatedRole(...)` method.
@@ -203,7 +203,7 @@ the `getDesignatedRole(...)` method.
 ### NeoNameService
 
 The `NeoNameService` is not a native contract but managed by the Neo core team. The script hash of this contract is not
-known to neow3j and has to be provided by the developer when constructing an instance of `NeoNameService`. As it's name
+known to neow3j and has to be provided by the developer when constructing an instance of `NeoNameService`. As its name
 suggest the name service contract provides the possibility to map a name to an owner account. You can read more about it
 in the official [Neo Docs](https://docs.neo.org/docs/en-us/reference/nns.html).
 

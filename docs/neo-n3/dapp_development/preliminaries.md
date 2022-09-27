@@ -19,9 +19,9 @@ aware of when constructing a `Hash160` or `Hash256`.
 
 ## NeoVM Stack Items
 
-When invoking a contract on the Neo blockchain, the result of that invocation is a list of items that are left on the
-NeoVM's stack at the end of the invocation. The NeoVM is the virtual machine on which all smart contract code
-isexecuted. These items are called stack items and are represented by the `StackItem` class in neow3j SDK. Stack items
+The NeoVM is the virtual machine on which all smart contract code is executed. When invoking a contract on the 
+Neo blockchain, the result of that invocation is a list of items that are left on the NeoVM's stack at the end of the
+ invocation. These items are called stack items and are represented by the `StackItem` class in neow3j SDK. Stack items
 can be one of several defined types that exist on the NeoVM and they have to be mapped into Java types when the SDK
 receives them from a Neo node. This mapping is not a simple one-to-one mapping but leaves space for more interpretation.
 For example, a stack item containing an integer can be interpreted as a boolean value if it is in the range of 0 and 1.
