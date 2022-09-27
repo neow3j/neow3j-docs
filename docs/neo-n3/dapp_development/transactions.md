@@ -23,7 +23,7 @@ when building the transaction. Although, you do have the option to add an additi
 Witnesses can only be added to the `Transaction` object and not to the builder because they usually depend on the
 serialized transaction for producing a signature.
 
-The properties called *nonce*, *validUntilBlock*, and *version* will also be set automatically if not set explicitely.
+The properties called *nonce*, *validUntilBlock*, and *version* will also be set automatically if not set explicitly.
 The *nonce* prevents replay attacks in which the exact same transaction is copied and sent again. Its default value is
 set at random by the transaction builder. The *validUntilBlock* value determines for how long the transaction will
 remain valid before it is included in a block. If it does not get included before that time runs out, it will be
@@ -36,7 +36,7 @@ discussed here. Neow3j has many classes that will provide you with a `Transactio
 script.  
 The transaction signers are used to pay for the transaction fees and might be required by the transaction's script for
 witness checks. The order of the signers is important because only the first signer will be used to pay for the
-transaction fees. You can set it explicitely with the `firstSigner(Hash160 account)` method or use the more general
+transaction fees. You can set it explicitly with the `firstSigner(Hash160 account)` method or use the more general
 `signers(Signer... signers)` method. Signers are associated with a witness scope that restricts how their witness on the
 transaction can be used in an invocation. For example, if a signer is only needed for fee payment the witness scope can
 be reduced to *None*. There are two signer classes to be aware of. The `AccountSigner` and the `ContractSigner`. Use

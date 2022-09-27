@@ -5,7 +5,7 @@ though we are coding in Java the produced byte code is not meant for the JVM but
 of Java can be used and we call that subset NeowJava.
 
 Blockchain programmers need to be careful with computational resources because every step in their code costs GAS.
-You should **avoid using Java's standard library** and any library not explicitely implemented for smart contract
+You should **avoid using Java's standard library** and any library not explicitly implemented for smart contract
 purposes, because such libraries might contain unsupported code or code that is costly for execution on a blockchain.
 
 ## Types
@@ -278,9 +278,9 @@ public static class ExampleStruct {
 
 ## Inheritance
 
-Every Java class that doesn't explicitely extend another class is a subclass of `Object` and has access to its methods
+Every Java class that doesn't explicitly extend another class is a subclass of `Object` and has access to its methods
 even without overwriting them. However, NeowJava prohibits usage of `Object` methods like `toString` or `equals`
-if they are not explicitely overridden.
+if they are not explicitly overridden.
 
 Neow3j supports the inheritance of struct classes, i.e., classes annotated with `@Struct`. You can use the keyword `extends`
 to inherit field variables from another struct. In the following example, by instantiating a `Car`, the created struct on the
