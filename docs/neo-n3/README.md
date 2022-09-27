@@ -52,7 +52,7 @@ __Maven__
 
 ### Devpack
 
-The neow3j devpack is a Java library that provides the Neo-specific functionality required to write a smart contract. If
+The neow3j devpack is a Java library that provides the Neo-specific functionality required to write smart contracts. If
 you want to play around with the devpack, add the `io.neow3j:devpack` dependency to your project.
 
 __Gradle__
