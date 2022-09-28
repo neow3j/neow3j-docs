@@ -26,19 +26,21 @@ builders or transactions.  There are several of such *call* methods, with the ba
 If you know what type the contract invocation will return, you can use one of the more specific call methods that
 already unpack the invocation result value, e.g., `callFunctionReturningScriptHash(...)`.
 
-Because every contract has a contract manifest, `SmartContract` offers the method `getContractManifest()` that will
-fetch the manifest.
+Conversely to the return type, each method of a contract takes specific parameter types as input. In order to know what
+methods exist in a smart contract, and what parameter types it requires, every contract has a manifest that provides you
+with this and much more information about the contract. In the following sections, we'll show you how to create contract
+parameters, get the manifest and figure out what parameters you need to pass to a function you want to invoke.
 
 ## Contract Parameters
 
-When invoking a smart contract, you will need method parameters. The neow3j SDK, represents parameters via the
+When invoking a smart contract, you will need parameters. The neow3j SDK represents parameters via the
 `ContractParameter` class. It provides many static construction methods that cover all possible parameter types. If you
 use those methods, neow3j will make sure that the parameter is sent to the contract in the correct encoding and the
 correct type declaration. For example, if you need to pass a script hash of a NEO address as a parameter, you can use
 the method `ContractParameter.hash160(...)`. It converts the script hash to the expected byte array.
 
-If you invoke a contract that takes an object as a parameter, you need to use a contract parameter of type `Array`.
-As an example, assume the that the `Bongo` struct class below is the expected method parameter. 
+If you invoke a contract that takes an object as a parameter, you need to use a contract parameter of type `Array`. As
+an example, assume the that the `Bongo` struct class below is the expected method parameter. 
 
 ```java
 @Struct
@@ -62,60 +64,70 @@ ContractParameter.array(
     ContractParameter.string("C5")));
 ```
 
-The same applies when the object is used as a return type. In other words, expect a return value of
-type `Array` that will hold the object's variables in the order they appear in the class.
+The same applies when the object is used in a return type. In other words, expect a return value of type `Array` that
+will hold the object's variables in the order they appear in the class.
 
 
 ## Contract Invocation
 
 First, you have to specify which contract and which function you want to invoke. Use the `io.neow3j.contract.Hash160`
-class for the contract's script hash and a simple string for the function.
+class for the contract's script hash and create a `SmartContract` together with a `Neow3j` instance.
 
 ```java
 Hash160 scriptHash = new Hash160("0x1a70eac53f5882e40dd90f55463cce31a9f72cd4");
-String function = "register";
+SmartContract smartContract = new SmartContract(scriptHash, neow3j);
 ```
 
-Then you need to define the parameters that will be passed to the contract. In this example, we are invoking a name
-service contract and call the `register` function with a domain name and an address that should be registered under that
-domain name. Observe that the account to register is not passed as an address string but as a Hash160 parameter. That's
-what the contract in this example expects. The developer needs to be aware of what parameter type a contract expects.
+Then, you need to define the parameters that will be passed to the contract. In order to know what parameters you need
+to pass to the contract, you need information about its methods. You can get that information by reading the contract's
+ABI that's in the manifest. In the following it's shown how you can get all the methods of a smart contract with their
+names, parameters, and return type in order to know what parameters you need to pass to a function and also what you
+can expect to be returned.
+
+```java
+List<ContractManifest.ContractABI.ContractMethod> methods = smartContract.getManifest().getAbi().getMethods();
+```
+
+In this example, we are invoking a name service contract and call the `register` function with a domain name and an
+address that should be registered under that domain name.
 
 ```java
 Account account = Account.fromWIF("L3kCZj6QbFPwbsVhxnB8nUERDy4mhCSrWJew4u5Qh5QmGMfnCTda");
-ContractParameter domainParam = ContractParameter.string("neo.com");
+ContractParameter domainParam = ContractParameter.string("myname.neo");
 ContractParameter accountParam = ContractParameter.hash160(account.getScriptHash());
 ```
 
-With the contract hash, the function, and the parameters, we can construct an invocation as follows. This doesn't yet
-send a transaction but returns a transaction builder for further configuration.
+With the smart contract instance, the function, and the parameters, we can construct an invocation as follows. This
+doesn't yet send a transaction but it builds the correct script and instantiates a transaction builder with it for
+further configuration.
 
 ```java
-TransactionBuilder txBuilder = new SmartContract(scriptHash, neow3j)
-        .invokeFunction(function, domainParam, accountParam);
+String function = "register";
+TransactionBuilder txBuilder = smartContract.invokeFunction(function, domainParam, accountParam);
 ```
 
 Here's the complete code with the configuration of the transaction builder. The transaction is signed by the same
-account that is registered under the domain name "neo.com".
+account that is registered under the domain name "myname.neo".
 
 ```java
 Neow3j neow3j = Neow3j.build(new HttpService("http://localhost:40332"));
-Account account = Account.fromWIF("L3kCZj6QbFPwbsVhxnB8nUERDy4mhCSrWJew4u5Qh5QmGMfnCTda");
 Hash160 scriptHash = new Hash160("0x1a70eac53f5882e40dd90f55463cce31a9f72cd4");
+SmartContract smartContract = new SmartContract(scriptHash, neow3j);
+
+Account account = Account.fromWIF("L3kCZj6QbFPwbsVhxnB8nUERDy4mhCSrWJew4u5Qh5QmGMfnCTda");
+ContractParameter domainParam = ContractParameter.string("myname.neo");
+ContractParameter accountParam = ContractParameter.hash160(account.getScriptHash());
 String function = "register";
 
-ContractParameter domainParam = ContractParameter.string("neo.com");
-ContractParameter accountParam = ContractParameter.hash160(account.getScriptHash());
-
 NeoSendRawTransaction response = new SmartContract(scriptHash, neow3j)
-        .invokeFunction("register", domainParam, accountParam)
+        .invokeFunction(function, domainParam, accountParam)
         .signers(AccountSigner.calledByEntry(account))
         .sign()
         .send();
 ```
 
-Of course, it is also possible to call a smart contract function that doesn't take any parameters, e.g., a
-contract that simply increments a number every time it gets called.
+Of course, it is also possible to call a smart contract function that doesn't take any parameters, e.g., a contract that
+simply increments a number every time it gets called.
 
 ```java
 NeoSendRawTransaction response = new SmartContract(contract, neow3j)
