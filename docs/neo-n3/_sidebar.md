@@ -18,7 +18,6 @@
   - [NeowJava](neo-n3/smart_contract_development/neowjava.md)
   - [Devpack](neo-n3/smart_contract_development/devpack.md)
 
-
 - Tutorials & Examples
   - [Various Examples](neo-n3/tutorials_and_examples/various_examples.md)
   - [Meme Governance dApp](neo-n3/tutorials_and_examples/meme_governance_dapp.md)
