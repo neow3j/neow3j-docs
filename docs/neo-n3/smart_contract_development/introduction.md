@@ -8,7 +8,7 @@ It is composed of three modules.
 - The `io.neow3j:devpack` is the module that your smart contract project will depend on. It is a Java library that
   contains Neo-specific annotations, methods, and classes required for contract development. You will use it in your
   contract, e.g., to fetch information about the current block, or to send out a notification. The API of this module is
-  described in the [Devpack](neo-n3/smart_conract_development/devpack.md) section.  
+  described in the [Devpack](neo-n3/smart_contract_development/devpack.md) section.
 - The `io.neow3j:compiler` contains the compiler that produces NeoVm code from Java classes. You can use it 
   programmatically, by invoking it in a Java program, but, most likely you will not need to access it directly.
 - The `io.neow3j:gradle-plugin` implements a Gradle plugin that you apply to your smart contract project and offers a
@@ -23,10 +23,10 @@ and the NeoVM, the programming experience with Java for Neo is different. We, th
 flavour or subset and name it NeowJava. Section [NeowJava](neo-n3/smart_contract_development/neowjava.md) discusses
 in which ways NeowJava deviates from Java and what the pitfalls are when using NeowJava.
 
-## Development Environment 
+## Development Environment
 
-You can write smart contracts in any editor or IDE you want, but there are some environments, namely Visual Studio Code
-and IntelliJ IDEA, that provide you with extra support for an improved developer experience.  
+You can write smart contracts in any editor or IDE you want. There are some environments, namely Visual Studio Code
+and IntelliJ IDEA, that provide you with extra support for an improved developer experience.
 
 With [**Visual Studio Code**](https://code.visualstudio.com/) you can make use of the [Neo Blockchain
 Toolkit](https://marketplace.visualstudio.com/items?itemName=ngd-seattle.neo-blockchain-toolkit) extension, that is
@@ -39,7 +39,6 @@ Pack](https://marketplace.visualstudio.com/items?itemName=richardwillis.vscode-g
 for Java.  A [Neo plugin](https://plugins.jetbrains.com/plugin/17195-neo) has been implemented for IntelliJ too. It
 provides basic control over neo-express via IntelliJ's UI. For usage instructions and a short video visit the plugin's 
 [github page](https://github.com/irshadnilam/intellij-neo). Debugging smart contracts is not possible with IntelliJ.
-
 
 ## Requirements
 
