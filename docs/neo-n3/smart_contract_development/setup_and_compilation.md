@@ -1,17 +1,44 @@
 # Setup & Compilation
 
-The neow3j devpack uses [Gradle](https://gradle.org/) as its build tool. Thus, the structure of a smart contract project
-follows the Gradle convention. Clone the [boilerplate](https://github.com/neow3j/neow3j-boilerplate) repository for a
-basic project setup on which you can build your contracts.
+There are two ways of getting started with neow3j. You can either setup your local environment or you can use GitHub
+codespaces to get started quickly. If you want to set up your local environment you can just skip the GitHub Codespace
+setup steps.
 
-```bash
-git clone https://github.com/neow3j/neow3j-boilerplate.git
-cd neow3j-boilerplate
-```
+Use the [boilerplate](https://github.com/neow3j/neow3j-boilerplate) repository for a basic project setup on which you
+can build your contracts. You can use it as a template to create your own project repository.
+
+<img src="https://axlabs.fra1.digitaloceanspaces.com/neow3j-files%2Ftutorials%2F20230330_neow3j-boilerplate-1-clone-from-template.gif" width="80%"/>
+
+If you want to develop locally, skip the next section and continue [here](#the-build-file).
+
+## Setup in GitHub Codespace
+
+You can get started quickly by using our boilerplate in a GitHub codespace. This allows you to get started quickly
+without having to setup and manage your local environment. Just follow the following few steps:
+
+Start a new codespace in your newly created boilerplate repository. This might take a while because it downloads and
+runs multiple images.
+
+<img src="https://axlabs.fra1.digitaloceanspaces.com/neow3j-files%2Ftutorials%2F20230330_neow3j-boilerplate-2-start-codespace.gif" width="80%"/>
+
+Once the VSCode IDE is showing up in your browser, you should see the `main` and `test` source sets. The `main`
+contains a smart contract class, and `test` holds a file to test it. Once a green arrow shows up in the test class, the
+IDE is fully loaded and ready.
+
+> **Note:** There is also a third sourceset `deploy` present which is used for productive deployment configurations.
+
+<img src="https://axlabs.fra1.digitaloceanspaces.com/neow3j-files%2Ftutorials%2F20230330_neow3j-boilerplate-3-show-main-test-sourcesets.gif" width="80%"/>
+
+Now, you can run the tests by clicking on the green arrow. The test class uses neow3j's test framework which runs a
+Neo node in the background where your smart contract is deployed and invoked.
+
+<img src="https://axlabs.fra1.digitaloceanspaces.com/neow3j-files%2Ftutorials%2F20230330_neow3j-boilerplate-4-run-tests.gif" width="80%"/>
 
 ## The Build File
 
-This section discusses the contents of the `build.gradle` file as found in the boilerplate project. 
+The neow3j devpack uses [Gradle](https://gradle.org/) as its build tool. Thus, the structure of a smart contract project
+follows the Gradle convention. This section discusses the contents of the `build.gradle` file as found in the
+boilerplate project.
 
 The first block in the file applies the necessary Gradle plugins. Neow3j provides its own Gradle plugin that allows
 contract compilation via a Gradle task called `neow3jCompile`. The Java plugin is also necessary.
