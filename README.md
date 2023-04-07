@@ -2,7 +2,7 @@
 
 Welcome to the repository that hosts the documentation of the [neow3j](https://neow3j.io) Java library.
 
-The documentation website runs at http://neow3j.io/.
+The documentation website runs at https://neow3j.io.
 
 Besides this documentation you can also get answers and help through:
 
