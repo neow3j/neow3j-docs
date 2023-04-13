@@ -370,12 +370,13 @@ You have to compile the contract programmatically to be able to use this feature
 [this](neo-n3/smart_contract_development/setup_and_compilation.md#programmatic-compilation) section for information on
 how to compile programmatically. The `Compiler` provides a `compile` method that takes a `Map<String, String>`
 parameter. This is the substitution map that tells the compiler which strings are placeholder strings (the map's keys)
-and which values they should be replaced with (the map's values).
+and which values they should be replaced with (the map's values). The placeholders in the contract must follow the
+syntax `"${*}"` where `*` will be used as key in the substitution map.
 
 ```java
     Map<String, String> substitutionMap = new HashMap<>();
-    substitutionMap.put("<contract_hash>", "da65b600f7124ce6c79950c1772a36403104f2be");
-    substitutionMap.put("<event_name", "TheEvent");
+    substitutionMap.put("contract_hash", "da65b600f7124ce6c79950c1772a36403104f2be");
+    substitutionMap.put("event_name", "TheEvent");
     ...
     CompilationUnit res = new Compiler().compile(YourSmartContract.class.getName(), substitutionMap);
 ```
@@ -383,17 +384,17 @@ and which values they should be replaced with (the map's values).
 Here's an example of how a smart contract using placeholders might look.
 
 ```java
-    @Permission(contract = "<contract_hash>", methods = "*")
+    @Permission(contract = "${contract_hash}", methods = "*")
     static class PlaceholderSubstitutionContract {
 
-        static final String aString = "<a_string>";
-        static final Hash160 OWNER = StringLiteralHelper.addressToScriptHash("<account_address>");
+        static final String aString = "${a_string}";
+        static final Hash160 OWNER = StringLiteralHelper.addressToScriptHash("${account_address}");
 
-        @DisplayName("<event_name>")
+        @DisplayName("${event_name}")
         static Event1Arg<String> event;
 
         public static String method() {
-            String s2 = "<another_string>";
+            String s2 = "${another_string}";
             return s1 + s2;
         }
 
@@ -403,8 +404,10 @@ Here's an example of how a smart contract using placeholders might look.
     }
 ```
 
-Even though the example consistently uses "<>" for placeholder strings, this is not mandatory. You can use any format,
-but be careful that you don't replace strings by accident.
+> **Note:** If the placeholder is not specified in the substitution map when compiling, the string present
+in the contract will be used (given that this value is not restricted to any format). For example, `"${account_address}"`
+must be replaced with a valid address for the compilation not to fail, while `event` will be called `"${event_name}"` if
+`"event_name"` is not a key in the substitution map and thus no substitution is provided.
 
 The placeholder substitution feature works in contract tests too. See
 [this](neo-n3/smart_contract_development/testing.md#deployment-configuration) section for more information.

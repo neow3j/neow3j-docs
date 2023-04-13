@@ -118,8 +118,8 @@ provides the deployment transaction hashes.
         SmartContract sc = ctx.getDeployedContract(AnotherContract.class);
         config.setDeployParam(ContractParameter.hash160(sc.getScriptHash()));
 
-        config.setSubstitution("<owner_address>", "NXXazKH39yNFWWZF5MJ8tEN98VYHwzn7g3");
-        config.setSubstitution("<contract_hash>", "ef4073a0f2b305a38ec4050e4d3d28bc40ea63f5");
+        config.setSubstitution("owner_address", "NXXazKH39yNFWWZF5MJ8tEN98VYHwzn7g3");
+        config.setSubstitution("contract_hash", "ef4073a0f2b305a38ec4050e4d3d28bc40ea63f5");
 
         config.setSigner(AccountSigner.calledByEntry(anAccount));
     }
