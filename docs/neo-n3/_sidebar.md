@@ -7,6 +7,7 @@
   - [Transactions](neo-n3/dapp_development/transactions.md)
   - [Smart Contracts](neo-n3/dapp_development/smart_contracts.md)
   - [Token Contracts](neo-n3/dapp_development/token_contracts.md)
+  - [Advanced Topics](neo-n3/dapp_development/advanced.md)
 
 - Smart Contract Development
 
