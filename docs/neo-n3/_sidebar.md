@@ -7,6 +7,7 @@
   - [Transactions](neo-n3/dapp_development/transactions.md)
   - [Smart Contracts](neo-n3/dapp_development/smart_contracts.md)
   - [Token Contracts](neo-n3/dapp_development/token_contracts.md)
+  - [Advanced Topics](neo-n3/dapp_development/advanced.md)
 
 - Smart Contract Development
 
@@ -26,3 +27,5 @@
   - [io.neow3j:core](https://javadoc.io/doc/io.neow3j/core/latest/index.html)
   - [io.neow3j:contract](https://javadoc.io/doc/io.neow3j/contract/latest/index.html)
   - [io.neow3j:devpack](https://javadoc.io/doc/io.neow3j/devpack/latest/index.html)
+
+- [**FAQ**](neo-n3/faq)
