@@ -46,7 +46,7 @@ contract compilation via a Gradle task called `neow3jCompile`. The Java plugin i
 ```groovy
 plugins {
     id 'java'
-    id 'io.neow3j.gradle-plugin' version "3.20.0"
+    id 'io.neow3j.gradle-plugin' version "3.20.1"
 }
 ```
 
@@ -90,13 +90,13 @@ Then we need to define the dependencies, which are `io.neow3j:devpack` for writi
 
 ```groovy
 dependencies {
-    implementation 'io.neow3j:devpack:3.20.0'
+    implementation 'io.neow3j:devpack:3.20.1'
 
     testImplementation 'org.junit.jupiter:junit-jupiter:5.9.0',
-            'io.neow3j:devpack-test:3.20.0',
+            'io.neow3j:devpack-test:3.20.1',
             'ch.qos.logback:logback-classic:1.2.11'
 
-    deployImplementation 'io.neow3j:compiler:3.20.0',
+    deployImplementation 'io.neow3j:compiler:3.20.1',
             'ch.qos.logback:logback-classic:1.2.11'
 }
 ```
