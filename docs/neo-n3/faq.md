@@ -15,17 +15,24 @@ For this, we suggest you to read through
 [this Medium article](https://neospcc.medium.com/thou-shalt-check-their-witnesses-485d2bf8375d) about the mechanisms
 around signers, scopes and witnesses.
 
-##### What is the difference between Witness Rules and the `@Permission`s on a smart contract 
+##### What is the difference between Witness Rules and the `@Permission` annotation on a smart contract?
+
+> **TL;DR** Witness rules restrict/allow actions of a transaction, while @Permission defines which non-safe methods a
+smart contract is allowed to invoke on other smart contracts.
 
 Witness rules (but also the `allowContracts` and `allowGroups` witness scopes) allow you to control the usage of your
 signature on a per-transaction basis. It tells the NeoVM in which contracts it is allowed to use the provided
 signature. If your invocation leads to a call to a contract not mentioned in your rules, then the called contract cannot
-make changes on your behalf. On the other hand, the `@Permission` feature on a smart contract restricts the calls that 
+make changes on your behalf.
+
+On the other hand, the `@Permission` annotation on a smart contract restricts the calls that 
 the contract can make once deployed. I.e., it doesn't care about signatures but can be used to prohibit calling
-arbitrary contracts from within a contract. These restrictions are applied to all invocations of that contract. Both
-concepts are used to reduce the attack surface on a transaction. Note, that permissions only apply when it's an contract
-call that changes state or emits notifications. Reads from one contract to another cannot be restricted with this
-feature. 
+arbitrary contracts from within a contract. These restrictions are applied to all invocations of that contract
+(regardless of what is allowed in the transactions invoking it).
+
+Both concepts are used to reduce the attack surface on a transaction. Note, that permissions only apply when it's a
+contract call that changes state or emits notifications. Reading from one contract to another won't be restricted with
+the `@Permission` annotation.
 
 ### SDK - dApp Development
 
@@ -37,7 +44,7 @@ out what would happen if this function or script was invoked/executed in a signe
 
 ##### How does the node validate a witness check when I only use read invocations?
 
-When invoking methodds with `invokefunction` or `invokescript` RPCs, calls to `checkWitness` return true as long as the
+When invoking methods with `invokefunction` or `invokescript` RPCs, calls to `checkWitness` return true as long as the
 correct signers (with the correct scope) are attached in the request.
 
 ### Devpack - Smart Contract Development
