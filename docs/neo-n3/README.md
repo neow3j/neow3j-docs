@@ -2,17 +2,11 @@
     <img src="../images/neow3j-neo3.png" alt="Logo" id="logo">
 </div>
 
-<h1 id="cover-header">neow3j <small>3.21.0</small></h1>
+<h1 id="cover-header">neow3j <small>3.21.1</small></h1>
 
 Neow3j is a development toolkit that provides easy and reliable tools to build Neo dApps and Smart Contracts using the Java
 platform (Java, Kotlin, Android). It is an open-source project developed by the Neo community and maintained by
 [AxLabs](https://axlabs.com).
-
-> <b>IMPORTANT:</b> The neow3j test framework (and with it its ContractTestExtension) do NOT support Neo 3.6.0 yet
-  (use the version 3.20.2 for the devpack-test dependency). This means, that any feature that was introduced with the
-  Neo 3.6.0 release cannot be tested using the ContractTestExtension. So, it might be the case that a test case passes
-  with Neo 3.5.0, but does not any longer with Neo 3.6.0. Be aware of this when using the test framework for now, and
-  try to test critical parts with a separate Neo 3.6.0 node.
 
 ## Features 🚀
 
@@ -42,7 +36,7 @@ To make use of all neow3j SDK features, add the `io.neow3j:contract` dependency 
 __Gradle__
 
 ```groovy
-implementation 'io.neow3j:contract:3.21.0'
+implementation 'io.neow3j:contract:3.21.1'
 ```
 
 __Maven__
@@ -51,7 +45,7 @@ __Maven__
 <dependency>
     <groupId>io.neow3j</groupId>
     <artifactId>contract</artifactId>
-    <version>3.21.0</version>
+    <version>3.21.1</version>
 </dependency>
 ```
 
@@ -63,7 +57,7 @@ you want to play around with the devpack, add the `io.neow3j:devpack` dependency
 __Gradle__
 
 ```groovy
-implementation 'io.neow3j:devpack:3.21.0'
+implementation 'io.neow3j:devpack:3.21.1'
 ```
 
 __Maven__
@@ -72,7 +66,7 @@ __Maven__
 <dependency>
     <groupId>io.neow3j</groupId>
     <artifactId>devpack</artifactId>
-    <version>3.21.0</version>
+    <version>3.21.1</version>
 </dependency>
 ```
 
