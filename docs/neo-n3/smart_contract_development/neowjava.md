@@ -57,14 +57,17 @@ byte. The methods do not truncate the argument, but throw an exception if the va
 
 ### Strings
 
-Intuitively you can use Java's `String` type for strings. But be aware that on the NeoVM a `String` is not represented
+You can use Java's `String` type for strings of text. But be aware that on the NeoVM a `String` is not represented
 as an object, but as a UTF8-encoded ByteString stack item. This means that you cannot make use of `String` instance
-methods like `contains()` or `indexOf()`. The exception is the `length()` method, which works as expected. Checkout the
-`io.neow3j.devpack.Helper` and `io.neow3j.devpack.StringLiteralHelper` clases which offer of String related helper
-methods.
+methods like `contains()` or `indexOf()`. The exception is the `length()` method, which works but will give you the byte
+length of the string not the character count. Instead use `io.neow3j.devpack.contracts.StdLib.strLen()` to get the
+character count of a `String`.
 
-Neow3j supports string concatenation with the `+` operator but mixing in other types is not. For example, 
+Neow3j supports string concatenation with the `+` operator. But, mixing in other types is not supported. For example, 
 `"hello" + "world"` works, but `"hello" + 5` does not.
+
+Checkout the `io.neow3j.devpack.Helper` and `io.neow3j.devpack.StringLiteralHelper` classes which offer String related
+helper methods.
 
 ### Arrays
 
