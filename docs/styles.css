@@ -19,3 +19,8 @@
 .markdown-section h4 {
   font-size: 1.1rem;
 }
+
+main {
+  max-width: 1600px;
+  margin: 0 auto;
+}
