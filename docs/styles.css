@@ -24,3 +24,25 @@ main {
   max-width: 1600px;
   margin: 0 auto;
 }
+
+.oneclicknode-container {
+  margin-top: 20px;
+  display: grid;
+  width: 100%;
+  text-align: center;
+}
+
+.oneclicknode-btn {
+  font-size: 18px;
+  line-height: 1.4;
+  font-family: apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+  font-weight: 600;
+  background-color: #cd553e;
+  color: #FFFFFF;
+  padding: 1em 1.5em;
+  border-radius: 0.5rem;
+  text-decoration: none;
+  i {
+    padding-right: 0.3em;
+  }
+}
