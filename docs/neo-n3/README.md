@@ -9,7 +9,7 @@
     <img src="../images/neow3j-neo3.png" alt="Logo" id="logo">
 </div>
 
-<h1 id="cover-header">neow3j <small>3.22.0</small></h1>
+<h1 id="cover-header">neow3j <small>3.22.1</small></h1>
 
 Neow3j is a development toolkit that provides easy and reliable tools to build Neo dApps and Smart Contracts using the Java
 platform (Java, Kotlin, Android). It is an open-source project developed by the Neo community and maintained by
@@ -58,7 +58,7 @@ To make use of all neow3j SDK features, add the `io.neow3j:contract` dependency 
 __Gradle__
 
 ```groovy
-implementation 'io.neow3j:contract:3.22.0'
+implementation 'io.neow3j:contract:3.22.1'
 ```
 
 __Maven__
@@ -67,7 +67,7 @@ __Maven__
 <dependency>
     <groupId>io.neow3j</groupId>
     <artifactId>contract</artifactId>
-    <version>3.22.0</version>
+    <version>3.22.1</version>
 </dependency>
 ```
 
@@ -79,7 +79,7 @@ you want to play around with the devpack, add the `io.neow3j:devpack` dependency
 __Gradle__
 
 ```groovy
-implementation 'io.neow3j:devpack:3.22.0'
+implementation 'io.neow3j:devpack:3.22.1'
 ```
 
 __Maven__
@@ -88,7 +88,7 @@ __Maven__
 <dependency>
     <groupId>io.neow3j</groupId>
     <artifactId>devpack</artifactId>
-    <version>3.22.0</version>
+    <version>3.22.1</version>
 </dependency>
 ```
 
