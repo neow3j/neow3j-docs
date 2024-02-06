@@ -6,7 +6,8 @@ The documentation website runs at https://neow3j.io.
 
 Besides this documentation you can also get answers and help through:
 
-* [NEO Discord](https://discord.io/neo) (#java channel)
+* [Neo Discord](https://discord.io/neo) (#java channel)
+* [AxLabs Discord](https://discord.axlabs.com) (#neow3j channel)
 * [neow3j GitHub issues](https://github.com/neow3j/neow3j/issues)
 
 ## Running it locally

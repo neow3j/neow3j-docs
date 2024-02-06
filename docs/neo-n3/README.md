@@ -1,7 +1,7 @@
 <div class="oneclicknode-container">
     <a class="oneclicknode-btn" href="https://marketplace.digitalocean.com/apps/1clicknode-for-neo" target="_blank" 
     style="color: #FFFFFF"> 
-      ⌛ Don't waste time setting up a Neo Node. 👉 Use 1ClickNode, its free!
+      ⌛ Don't waste time setting up a Neo Node. 👉 Use 1ClickNode, it's free!
     </a>
 </div>
 
