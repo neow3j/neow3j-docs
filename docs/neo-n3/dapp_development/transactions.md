@@ -1,87 +1,52 @@
 # Transactions
 
-Transactions are the main protagonists when changing blockchain state. Every change is induced by a transaction. Neo's
-transactions are very generic. There are no transaction types. What determines their impact is the attached script. A
-script is a sequence of NeoVM instructions and can therefore take many forms, though, transaction scripts usually
-contain one or more calls to smart contracts. The full definition of a Neo transaction is described
-[here](https://docs.neo.org/docs/en-us/basic/concept/transaction.html) in the official Neo documentation.
+Transactions are essential for changing the blockchain state. Every change is initiated by a transaction. Neo's transactions are quite generic; they do not have specific types. Instead, their impact is determined by the attached script. A script is a sequence of NeoVM instructions and can therefore take various forms, although transaction scripts usually involve one or more calls to smart contracts. You can find the complete definition of a Neo transaction described [here](https://docs.neo.org/docs/en-us/basic/concept/transaction.html) in the official Neo documentation.
 
-The neow3j SDK represents Neo transactions in its `io.neow3j.transaction.Transaction` class. It provides all necessary
-functionality to serialize to a byte array and send the transaction to a Neo node. But, constructing a valid transaction
-manually would be a tedious task. Therefore, neow3j provides the `io.neow3j.contract.TransactionBuilder`, which takes
-care of building a valid transaction and points out wrong configurations as early as possible. 
+The neow3j SDK represents Neo transactions in its `io.neow3j.transaction.Transaction` class. It provides all the necessary functionality to serialize into a byte array and send the transaction to a Neo node. However, constructing a valid transaction manually would be a tedious task. Therefore, neow3j provides the `io.neow3j.contract.TransactionBuilder`, which simplifies the process of building a valid transaction and identifies incorrect configurations as early as possible.
 
 ## Building Transactions
 
-The `TransactionBuilder` and the `Transaction` require a connection to a Neo node for fetching information, like fees
-or to send the transaction. Therefore, the `TransactionBuilder` is instantiated with a `Neow3j` object. Once
-constructed, the builder allows you to set almost all the properties a Neo transaction can have. The system fee, which
-is the amount of GAS your transaction will consume, and the network fee, which is based on the size of your transaction
-and the efforts to verify it, are both fetched automatically when building the transaction.
+The `TransactionBuilder` and the `Transaction` require a connection to a Neo node to fetch information such as fees or to send the transaction. Therefore, the `TransactionBuilder` is instantiated with a `Neow3j` object. Once constructed, the builder allows you to set almost all the properties a Neo transaction can have. The system fee, which is the amount of GAS your transaction will consume, and the network fee, which is based on the size of your transaction and the effort required to verify it, are both fetched automatically when building the transaction.
 
 ```java
 Neow3j neow3j = Neow3j.build(new HttpService("http://127.0.0.1:40332"));
 TransactionBuilder builder = new TransactionBuilder(neow3j);
 ```
 
-The properties called *nonce*, *validUntilBlock*, and *version* will also be set automatically if not set explicitly.
-The *nonce* prevents replay attacks in which the exact same transaction is copied and sent again. Its default value is
-set at random by the transaction builder. The *validUntilBlock* value determines for how long the transaction will
-remain valid before it is included in a block. If it does not get included before that time, it will be discarded by
-the network. The default value is set as the maximum supported by the connected network. The transaction *version* is
-set to 0 by default which you will most probably not have to change.
+The properties called _nonce_, _validUntilBlock_, and _version_ will also be set automatically if not set explicitly. The _nonce_ prevents replay attacks, where the exact same transaction is copied and sent again. Its default value is set randomly by the transaction builder. The _validUntilBlock_ value determines how long the transaction will remain valid before it needs to be included in a block. If it is not included before that time, it will be discarded by the network. The default value is set as the maximum supported by the connected network. The transaction _version_ is set to 0 by default, which you will most probably not need to change.
 
-The properties that are of most interest are the transaction's script and its signers. As mentioned before, the script
-determines the actual effects of the transaction on the blockchain state. How to build the script itself is not
-discussed here. Neow3j offers many classes in the `contract` module that will provide you with a `TransactionBuilder`
-holding a preconfigured script.
+The properties of most interest are the transaction's script and its signers. As mentioned earlier, the script determines the actual effects of the transaction on the blockchain state. The process of building the script itself is not discussed here. Neow3j offers many classes in the `contract` module that will provide you with a `TransactionBuilder` holding a preconfigured script.
 
 ```java
 builder.script(script);
 ```
 
-The use of transaction signers is twofold. The first signer in the list specifies the account that will pay for the
-transaction fees - it is called the `sender` of the transaction. Secondly, all signers - including the first in the
-list - are used to allow specific actions of the script that are depending on the signature of an account. For example,
-if a token should be transferred from account a to account b, usually this requires the approval of account a.
+The usage of transaction signers serves a dual purpose. The first signer in the list specifies the account that will pay for the transaction fees, known as the `sender` of the transaction. Additionally, all signers, including the first one in the list, are used to authorize specific actions within the script that depend on the signature of an account. For example, transferring a token from account A to account B typically requires approval from account A.
 
-You can set the signers of a transaction with the method `signers(Signer... signers)` in the transaction builder. Note,
-that the first signer in the provided parameters is used as the transaction's sender. In case you have set all signers,
-but want to change the sender to another signer, you can use the method `firstSigner(Hash160 account)` to set it
-explicitly.
+You can set the signers of a transaction using the `signers(Signer... signers)` method in the transaction builder. Note that the first signer provided in the parameters will be used as the transaction's sender. If you have specified all the signers but want to change the sender to another signer, you can use the `firstSigner(Hash160 account)` method to set it explicitly.
 
 ```java
+// Import the Account class from the io.neow3j.wallet package
+import io.neow3j.wallet.Account;
+
+// Instantiate the Account class as follows
 Account account = Account.fromWIF("L24Qst64zASL2aLEKdJtRLnbnTbqpcRNWkWJ3yhDh2CLUtLdwYK2");
 builder.signers(AccountSigner.calledByEntry(account));
 ```
 
-Signers are associated with a witness scope that restricts how the signer's witness* can be used in an invocation.
-For example, if a signer is only needed for paying the transaction fee, the witness scope can be set to *None*. There
-are two signer classes to be aware of - the `AccountSigner` and the `ContractSigner`. Use `AccountSigner` for signers
-that are backed by an account. It provides static builder methods for all witness scopes.
+Signers are associated with a witness scope that restricts how the signer's witness* can be used during invocation. For instance, if a signer is only needed for paying the transaction fee, the witness scope can be set to *None\*. There are two signer classes to be aware of - `AccountSigner` and `ContractSigner`. Use `AccountSigner` for signers backed by an account, which provides static builder methods for all witness scopes.
 
-Use `ContractSigner` if the signer is a smart contract. This kind of signer doesn't require a signature, but will call
-the contract's `verify(...)` method when the transaction is executed. Since contract signers cannot pay the transaction
-fees, the class `ContractSigner` does not provide a builder method for the *None* witness scope. Further, the
-`ContractSigner`'s builder methods can take contract parameters in case the contract's `verify(...)` method has extra
-parameters.
+Use `ContractSigner` if the signer is a smart contract. This type of signer does not require a signature but calls the contract's `verify(...)` method during transaction execution. Since contract signers cannot pay transaction fees, the `ContractSigner` class does not provide a builder method for the _None_ witness scope. Furthermore, the `ContractSigner`'s builder methods can accept contract parameters if the contract's `verify(...)` method has extra parameters.
 
-**Note:** A transaction requires at least one `AccountSigner` that will pay for the fees.
+**Note:** A transaction requires at least one `AccountSigner` to pay for the fees.
 
-> *A witness is a script pair that contains an invocation and a verification script. Both scripts are simply a
-> sequence of NeoVM instructions. In the basic case of an account signer, the invocation script consists of the
-> instruction to push the signature data on the NeoVM stack, whereas in the verification script, the corresponding
-> public key data is pushed on the NeoVM stack followed by an instruction to check its signature provided in the
-> invocation script.
+> \*A witness is a script pair that consists of an invocation and a verification script. Both scripts are sequences of NeoVM instructions. In the case of an account signer, the invocation script includes instructions to push the signature data onto the NeoVM stack. In the verification script, the corresponding public key data is pushed onto the NeoVM stack, followed by an instruction to verify the signature provided in the invocation script.
 >
-> Check out the [Medium article by NeoSPCC](https://neospcc.medium.com/thou-shalt-check-their-witnesses-485d2bf8375d)
-> to learn more about witnesses and witness scopes.
+> For more information on witnesses and witness scopes, refer to the [Medium article by NeoSPCC](https://neospcc.medium.com/thou-shalt-check-their-witnesses-485d2bf8375d).
 
-Witnesses can only be added to the `Transaction` object and not to the builder because they usually depend on the
-serialized transaction for producing a signature. In case you are using `single-sig` accounts in a transaction's
-signers, the `sign()` method will produce the witnesses automatically for you.
+Witnesses can only be added to the `Transaction` object, not to the builder, because they typically rely on the serialized transaction to produce a signature. If you are using `single-sig` accounts in a transaction's signers, the `sign()` method will automatically generate the witnesses for you.
 
-The following is a simple example of how building, signing, and sending a transaction might look.
+Here's a simple example of how to build, sign, and send a transaction:
 
 ```java
 Neow3j neow3j = Neow3j.build(new HttpService("http://127.0.0.1:40332"));
@@ -90,30 +55,25 @@ Account account = Account.fromWIF("L24Qst64zASL2aLEKdJtRLnbnTbqpcRNWkWJ3yhDh2CLU
 byte[] script = new ScriptBuilder().contractCall(NeoToken.SCRIPT_HASH, "symbol", null)
                                    .toArray();
 
-Transaction tx = new TransactionBuilder(neow3j)
+TransactionBuilder builder = new TransactionBuilder(neow3j)
     .script(script)
-    .signers(AccountSigner.calledByEntry(account))
-    .sign();
+    .signers(AccountSigner.calledByEntry(account));
 
-NeoSendRawTransaction response = tx.send();
+// Build the transaction
+Transaction tx = builder.sign()
+                        .send();
 ```
 
-For manually adding witnesses to a transaction continue reading the next section.
+To manually add witnesses to a transaction, continue reading the next section.
 
 ## Signing Transactions
 
-As you have seen in the last section, the `TransactionBuilder` offers a `sign()` method. It attempts to add the correct
-signatures according to what it finds in the list of signers. If you add an `AccountSigner` that holds a private key,
-the `sign()` method can automatically create the signature/witness for that signer. If the account doesn't have a key,
-e.g., because it is a multi-sig account, you will need to provide the witness manually.
-Witnesses for `ContractSigners` are also added automatically with `sign()`.
+As demonstrated in the previous section, the `TransactionBuilder` offers a `sign()` method to add the correct signatures based on the provided signers. If you use an `AccountSigner` with a private key, the `sign()` method will automatically generate the required signature/witness. However, if the account does not have a key (e.g., for a multi-sig account), you'll need to provide the witness manually.
 
-To sign manually, use `getUnsignedTransaction()` on the builder and retrieve the transaction with an empty list of
-witnesses. Now it is up to you to add the necessary witnesses. You can get the serialized transaction bytes and create
-a witness from it as shown below.
+To sign manually, use `getUnsignedTransaction()` on the builder to retrieve the transaction without witnesses. Then, add the necessary witnesses by creating a witness from the serialized transaction bytes:
 
 ```java
-Transaction tx = txBuilder.getUnsignedTransaction();
+Transaction tx = builder.getUnsignedTransaction();
 Account account = Account.fromWIF("L24Qst64zASL2aLEKdJtRLnbnTbqpcRNWkWJ3yhDh2CLUtLdwYK2");
 ECKeyPair keyPair = account.getECKeyPair();
 byte[] txBytes = tx.getHashData();
@@ -122,11 +82,7 @@ tx.addWitness(witness);
 tx.send();
 ```
 
-If your use case is more advanced and requires witnesses of `multi-sig` accounts, you can create an unsigned
-`Transaction` with `getUnsignedTransaction()` and append the witnesses manually to the transaction with
-one of the `addMultiSigWitness(...)` convenience methods. The following example shows how such an implementation could
-look like with a multi-sig account of three participants that requires the signature of two of them.
-
+For more advanced use cases that require witnesses from multi-sig accounts, you can create an unsigned `Transaction` and manually append the witnesses using `addMultiSigWitness(...)` methods. Here's an example with a multi-sig account of three participants that requires the signature of two:
 
 ```java
 Neow3j neow3j = Neow3j.build(new HttpService("http://127.0.0.1:40332"));
@@ -136,43 +92,41 @@ ECKeyPair.ECPublicKey pubKey2 = ...;
 ECKeyPair.ECPublicKey pubKey3 = ...;
 int threshold = 2;
 
-// The multi-sig account holding its verification script.
+// Create the multi-sig account with its verification script
 Account multiSigAccount = Account.createMultiSigAccount(Arrays.asList(pubKey1, pubKey2, pubKey3), threshold);
 
-byte[] script = ...;
+byte[] script = ...; // Define your script
 
-// Create and get unsigned transaction.
+// Create and get an unsigned transaction
 Transaction tx = new TransactionBuilder(neow3j)
     .script(script)
     .signers(AccountSigner.calledByEntry(multiSigAccount))
     .getUnsignedTransaction();
 
-// Externally sign the transaction's hash data (tx.getHashData()) with e.g., Sign.signMessage(txHash, ecKeyPair);
-// Then, parse the raw signature data into the Sign.SignatureData object.
-byte[] rawSig1 = ...;
+// Sign the transaction's hash data externally
+byte[] rawSig1 = ...; // Signature from participant 1
+byte[] rawSig2 = ...; // Signature from participant 2
+
 Sign.SignatureData sigData1 = Sign.SignatureData.fromByteArray(rawSig1);
-byte[] rawSig2 = ...;
 Sign.SignatureData sigData2 = Sign.SignatureData.fromByteArray(rawSig2);
 
-// Create a map to specify what signature data belongs to which public key.
+// Map signature data to public keys
 HashMap<ECKeyPair.ECPublicKey, Sign.SignatureData> signatureMap = new HashMap<>();
 signatureMap.put(pubKey1, sigData1);
 signatureMap.put(pubKey2, sigData2);
 
-// Creates and adds a multi-sig witness to the transaction based on the verification script and the signatures.
+// Add a multi-sig witness to the transaction based on the verification script and signatures
 tx.addMultiSigWitness(multiSigAccount.getVerificationScript(), signatureMap);
 
+// Send the transaction
 NeoSendRawTransaction response = tx.send();
 ```
 
-If you need to sign a transaction manually and also require a witness for a contract signer, you can use the method
-`Witness.createContractWitness(List<ContractParameter> verifyParams)` to create a witness for the contract signer. Then,
-add it with `addWitness(Witness witness)` to the transaction.
+If you need to sign a transaction manually and require a witness for a contract signer, use `Witness.createContractWitness(List<ContractParameter> verifyParams)` to create a witness for the contract signer and add it to the transaction using `addWitness(Witness witness)`.
 
 ## Tracking Transactions
 
-To track an issued transaction, you can use the method `track()` on the transaction instance.  As soon as the
-transaction is included in a block, you can retrieve its application log with the method `getApplicationLog()`.
+To track an issued transaction, use the `track()` method on the transaction instance. You can then retrieve the application log as soon as the transaction is included in a block using `getApplicationLog()`:
 
 ```java
 tx.track().subscribe(blockIndex -> {
@@ -182,24 +136,18 @@ tx.track().subscribe(blockIndex -> {
 });
 ```
 
-If you call `getApplicationLog()` before the transaction is included in a block it throws an `RpcResponseErrorException`
-with an error message, that the transaction is unknown or could not be found.
+If you call `getApplicationLog()` before the transaction is included in a block, it will throw an `RpcResponseErrorException` indicating that the transaction is unknown or could not be found.
 
-## Adding additional Network Fees
+## Adding Additional Network Fees
 
-There are two kind of fees one has to pay for a transaction, the system fee and the network fee. The system fee is the
-cost of resources consumed by the execution of a script on the NeoVM. It depends on the number and type of instructions
-executed in the script. The network fee is paid for the size of the transaction and the effort needed for signature
-verification. Adding a higher network fee than needed gives the transaction priority in the network. Neow3j
-automatically fetches the necessary system and network fees for a transaction, but you can add an additional network fee
-for priority. Use the method `additionalNetworkFee()` as in the example below.
+Transactions involve two types of fees: system fee and network fee. The system fee covers the resources consumed by script execution on the NeoVM, while the network fee is based on the transaction size and effort required for signature verification. You can add an additional network fee for priority using `additionalNetworkFee()`:
 
 ```java
 Transaction tx = new TransactionBuilder(neow3j)
         .script(script)
         .signers(AccountSigner.calledByEntry(acc))
-        .additionalNetworkFee(1_000_000L)
+        .additionalNetworkFee(1_000_000L) // Adds 1,000,000 GAS fractions (0.01 GAS)
         .sign();
 ```
 
-This adds 1'000'000 GAS fractions to the network fee, which is 1'000'000 / 10^8 = 0.01 GAS.
+This example adds 1,000,000 GAS fractions to the network fee for transaction priority.
