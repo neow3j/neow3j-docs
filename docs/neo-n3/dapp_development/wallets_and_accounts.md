@@ -78,30 +78,4 @@ The first two methods can be used for single- and multi-sig accounts. The verifi
 
 In the latter two methods, no verification script is available. Therefore, one or both of the signing threshold and number of participants must be specified explicitly so that the multi-sig account can be used as a signer in transactions. The `TransactionBuilder` requires the signing threshold and number of participants to determine the network fee that must be paid for signing with the account.
 
-Multi-sig accounts do not hold EC key pairs. That would defeat the purpose of multi-sig accounts, because
-their key material should be spread over multiple entities.
-
-In the following example a new mutli-sig account is created from three public keys. Its signing threshold is two, i.e.,
-for a transaction signed by this account to be successful, at least two of the three participants have to sign.
-
-```java
-List<ECPublicKey> publicKeys = Arrays.asList(
-        ECKeyPair.createEcKeyPair().getPublicKey(),
-        ECKeyPair.createEcKeyPair().getPublicKey(),
-        ECKeyPair.createEcKeyPair().getPublicKey()
-);
-
-Account a2 = Account.createMultiSigAccount(publicKeys, 2)
-        .label("MyMultiSigAccount");
-```
-
-## Account Balances
-
-To check the NEP-17 balances of an account, use the following method.
-
-```java
-Neow3j neow3j = Neow3j.build(new HttpService("http://localhost:40332"));
-Map<Hash160, BigInteger> nep17Balances = a.getNep17Balances(neow3j);
-```
-
-This returns a map containing all NEP-17 token balances of the account.
+Multi-sig accounts do not hold EC key pairs. That would defeat the purpose of multi-sig
