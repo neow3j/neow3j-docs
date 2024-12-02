@@ -78,6 +78,7 @@ The first two methods can be used for single- and multi-sig accounts. The verifi
 
 In the latter two methods, no verification script is available. Therefore, one or both of the signing threshold and number of participants must be specified explicitly so that the multi-sig account can be used as a signer in transactions. The `TransactionBuilder` requires the signing threshold and number of participants to determine the network fee that must be paid for signing with the account.
 
+<<<<<<< HEAD
 Multi-sig accounts do not hold EC key pairs. That would defeat the purpose of multi-sigaccounts, because
 their key material should be spread over multiple entities.
 
@@ -105,3 +106,6 @@ Map<Hash160, BigInteger> nep17Balances = a.getNep17Balances(neow3j);
 ```
 
 This returns a map containing all NEP-17 token balances of the account.
+=======
+Multi-sig accounts do not hold EC key pairs. That would defeat the purpose of multi-sig
+>>>>>>> ea936643003d714c2832ac48a9237022e68911a0
