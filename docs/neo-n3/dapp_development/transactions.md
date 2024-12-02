@@ -140,7 +140,7 @@ If you call `getApplicationLog()` before the transaction is included in a block,
 
 ## Adding Additional Network Fees
 
-Transactions involve two types of fees: system fee and network fee. The system fee covers the resources consumed by script execution on the NeoVM, while the network fee is based on the transaction size and effort required for signature verification. You can add an additional network fee for priority using `additionalNetworkFee()`:
+Transactions involve two types of fees: _system fee_ and _network fee_. The _system fee_ covers the resources consumed by script execution on the NeoVM, while the _network fee_ is based on the transaction size and effort required for signature verification. You can add an additional network fee for priority using `additionalNetworkFee()`:
 
 ```java
 Transaction tx = new TransactionBuilder(neow3j)
