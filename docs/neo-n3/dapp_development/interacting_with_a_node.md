@@ -25,9 +25,6 @@ The `Neow3jConfig` class includes a static member and static methods for setting
 Now that we have set up a `Neow3j` instance, we can begin exploring potential interactions with the Neo blockchain. Most methods on `Neow3j` construct and return a `Request` object that specifies the request and the expected response format. Use `send()` on this request to actually send it to the Neo node. The returned type will be a subclass of `Response`.
 
 To avoid encountering unexpected `NullPointerException`s, you can use methods like `hasError()`, `getError()`, or `throwOnError()` on the response object to handle errors smoothly before accessing any other response data. These methods help ensure robust error handling when interacting with the Neo blockchain through neow3j.
-Now that we have set up a `Neow3j` instance, we can begin exploring potential interactions with the Neo blockchain. Most methods on `Neow3j` construct and return a `Request` object that specifies the request and the expected response format. Use `send()` on this request to actually send it to the Neo node. The returned type will be a subclass of `Response`.
-
-To avoid encountering unexpected `NullPointerException`s, you can use methods like `hasError()`, `getError()`, or `throwOnError()` on the response object to handle errors smoothly before accessing any other response data. These methods help ensure robust error handling when interacting with the Neo blockchain through neow3j.
 
 Another set of methods available on `Neow3j` are based on [RxJava](https://github.com/ReactiveX/RxJava) and return `Observable`s that you can subscribe to. These methods will be briefly explored in the next section, which covers monitoring the blockchain. This approach enables you to asynchronously observe and react to events and data from the Neo blockchain using neow3j.
 
