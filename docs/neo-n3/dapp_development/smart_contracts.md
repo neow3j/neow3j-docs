@@ -164,6 +164,6 @@ The designation of a node to a role can only be done via the Neo committee. Howe
 
 ### NeoNameService
 
-The `NeoNameService` is not a native contract but managed by the Neo core team. The script hash of this contract is not known to neow3j and has to be provided by the developer when constructing an instance of `NeoNameService`. As its name suggests, the name service contract provides the possibility to map a name to an owner account. You can read more about it in the official [Neo Docs](https://docs.neo.org/docs/en-us/reference/nns.html).
+The `NeoNameService` is not a native contract but managed by the Neo core team. The script hash of this contract is not known to neow3j and has to be provided by the developer when constructing an instance of `NeoNameService`. As its name suggests, the name service contract provides the possibility to map a name to an owner account. You can read more about it in the official [Neo Docs](https://docs.neo.org/docs/n3/Advances/neons/index.html).
 
 The `NeoNameService` class in the neow3j SDK provides you with all the methods of the contract. So you can check registered names and register your own name-to-address mappings. Some of them can only be called by the Neo committee, for example, `addRoot(...)` or `setPrice(...)` methods.

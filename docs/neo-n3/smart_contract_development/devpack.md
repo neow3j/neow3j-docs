@@ -134,7 +134,7 @@ Make sure that the script hash is equal to the current script hash of the NNS co
 ## Events
 
 Neo smart contracts can fire events. They appear, for example, in the [application
-logs](https://docs.neo.org/v3/docs/en-us/reference/rpc/latest-version/api/getapplicationlog.html) of a contract
+logs](https://docs.neo.org/docs/n3/reference/rpc/getapplicationlog.html) of a contract
 invocation. The events that a contract can fire are listed in its manifest. The JSON below shows how this could look.
 
 ```json
