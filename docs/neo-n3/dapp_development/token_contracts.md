@@ -11,10 +11,10 @@ The following graph illustrates the structure of the classes related to token co
                  ---------------
                         |
                      -------
-                    |   Token    |
-                     -------                                  --------------------                -------------
-                    /        \                       ->      | TransactionBuilder |      ->      | Transaction |
-        ---------------     ------------------                --------------------                -------------
+                    | Token |
+                     -------                                   --------------------               -------------
+                    /        \                       ->       | TransactionBuilder |     ->      | Transaction |
+        ---------------     ------------------                 --------------------               -------------
        | FungibleToken |   | NonFungibleToken |
         ---------------     ------------------
           /         \                 \
