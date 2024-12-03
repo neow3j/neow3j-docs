@@ -18,11 +18,9 @@ The GitHub repo with the Smart Contracts presented in this section can be found 
 
 > https://github.com/AxLabs/meme-governance-contracts
 
-There are two contracts, the `MemeContract` and the `GovernanceContract`. The `GovernanceContract` is the owner of the
-`MemeContract` and as such is the only entitled entity that can change the state of the `MemeContract`.
+There are two contracts, the `MemeContract` and the `GovernanceContract`. The `GovernanceContract` is the owner of the `MemeContract` and as such is the only entitled entity that can change the state of the `MemeContract`.
 
-The `GovernanceContract` has a built-in voting mechanism, so that every change on the `MemeContract` has to pass a vote. Users can vote in favor or
-against a proposal. For a proposal to be accepted, the following criteria must be met:
+The `GovernanceContract` has a built-in voting mechanism, so that every change on the `MemeContract` has to pass a vote. Users can vote in favor or against a proposal. For a proposal to be accepted, the following criteria must be met:
 - the voting time frame needs to be over (see [getVotingTime](#getVotingTime)).
 - the proposal needs a minimum of votes in favor (see [getMinVotesInFavor](#getMinVotesInFavor)).
 - the proposal needs to have more votes in favor than against.
@@ -41,6 +39,7 @@ When a proposal passes its vote, it can be executed (see [execute](#execute)) an
   "returntype": "Hash160"
 }
 ```
+
 Returns the address of the underlying `MemeContract`.
 
 #### getVotingTime
@@ -53,6 +52,7 @@ Returns the address of the underlying `MemeContract`.
   "returntype": "Integer"
 }
 ```
+
 Returns the timeframe (number of blocks) to vote for a proposal after it was created.
 
 #### getMinVotesInFavor
@@ -65,6 +65,7 @@ Returns the timeframe (number of blocks) to vote for a proposal after it was cre
   "returntype": "Integer"
 }
 ```
+
 Gets the minimum votes in favor for a proposal to be accepted.
 
 #### proposeNewMeme
@@ -94,6 +95,7 @@ Gets the minimum votes in favor for a proposal to be accepted.
   "returntype": "Void"
 }
 ```
+
 Creates a proposal to add a new meme.
 
 **Requirements:**
@@ -116,6 +118,7 @@ Creates a proposal to add a new meme.
   "returntype": "Void"
 }
 ```
+
 Creates a proposal to remove an existing meme.
 
 **Requirements:**
@@ -144,6 +147,7 @@ Creates a proposal to remove an existing meme.
   "returntype": "Void"
 }
 ```
+
 Vote for a proposal (in favor or against).
 
 **Requirements:**
@@ -165,8 +169,8 @@ Vote for a proposal (in favor or against).
   "returntype": "Boolean"
 }
 ```
-Executes a finished proposal. If the proposal was about to create a meme, the meme with its properties is created on the `MemeContract`. If the
-proposal was about removing a meme, the meme is removed from the `MemeContract`.
+
+Executes a finished proposal. If the proposal was about to create a meme, the meme with its properties is created on the `MemeContract`. If the proposal was about removing a meme, the meme is removed from the `MemeContract`.
 
 > **Note**: If the proposal was not accepted, it's removed.
 
@@ -188,11 +192,10 @@ proposal was about removing a meme, the meme is removed from the `MemeContract`.
   "returntype": "Array"
 }
 ```
+
 Gets a list of proposals that have not been executed. The returned array holds the proposals in the structure explained in detail [below](#meme-and-proposal-structure).
 
-> **Note:** The returned list size is limited. This method is intended to be used by RPCs, since those are not made for processing large data,
-> the deployed contract has a limit of 100 entries in the returned array. If the contract holds more than 100 proposals, you can get the data by
-> making multiple calls and increasing `startingIndex` by 100 for each RPC. E.g. use 0 to get the first 100 proposals.
+> **Note:** The returned list size is limited. This method is intended to be used by RPCs, since those are not made for processing large data, the deployed contract has a limit of 100 entries in the returned array. If the contract holds more than 100 proposals, you can get the data by making multiple calls and increasing `startingIndex` by 100 for each RPC. E.g. use 0 to get the first 100 proposals.
 
 ### Specification MemeContract
 
@@ -234,9 +237,7 @@ Gets a list of existing memes. The returned array holds the memes in the structu
 
 ### Additional notes
 
-Both contracts are linked to each other upon deployment of the governance contract. The contracts are both deployed separately. The meme
-contract is deployed first and then the governance contract is deployed with the meme contract's hash as data parameter. Upon deploying the
-governance contract, the following steps are executed:
+Both contracts are linked to each other upon deployment of the governance contract. The contracts are both deployed separately. The meme contract is deployed first and then the governance contract is deployed with the meme contract's hash as data parameter. Upon deploying the governance contract, the following steps are executed:
 
 - The owner on the `MemeContract` is set to the address of the `GovernanceContract`.
 - The `MemeContract` hash is set on the `GovernanceContract` for all future invocations.
@@ -273,6 +274,7 @@ The properties of a meme are passed in an array of the following structure:
 ```
 
 A proposal is returned as an array of the following structure:
+
 ```javascript
 {
     "type": "Array",

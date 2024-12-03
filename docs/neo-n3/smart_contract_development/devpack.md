@@ -77,18 +77,13 @@ class MyContract extends ContractInterface {
 }
 ```
 
-In this minimal form the class only provides access to the contract's hash via the `getHash()` method inherited from
-`ContractInterface`. Any other contract methods have to be added according to their signature in the contract's
-manifest. Assuming the contract has a method `findElement` with a `ByteString` parameter and a `ByteString` return type,
-you would need to add the following method. Note that the method needs to be native. A method body implementation is not necessary, since this is only an interface to an actual contract instance on the blockchain.
+In this minimal form the class only provides access to the contract's hash via the `getHash()` method inherited from `ContractInterface`. Any other contract methods have to be added according to their signature in the contract's manifest. Assuming the contract has a method `findElement` with a `ByteString` parameter and a `ByteString` return type, you would need to add the following method. Note that the method needs to be native. A method body implementation is not necessary, since this is only an interface to an actual contract instance on the blockchain.
 
 ```java
 public native ByteString findElement(ByteString key);
 ```
 
-The devpack provides abstract contract interfaces that already contain the API of contracts following a standard. For example,
-if you want to establish a contract interface to a fungible token contract, you can extend the `FungibleToken` class. All methods
-of a NEP-17 token contract are already available and you can just add extra methods that your contract might hold (simply add them as shown before).
+The devpack provides abstract contract interfaces that already contain the API of contracts following a standard. For example, if you want to establish a contract interface to a fungible token contract, you can extend the `FungibleToken` class. All methods of a NEP-17 token contract are already available and you can just add extra methods that your contract might hold (simply add them as shown before).
 
 ```java
 class MyTokenContract extends FungibleToken {
@@ -113,17 +108,11 @@ Checkout the `io.neow3j.devpack.contracts` package for more such contract interf
 
 ### StdLib
 
-When using the `StdLib.jsonSerialize(Object o)` method for a value or object that contains a byte string or byte array
-(e.g., `ByteString`, `byte[]`, or `Hash160`) make sure to first Base64-encoded that value. Otherwise, it will be
-interpreted as a UTF-8 encoded string, which might lead to errors. It will not be presented in the JSON as a hexadecimal
-string.
+When using the `StdLib.jsonSerialize(Object o)` method for a value or object that contains a byte string or byte array (e.g., `ByteString`, `byte[]`, or `Hash160`) make sure to first Base64-encoded that value. Otherwise, it will be interpreted as a UTF-8 encoded string, which might lead to errors. It will not be presented in the JSON as a hexadecimal string.
 
 ### Neo Name Service
 
-The Neo Name Service contract (NNS) is technically not a native contract but is maintained and issued by the Neo
-Foundation. The devpack provides a contract interface to the NNS with the class
-`io.neow3j.devpack.contracts.NeoNameService`. Note, that this class does not have a fixed script hash, since it is not a
-native contract. If you want to use the class in your contract you can simply initialize an instance of it.
+The Neo Name Service contract (NNS) is technically not a native contract but is maintained and issued by the Neo Foundation. The devpack provides a contract interface to the NNS with the class `io.neow3j.devpack.contracts.NeoNameService`. Note, that this class does not have a fixed script hash, since it is not a native contract. If you want to use the class in your contract you can simply initialize an instance of it.
 
 ```java
 new NeoNameService("a92fbe5bf164170a624474841485b20b45a26047");
@@ -133,9 +122,7 @@ Make sure that the script hash is equal to the current script hash of the NNS co
 
 ## Events
 
-Neo smart contracts can fire events. They appear, for example, in the [application
-logs](https://docs.neo.org/v3/docs/en-us/reference/rpc/latest-version/api/getapplicationlog.html) of a contract
-invocation. The events that a contract can fire are listed in its manifest. The JSON below shows how this could look.
+Neo smart contracts can fire events. They appear, for example, in the [application logs](https://docs.neo.org/docs/n3/reference/rpc/getapplicationlog.html) of a contract invocation. The events that a contract can fire are listed in its manifest. The JSON below shows how this could look.
 
 ```json
 "events": [
@@ -155,13 +142,9 @@ invocation. The events that a contract can fire are listed in its manifest. The 
 ]
 ```
 
-An event is defined by its name and the state parameters that are passed with it. The devpack allows you to define and
-use events with up to 16 state parameters. The classes representing these events are located in the
-[`io.neow3j.devpack.events`](https://javadoc.io/doc/io.neow3j/devpack/latest/io/neow3j/devpack/events/package-summary.html)
-package. 
+An event is defined by its name and the state parameters that are passed with it. The devpack allows you to define and use events with up to 16 state parameters. The classes representing these events are located in the [`io.neow3j.devpack.events`](https://javadoc.io/doc/io.neow3j/devpack/latest/io/neow3j/devpack/events/package-summary.html) package.
 
-Events are declared in static contract variables as shown in the following code snippet. They cannot
-be declared inside of a method body or in classes that are not the main contract class.
+Events are declared in static contract variables as shown in the following code snippet. They cannot be declared inside of a method body or in classes that are not the main contract class.
 
 ```java
     @DisplayName("mint")
@@ -171,11 +154,7 @@ be declared inside of a method body or in classes that are not the main contract
     private static Event2Args<Integer, String> onTransfer;
 ```
 
-It is not necessary to initialize the variables with an actual instance. This is counter-intuitive for a Java developer,
-but, the variables are not meant to have an actual value. They are only definitions, with a name and the number and
-types of state parameters. All event classes follow the naming schema `Event[n]Args`, where `n` is the number of state
-parameters the event takes. The `@DisplayName` annotation is optional and can be used to define a different name for the
-event than the variable name. If it is not used, the variable name is the event name.
+It is not necessary to initialize the variables with an actual instance. This is counter-intuitive for a Java developer, but, the variables are not meant to have an actual value. They are only definitions, with a name and the number and types of state parameters. All event classes follow the naming schema `Event[n]Args`, where `n` is the number of state parameters the event takes. The `@DisplayName` annotation is optional and can be used to define a different name for the event than the variable name. If it is not used, the variable name is the event name.
 
 Once an event is declared, it can then be used in contract methods by calling its `fire(...)` method. 
 
@@ -192,64 +171,39 @@ Once an event is declared, it can then be used in contract methods by calling it
 
 ## Special Contract Methods
 
-There are a couple of contract methods that have a special purpose. The neow3j devpack provides annotations to mark them
-in your contract code. Using the annotations will make it easier to spot the methods in your code and allows the
-compiler to make checks that help finding errors in these methods faster.
+There are a couple of contract methods that have a special purpose. The neow3j devpack provides annotations to mark them in your contract code. Using the annotations will make it easier to spot the methods in your code and allows the compiler to make checks that help finding errors in these methods faster.
 
 ### _deploy
 
-This method is called right after a contract is deployed or updated. More precisely, the *ContractManamgement* contract
-will call this method on your contract when you invoke `deploy` or `update` on the *ContractManagement*. You can use it
-to setup and configure your contract at deploy-time. 
-Use the devpack's `io.neow3j.devpack.annotations.OnDeployment` annotation on the designated method. Your method's name
-does not have to be `_deploy`, but can be anything. Although, in the contract manifest it will show up under the name
-`_deploy`. The method's signature must be `void methodName(Object data, boolean isUpdate)`.
+This method is called right after a contract is deployed or updated. More precisely, the *ContractManamgement* contract will call this method on your contract when you invoke `deploy` or `update` on the *ContractManagement*. You can use it to setup and configure your contract at deploy-time. Use the devpack's `io.neow3j.devpack.annotations.OnDeployment` annotation on the designated method. Your method's name does not have to be `_deploy`, but can be anything. Although, in the contract manifest it will show up under the name `_deploy`. The method's signature must be `void methodName(Object data, boolean isUpdate)`.
 
 ### verify
 
-This method is called if your contract is invoked with the verification trigger. For example, when a contract owns
-tokens and you issue a withdraw transaction that transfers those tokens to another account/contract, the contract
-is called with the verification trigger. In other words the contract's `verify` method is called. Most often the
-`verify` method contains a simple witness check on the owner of the contract.
-Use the devpack's `io.neow3j.devpack.annotations.OnVerification` annotation on the designated method. Your method's name
-does not have to be `verify`, but can be anything. Although, in the contract manifest it will show up under the name
-`verify`. The method must return a boolean and can have any number of parameters.
+This method is called if your contract is invoked with the verification trigger. For example, when a contract owns tokens and you issue a withdraw transaction that transfers those tokens to another account/contract, the contract is called with the verification trigger. In other words the contract's `verify` method is called. Most often the `verify` method contains a simple witness check on the owner of the contract.
+
+Use the devpack's `io.neow3j.devpack.annotations.OnVerification` annotation on the designated method. Your method's name does not have to be `verify`, but can be anything. Although, in the contract manifest it will show up under the name `verify`. The method must return a boolean and can have any number of parameters.
 
 >**Note:** The Neo node does not allow the verify method to fire any event. The compiler will throw an exception
 >if an event is fired within this method.
 
 ### onNEP17Payment
 
-Your contract requires this method to be able to receive tokens from NEP-17 contracts, i.e., fungible tokens like NEO or
-GAS. Any contract that follows the NEP-17 standard will call this method on your contract if some of its tokens are
-transferred to your contract. 
-Use the devpack's `io.neow3j.devpack.annotations.OnNEP17Payment` annotation on the designated method. Your method's name
-does not have to be `onNEP17Payment`, but can be anything. Although, in the contract manifest it will show up under the
-name `onNEP17Payment`. The method's signature must be `void methodName(Hash160 sender, int amount, Object data)`.
+Your contract requires this method to be able to receive tokens from NEP-17 contracts, i.e., fungible tokens like NEO or GAS. Any contract that follows the NEP-17 standard will call this method on your contract if some of its tokens are transferred to your contract. 
+
+Use the devpack's `io.neow3j.devpack.annotations.OnNEP17Payment` annotation on the designated method. Your method's name does not have to be `onNEP17Payment`, but can be anything. Although, in the contract manifest it will show up under the name `onNEP17Payment`. The method's signature must be `void methodName(Hash160 sender, int amount, Object data)`.
 
 ### onNEP11Payment
 
-Your contract requires this method to be able to receive tokens from NEP-17 contracts, i.e., non-fungible tokens. Any
-contract that follows the NEP-11 standard will call this method on your contract if some of its tokens are transferred
-to your contract. Use the devpack's `io.neow3j.devpack.annotations.OnNEP11Payment` annotation on the designated method.
-Your method's name does not have to be `onNEP11Payment`, but can be anything. Although, in the contract manifest it will
-show up under the name `onNEP11Payment`. The method's signature must be `void methodName(Hash160 sender, int amount,
-ByteString tokenId, Object data)`.
+Your contract requires this method to be able to receive tokens from NEP-17 contracts, i.e., non-fungible tokens. Any contract that follows the NEP-11 standard will call this method on your contract if some of its tokens are transferred to your contract. Use the devpack's `io.neow3j.devpack.annotations.OnNEP11Payment` annotation on the designated method. Your method's name does not have to be `onNEP11Payment`, but can be anything. Although, in the contract manifest it will show up under the name `onNEP11Payment`. The method's signature must be `void methodName(Hash160 sender, int amount, ByteString tokenId, Object data)`.
 
 
 ## Permissions, Trusts, Groups, Safe Methods, and Call Flags
 
-The basis of authorization on the Neo blockchain are cryptographic signatures. Users attach signatures to contract
-invocations to proove that they are authorized to perform certain actions in a smart contract. This authorization can be
-misused by smart contracts. A malicious contract can use the signature to perform a token transfer unintended by the
-user. To prevent that, Neo applies witness scopes that allow the user to restrict the use of their witness/signature. By
-default a witness is only valid in the contract that is the entry point of an invocation. The scope can be extended to
-specific contracts, groups of contracts or to a global scope.
+The basis of authorization on the Neo blockchain are cryptographic signatures. Users attach signatures to contract invocations to proove that they are authorized to perform certain actions in a smart contract. This authorization can be misused by smart contracts. A malicious contract can use the signature to perform a token transfer unintended by the user. To prevent that, Neo applies witness scopes that allow the user to restrict the use of their witness/signature. By default a witness is only valid in the contract that is the entry point of an invocation. The scope can be extended to specific contracts, groups of contracts or to a global scope.
 
 ### Groups
 
-Smart contract groups are designated by an EC public key. The contract manifest contains the affiliation of a contract
-with a group as shown below.
+Smart contract groups are designated by an EC public key. The contract manifest contains the affiliation of a contract with a group as shown below.
 
 ```json
 "groups": [
@@ -260,13 +214,7 @@ with a group as shown below.
 ],
 ```
 
-The public key identifies the group and the signature is proof that the originator of the contract was in possession of
-the corresponding private key material. The signature is created from the contract's hash and needs to be
-Base64-encoded. Thus, if you want to add your contract to a group you first need to compile it, calculate the contract
-hash, create the signature over that hash and extend the contract manifest with the group's public key and the produced
-signature. Note, that the contract hash depends on the account used to deploy the contract. I.e., you need to know in
-advance which account you will use to deploy the contract. To retrieve the contract hash and produce the signature you
-can use the neow3j SDK as in the following example code.
+The public key identifies the group and the signature is proof that the originator of the contract was in possession of the corresponding private key material. The signature is created from the contract's hash and needs to be Base64-encoded. Thus, if you want to add your contract to a group you first need to compile it, calculate the contract hash, create the signature over that hash and extend the contract manifest with the group's public key and the produced signature. Note, that the contract hash depends on the account used to deploy the contract. I.e., you need to know in advance which account you will use to deploy the contract. To retrieve the contract hash and produce the signature you can use the neow3j SDK as in the following example code.
 
 ```java
 Hash160 sender = ...;
@@ -279,22 +227,13 @@ Sign.SignatureData sig = Sign.signMessage(contractHash.toArray(), keyPair);
 String encSig = Base64.encode(sig.getConcatenated());
 ```
 
-You will have to modify the contract manifest JSON file and add the produced encoded signature and the public
-key to the `groups` section manually.
+You will have to modify the contract manifest JSON file and add the produced encoded signature and the public key to the `groups` section manually.
 
 ### Permissions 
 
-Besides witness scopes, smart contract security is improved by a system of permissions and trusts that a contract
-developer can define for her contract. Permissions define which contracts your contract is permitted to call. They are
-actively enforced, meaning that once defined in the contract's manifest, any calls from within your contract to
-contracts and methods not contained in the permissions will fail. To define permissions use the 
-`io.neow3j.devpack.annotations.Permission` annotation on class level of your contract class. By default your contract
-will have no permissions.
+Besides witness scopes, smart contract security is improved by a system of permissions and trusts that a contract developer can define for her contract. Permissions define which contracts your contract is permitted to call. They are actively enforced, meaning that once defined in the contract's manifest, any calls from within your contract to contracts and methods not contained in the permissions will fail. To define permissions use the `io.neow3j.devpack.annotations.Permission` annotation on class level of your contract class. By default your contract will have no permissions.
 
-The following is an example configuration. It allows your contract to call any method of the contract
-with hash `726cb6e0cd8628a1350a611384688911ab75f51b`, the methods `getBalance` and `transfer` of the contract with hash
-`d2a4cff31913016155e38e474a2c06d08be276cf`, and the method `commonMethodName` of any contract in the group with public key
-`033a4d051b04b7fc0230d2b1aaedfd5a8  4be279a5361a7358db665ad7857787f1b`.
+The following is an example configuration. It allows your contract to call any method of the contract with hash `726cb6e0cd8628a1350a611384688911ab75f51b`, the methods `getBalance` and `transfer` of the contract with hash `d2a4cff31913016155e38e474a2c06d08be276cf`, and the method `commonMethodName` of any contract in the group with public key `033a4d051b04b7fc0230d2b1aaedfd5a8  4be279a5361a7358db665ad7857787f1b`.
 
 ```java
 @Permission(contract = "726cb6e0cd8628a1350a611384688911ab75f51b", methods = "*")
@@ -303,10 +242,7 @@ with hash `726cb6e0cd8628a1350a611384688911ab75f51b`, the methods `getBalance` a
 public class MyContract {
 ```
 
-To set a permission for a native contract, you can instead use the `nativeContract` field in the annotation together with
-the enum `NativeContract`. As you may have noticed, the second permission in the example code above refers to the native
-GasToken contract. As it is a native contract, you can instead also use the following annotation, which results in the
-exact same outcome.
+To set a permission for a native contract, you can instead use the `nativeContract` field in the annotation together with the enum `NativeContract`. As you may have noticed, the second permission in the example code above refers to the native GasToken contract. As it is a native contract, you can instead also use the following annotation, which results in the exact same outcome.
 
 ```java
 @Permission(nativeContract = NativeContract.GasToken, methods = {"getBalance", "transfer"})
@@ -317,13 +253,9 @@ If you want to allow your contract to call any other contract, use the wildcard 
 
 ### Trusts
 
-Trusts define what contracts can call your contract, but, in contrast to permissions they are not enforeced. I.e., you
-cannot deter other contracts from calling yours. Trusts are only a definition that wallets and other dApps can use to
-tell the user when a contract is invoked that doesn't trust the calling contract.
+Trusts define what contracts can call your contract, but, in contrast to permissions they are not enforeced. I.e., you cannot deter other contracts from calling yours. Trusts are only a definition that wallets and other dApps can use to tell the user when a contract is invoked that doesn't trust the calling contract.
 
-By default the trust property is empty, i.e., no contracts are trusted. Use the `io.neow3j.devpack.annotations.Trust`
-annotation to define trusts like in the following example. The first entry is based on a single smart contract hash and
-the second one on a public key of a contract group.
+By default the trust property is empty, i.e., no contracts are trusted. Use the `io.neow3j.devpack.annotations.Trust` annotation to define trusts like in the following example. The first entry is based on a single smart contract hash and the second one on a public key of a contract group.
 
 ```java
 @Trust(contract = "acce6fd80d44e1796aa0c2c625e9e4e0ce39efc0")
@@ -331,9 +263,7 @@ the second one on a public key of a contract group.
 public class MyContract {
 ```
 
-To trust a native contract, instead of adding its hash to the `contract` attribute, you can use the `nativeContract`
-attribute the same way as it is used in the `@Permission` annotation as specified
-[above](neo-n3/smart_contract_development/devpack.md#Permissions). In the following example, the native StdLib is trusted:
+To trust a native contract, instead of adding its hash to the `contract` attribute, you can use the `nativeContract` attribute the same way as it is used in the `@Permission` annotation as specified [above](neo-n3/smart_contract_development/devpack.md#Permissions). In the following example, the native StdLib is trusted:
 
 ```java
 @Trust(nativeContract = NativeContract.StdLib)
@@ -344,34 +274,24 @@ If you want to trust any contract use the wildcard option `@Trust("*")`.
 
 ### Safe Methods
 
-Methods that don't change state of a contract and don't fire events can be safely invoked in a read-only mode. To signal
-that to the Neo network, you can use the `io.neow3j.devpack.annotations.Safe` annotation on method-level. The method
-will be tagged as safe in the contract's manifest.
+Methods that don't change state of a contract and don't fire events can be safely invoked in a read-only mode. To signal that to the Neo network, you can use the `io.neow3j.devpack.annotations.Safe` annotation on method-level. The method will be tagged as safe in the contract's manifest.
 
 If your `@Safe`-annotate a method does change state or fire an event, invocations of that method will fail.
 
 
 ### Call Flags
 
-Call flags allow you to restrict the actions of a contract you call within your contract. For example, you can deny
-further calls to other contracts, changing blockchain state, or firing events.
+Call flags allow you to restrict the actions of a contract you call within your contract. For example, you can deny further calls to other contracts, changing blockchain state, or firing events.
 
-The possible flags are defined and docuemented in `io.neow3j.devpack.constants.CallFlags` and are ment to be used in the
-`call` method of the `io.neow3j.devpack.Contract` class.
+The possible flags are defined and docuemented in `io.neow3j.devpack.constants.CallFlags` and are ment to be used in the `call` method of the `io.neow3j.devpack.Contract` class.
 
 
 ## Placeholder Substitution
 
-The devpack offers the possibility to substitute strings used in a contract before compiling it. Any string literal in
-the main contract class can be substituted, even annotation values. Currently, this feature is not supported in
-auxiliary classes used in the contract class.
+The devpack offers the possibility to substitute strings used in a contract before compiling it. Any string literal in the main contract class can be substituted, even annotation values. Currently, this feature is not supported in auxiliary classes used in the contract class.
 
 You have to compile the contract programmatically to be able to use this feature. Checkout
-[this](neo-n3/smart_contract_development/setup_and_compilation.md#programmatic-compilation) section for information on
-how to compile programmatically. The `Compiler` provides a `compile` method that takes a `Map<String, String>`
-parameter. This is the substitution map that tells the compiler which strings are placeholder strings (the map's keys)
-and which values they should be replaced with (the map's values). The placeholders in the contract must follow the
-syntax `"${*}"` where `*` will be used as key in the substitution map.
+[this](neo-n3/smart_contract_development/setup_and_compilation.md#programmatic-compilation) section for information on how to compile programmatically. The `Compiler` provides a `compile` method that takes a `Map<String, String>` parameter. This is the substitution map that tells the compiler which strings are placeholder strings (the map's keys) and which values they should be replaced with (the map's values). The placeholders in the contract must follow the syntax `"${*}"` where `*` will be used as key in the substitution map.
 
 ```java
     Map<String, String> substitutionMap = new HashMap<>();
@@ -404,15 +324,9 @@ Here's an example of how a smart contract using placeholders might look.
     }
 ```
 
-> **Note:** If the placeholder is not specified in the substitution map when compiling, the string present
-in the contract will be used (given that this value is not restricted to any format). For example, `"${account_address}"`
-must be replaced with a valid address for the compilation not to fail, while `event` will be called `"${event_name}"` if
-`"event_name"` is not a key in the substitution map and thus no substitution is provided.
+> **Note:** If the placeholder is not specified in the substitution map when compiling, the string present in the contract will be used (given that this value is not restricted to any format). For example, `"${account_address}"` must be replaced with a valid address for the compilation not to fail, while `event` will be called `"${event_name}"` if `"event_name"` is not a key in the substitution map and thus no substitution is provided.
 
-The placeholder substitution feature works in contract tests too. See
-[this](neo-n3/smart_contract_development/testing.md#deployment-configuration) section for more information.
-
-
+The placeholder substitution feature works in contract tests too. See [this](neo-n3/smart_contract_development/testing.md#deployment-configuration) section for more information.
 
 <!-- ## Annotations
 
