@@ -10,17 +10,27 @@ You can instantiate it as follows:
 Neow3j neow3j = Neow3j.build(new HttpService("http://localhost:40332"));
 ```
 
-This assumes a Neo node is listening at `http://localhost:40332`. Replace that URL with the address of the node you want to connect to. By instantiating a `Neow3j` object in this way, it will be configured with default settings. However, the appropriate configuration depends on the network you are connecting to. The default values are set for the Neo mainnet, including a 15-second block time. If you are connecting to a different network, you may need to customize the configuration and instantiate the `Neow3j` object with an instance of `Neow3jConfig`. For example:
+This assumes a Neo node is listening at `http://localhost:40332`. Replace that URL with the address of the node you want to connect to. By instantiating a `Neow3j` object in this way, it will be configured with default settings. Some `Neow3j` config settings will be based on the node's protocol settings which are fetched during the instantiation of the `Neow3j` object, e.g., the polling interval will be set to the milliseconds per block by default. If you want to use custom values, you can additionally pass a configured `Neow3jConfig` object. For example:
 
 ```java
+long pollingInterval = 30000; // in milliseconds
 Neow3j neow3j = Neow3j.build(new HttpService("http://localhost:40332"),
-                             new Neow3jConfig().setNetworkMagic(769));
+                             defaultNeow3jConfig().setPollingInterval(pollingInterval));
 ```
 
-Neow3j internally utilizes this configuration in several instances. For example, the network magic number is employed in the transaction hashing process.
+The `Neow3jConfig` class contains `Neow3j` specific config values/objects, such as the polling interval, which ScheduledExecutorService to use, or which Neo Name Service Resolver contract to use.
 
+><details><summary>Address Version</summary>
+>
+> As an exception, `Neow3jConfig` also has a static variable that holds the address version that is used in neow3j. It is designed as static because the address version is needed in contexts where no `Neow3j` instance is accessible. Ensure that the address version matches the type of addresses you are working with, and adjust it using `Neow3jConfig.setStaticAddressVersion(byte version)` if necessary. This ensures compatibility with the specific address format you are interacting with.
+>
+></details>
 
-The `Neow3jConfig` class includes a static member and static methods for setting and retrieving the address version. It is designed as static because the address version is needed in contexts where no `Neow3j` instance is accessible. Ensure that the address version matches the type of addresses you are working with, and adjust it using `Neow3jConfig.setAddressVersion(byte version)` if necessary. This ensures compatibility with the specific address format you are interacting with.
+><details><summary>Offline Neow3j Instance</summary>
+>
+> If you want to build something where you need a `Neow3j` instance but you don't have a node or don't want any RPCs to be performed, you can use an `OfflineService` in the `build()` function, or directly instantiate a concrete `JsonRpc2_0Neow3j` object with a custom protocol. The former will reject any RPCs while the latter will just bypass the initial RPC to fetch the node's protocol values to instantiate the configuration of the `Neow3j` instance.
+>
+></details>
 
 Now that we have set up a `Neow3j` instance, we can begin exploring potential interactions with the Neo blockchain. Most methods on `Neow3j` construct and return a `Request` object that specifies the request and the expected response format. Use `send()` on this request to actually send it to the Neo node. The returned type will be a subclass of `Response`.
 
