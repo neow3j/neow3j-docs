@@ -1,10 +1,3 @@
-<div class="oneclicknode-container">
-    <a class="oneclicknode-btn" href="https://marketplace.digitalocean.com/apps/1clicknode-for-neo" target="_blank" 
-    style="color: #FFFFFF"> 
-      ⌛ Don't waste time setting up a Neo Node. 👉 Use 1ClickNode, it's free!
-    </a>
-</div>
-
 <div style="text-align: center">
     <img src="../images/neow3j-neo3.png" alt="Logo" id="logo">
 </div>
@@ -12,21 +5,6 @@
 <h1 id="cover-header">neow3j <small>3.23.0</small></h1>
 
 Neow3j is a development toolkit that provides easy and reliable tools to build Neo dApps and Smart Contracts using the Java platform (Java, Kotlin, Android). It is an open-source project developed by the Neo community and maintained by [AxLabs](https://axlabs.com).
-
-<table>
-  <tr>
-    <td>
-      <a href="https://marketplace.digitalocean.com/apps/1clicknode-for-neo">
-        <img src="https://cdn.axlabs.net/1clicknode-logos/1clicknode-logo-for-light.png" width="200" 
-        alt="1ClickNode Logo">
-      </a>
-    </td>
-    <td>
-      If you are in need of a testnet or mainnet Neo node for your dApp but don't want to spend hours on setup, check 
-      out <a href="https://marketplace.digitalocean.com/apps/1clicknode-for-neo">1ClickNode</a>.
-    </td>
-  </tr>
-</table>
 
 ## Features 🚀
 
