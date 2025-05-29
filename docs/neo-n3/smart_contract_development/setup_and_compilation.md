@@ -35,7 +35,7 @@ The first block in the file applies the necessary Gradle plugins. Neow3j provide
 ```groovy
 plugins {
     id 'java'
-    id 'io.neow3j.gradle-plugin' version "3.23.0"
+    id 'io.neow3j.gradle-plugin' version "3.24.0"
 }
 ```
 
@@ -76,13 +76,13 @@ Then we need to define the dependencies, which are `io.neow3j:devpack` for writi
 
 ```groovy
 dependencies {
-    implementation 'io.neow3j:devpack:3.23.0'
+    implementation 'io.neow3j:devpack:3.24.0'
 
     testImplementation 'org.junit.jupiter:junit-jupiter:5.9.0',
-            'io.neow3j:devpack-test:3.23.0',
+            'io.neow3j:devpack-test:3.24.0',
             'ch.qos.logback:logback-classic:1.2.11'
 
-    deployImplementation 'io.neow3j:compiler:3.23.0',
+    deployImplementation 'io.neow3j:compiler:3.24.0',
             'ch.qos.logback:logback-classic:1.2.11'
 }
 ```
