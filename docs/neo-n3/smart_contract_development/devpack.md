@@ -18,20 +18,9 @@ validity.
 
 ## Storage
 
-Every smart contract on the Neo blockchain has its own key-value store. This storage is accessed via a so called storage
-context. The context is the gateway to the contract's storage. This additional concept between you and the storage
-potentially allows you to pass the context to another contract, which could then access your contract's storage
-directly. In the devpack, the storage context is represented by the `io.neow3j.devpack.StorageContext` class. 
+Every smart contract on the Neo blockchain has its own key-value store. Methods for accessing storage are on the classes `io.neow3j.devpack.Storage` and `io.neow3j.devpack.StorageMap`. They provide many `put` and `get` methods for different key and return types. Use the `StorageMap` class if you want to reserve a segment of the storage for a specific purpose. Storage maps use a prefix that is appended to every key used in that map. 
 
-Methods for accessing storage are on the classes `io.neow3j.devpack.Storage` and `io.neow3j.devpack.StorageMap`. They
-provide many `put` and `get` methods for different key and return types. Because the storage context is always required
-for such method calls, it makes sense to retrieve the `StorageContext` once with `Storage.getStorageContext()`, store it
-in a static class variable and reuse it every time the storage is accessed. This might save GAS in contract invocations.
-Use the `StorageMap` if you want to reserve a segment of the storage for a specific purpose. Storage maps use a prefix
-that is appended to every key used in that map. 
-
-Note that the size for storage keys and values is limited to 64 bytes and 65535 bytes, respectively. When using a
-`StorageMap` the map prefix counts towards the key size.
+Note that the size for storage keys and values is limited to 64 bytes and 65535 bytes, respectively. When using a `StorageMap` the map prefix counts towards the key size.
 
 ## Smart Contract Interfaces
 

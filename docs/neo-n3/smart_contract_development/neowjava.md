@@ -76,7 +76,7 @@ public class Bongo {
 }
 ```
 
-The devpack itself defines classes that can be instantiated. For example, calling `Storage.getStorageContext()` returns a `StorageContrext` instance. On that object you can call instance methods like `createMap(...)`. Another example is the `io.neow3j.devpack.neo.Transaction` class. After retrieving a `Transaction` object with `LedgerContract.getTransaction(Hash256 txId)` all its properties are available to the contract class through public instance variables on the object. Of course, we could add getter and setter methods to the classes instead of accessing the members directly, but that incurs a higher GAS fee when executing the contract, because of the extra method call.
+The devpack itself defines classes that can be instantiated. For example, calling `new StorageMap(prefix)` returns a `StorageMap` instance. On that object you can call instance methods like `put(...)`. Another example is the `io.neow3j.devpack.neo.Transaction` class. After retrieving a `Transaction` object with `LedgerContract.getTransaction(Hash256 txId)` all its properties are available to the contract class through public instance variables on the object. Of course, we could add getter and setter methods to the classes instead of accessing the members directly, but that incurs a higher GAS fee when executing the contract, because of the extra method call.
 
 ## Contract Class
 
@@ -109,19 +109,18 @@ You can initialize contract variables with constant values (e.g., string literal
 ```java
 static int initialSupply = 200_000_000;
 static String totalSupplyKey = "totalSupply";
-static StorageContext sc = Storage.getStorageContext();
-static StorageMap assetMap = new StorageMap(sc, "assets");
+static StorageMap assetMap = new StorageMap("assets");
 ```
 
 Neow3j also supports the static initializer clause as shown below. But, the instance initializer, i.e., the same clause without the `static` keyword is not supported.
 
 ```java
 static final String assetPrefix;
-static final StorageContext sc;
+static final StorageMap assetsMap;
 
 static {
     assetPrefix = "asset";
-    sc = Storage.getStorageContext();
+    assetsMap = new StorageMap(assetPrefix);
 }
 ```
 

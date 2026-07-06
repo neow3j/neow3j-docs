@@ -28,7 +28,7 @@ Note that we're also passing `hash160(owner)` to the `ContractManagement`'s `dep
 @OnDeployment
 public static void deploy(Object data, boolean update) {
         if (!update) {
-                Storage.put(ctx, OWNER_KEY, (Hash160) data);
+                Storage.put(OWNER_KEY, (Hash160) data);
         }
 }
 ```
