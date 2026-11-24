@@ -108,7 +108,16 @@ List<NeoApplicationLog.Execution.Notification> notifications = execution.getNoti
 
 The stack included in the application logs will contain all the stack items returned by the invocation. Typically, the return stack consists of one return value located at index 0. It's important to know the type of stack item that the invocation returns in order to interpret it correctly.
 
-Next to the return value, you can also check for notifications triggered by the transaction. Notifications in the application log provide a way to track activities of a smart contract. Currently, there isn't a straightforward method to monitor a smart contract directly. Instead, you'll need to subscribe to new blocks, inspect transaction application logs, and check for notifications fired by the contract by comparing the contract hash to `notification.getContract()`.
+Next to the return value, you can also check for notifications triggered by the transaction. Notifications in the application log provide a way to track activities of a smart contract. To observe new notifications from one contract, use `Neow3j.subscribeToEvents(Hash160)`:
+
+```java
+Hash160 contractHash = new Hash160("0x1a70eac53f5882e40dd90f55463cce31a9f72cd4");
+neow3j.subscribeToEvents(contractHash).subscribe(
+        notification -> System.out.println(notification.getEventName()),
+        error -> System.err.println("Event subscription failed: " + error.getMessage()));
+```
+
+This subscription starts with new blocks after its first poll; it does not replay past events. The node must support `getapplicationlog`. Notifications are emitted regardless of their execution's VM state, so check the application log when that matters. RPC and communication errors reach the subscription's error handler.
 
 ## Using a Wallet on the Node
 

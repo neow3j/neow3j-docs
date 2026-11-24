@@ -33,7 +33,7 @@ The most prominent method on [NEP-17](https://github.com/neo-project/proposals/b
 Account account = Account.fromWIF("L3kCZj6QbFPwbsVhxnB8nUERDy4mhCSrWJew4u5Qh5QmGMfnCTda");
 Hash160 to = Hash160.fromAddress("NWcx4EfYdfqn5jNjDz8AHE6hWtWdUGDdmy");
 
-NeoSendRawTransaction response = new NeoToken(neow3j)
+TransactionSubmission submission = new NeoToken(neow3j)
         .transfer(account, to, new BigInteger("15"))
         .sign()
         .send();
@@ -47,12 +47,21 @@ Hash160 to = Hash160.fromAddress("NWcx4EfYdfqn5jNjDz8AHE6hWtWdUGDdmy");
 // Owner of the contract. Required for verifying the withdrawal from the contract.
 Account account = Account.fromWIF("L3kCZj6QbFPwbsVhxnB8nUERDy4mhCSrWJew4u5Qh5QmGMfnCTda");
 
-NeoSendRawTransaction response = new NeoToken(neow3j)
+TransactionSubmission submission = new NeoToken(neow3j)
         .transfer(contractHash, to, new BigInteger("15"))
         .signers(AccountSigner.calledByEntry(account),
                 ContractSigner.calledByEntry(contractHash))
         .sign()
         .send();
+```
+
+For example, to transfer a decimal amount of GAS, convert it before building the transaction:
+
+```java
+GasToken gas = new GasToken(neow3j);
+BigInteger amount = gas.toBaseUnits(new BigDecimal("1.5"));
+TransactionSubmission submission = gas.transfer(account, to, amount).sign().send();
+BigDecimal received = gas.fromBaseUnits(amount);
 ```
 
 In both variations of the `transfer` method, there is another overload that allows you to pass a contract parameter. That parameter is forwarded to the `onNep17Payment` method if the receiver is a smart contract and has implemented that method. If you want to pass multiple parameters, you need to do it inside a `ContractParameter.array(...)`.
@@ -61,15 +70,15 @@ In both variations of the `transfer` method, there is another overload that allo
 
 The wrapper class `NonFungibleToken` provides support for the [NEP-11](https://github.com/neo-project/proposals/blob/master/nep-11.mediawiki) standard. Refer to the standard for detailed information about non-fungible tokens on the Neo blockchain.
 
-It is important to understand that the standard supports both non-divisible and divisible non-fungible tokens. For divisible tokens, a token can have multiple owners, where each owner owns a fraction of that token. The provided wrapper class supports both divisible and non-divisible tokens, while methods that are only intended for divisible tokens cannot be used for non-divisible tokens, and vice versa.
+It is important to understand that the standard supports both non-divisible and divisible non-fungible tokens. For divisible tokens, a token can have multiple owners, each holding a share of it. The provided wrapper class supports both divisible and non-divisible tokens, while methods that are only intended for divisible tokens cannot be used for non-divisible tokens, and vice versa.
 
-Both divisible and non-divisible token contracts implement the method `balanceOf(owner)`, which simply returns the number of tokens owned by the given address. For divisible tokens, this includes fractional amounts of tokens. To get the fractional amount owned of a specific token, you can use the method `balanceOf(owner, tokenId)`, specifically implemented by divisible tokens.
+Both divisible and non-divisible token contracts implement the method `balanceOf(owner)`, which returns the number of tokens owned by the given address. For divisible tokens, balances are expressed in base units. To get the balance of a specific token ID, use `balanceOf(owner, tokenId)`.
 
 Furthermore, NFTs provide methods like `tokens`, `tokensOf`, and `ownerOf`. The method `ownerOf` returns the single owner of a non-divisible token. With divisible tokens, this method returns an iterator with all owners that own a share of this token.
 
-There are multiple overloads for the `transfer` method, some for non-divisible tokens and some for divisible tokens. For divisible tokens, the method has an additional parameter for the fractional token amount to transfer. Similar to the overloads on the `FungibleToken` class (see previous section), `NonFungibleToken` also provides further overloads for the sender address, either an `Account` or `Hash160`, and for adding a contract parameter passed to the `onNep11Payment` method if the receiver is a smart contract.
+There are multiple overloads for the `transfer` method, some for non-divisible tokens and some for divisible tokens. For divisible tokens, the method has an additional parameter for the amount in base units. Similar to the overloads on the `FungibleToken` class (see previous section), `NonFungibleToken` also provides further overloads for the sender address, either an `Account` or `Hash160`, and for adding a contract parameter passed to the `onNep11Payment` method if the receiver is a smart contract.
 
-Here's an example of sending 200 fractions of the token with ID 1. The fractional amount must be in accordance with the number of decimals the token can have. You can fetch the number of decimals via the `getDecimals()` method or calculate the amount via the `toFractions(...)` method.
+Here's an example of sending 200 base units of the token with ID 1. The amount is in base units, according to the token's decimals. Use `getDecimals()` to inspect its precision, `toBaseUnits(BigDecimal)` to convert a decimal amount using the token's precision, and `fromBaseUnits(BigInteger)` for the reverse conversion. Static overloads accept an explicit `decimals` value. An amount with more decimal places than the token supports is rejected.
 
 ```java
 Account account = Account.fromWIF("L3kCZj6QbFPwbsVhxnB8nUERDy4mhCSrWJew4u5Qh5QmGMfnCTda");

@@ -6,7 +6,7 @@ The neow3j SDK represents Neo transactions in its `io.neow3j.transaction.Transac
 
 ## Building Transactions
 
-The `TransactionBuilder` and the `Transaction` require a connection to a Neo node to fetch information such as fees or to send the transaction. Therefore, the `TransactionBuilder` is instantiated with a `Neow3j` object. Once constructed, the builder allows you to set almost all the properties a Neo transaction can have. The system fee, which is the amount of GAS your transaction will consume, and the network fee, which is based on the size of your transaction and the effort required to verify it, are both fetched automatically when building the transaction.
+The `TransactionBuilder` and the `Transaction` require a connection to a Neo node to fetch information such as fees or to send the transaction. Therefore, the `TransactionBuilder` is instantiated with a `Neow3j` object. Once constructed, the builder allows you to set almost all the properties a Neo transaction can have. The builder also sets the system and network fees automatically. The system fee covers the GAS consumed by execution. The network fee depends on the transaction size and the effort required to verify its witnesses.
 
 ```java
 Neow3j neow3j = Neow3j.build(new HttpService("http://127.0.0.1:40332"));
@@ -34,11 +34,11 @@ Account account = Account.fromWIF("L24Qst64zASL2aLEKdJtRLnbnTbqpcRNWkWJ3yhDh2CLU
 builder.signers(AccountSigner.calledByEntry(account));
 ```
 
-Signers are associated with a witness scope that restricts how the signer's witness* can be used during invocation. For instance, if a signer is only needed for paying the transaction fee, the witness scope can be set to *None\*. There are two signer classes to be aware of - `AccountSigner` and `ContractSigner`. Use `AccountSigner` for signers backed by an account, which provides static builder methods for all witness scopes.
+Signers are associated with a witness scope that restricts where their witness can be used during invocation. If a signer only pays the transaction fee, use the _None_ scope. There are two signer classes to be aware of - `AccountSigner` and `ContractSigner`. Use `AccountSigner` for signers backed by an account, which provides static builder methods for all witness scopes.
 
 Use `ContractSigner` if the signer is a smart contract. This type of signer does not require a signature but calls the contract's `verify(...)` method during transaction execution. Since contract signers cannot pay transaction fees, the `ContractSigner` class does not provide a builder method for the _None_ witness scope. Furthermore, the `ContractSigner`'s builder methods can accept contract parameters if the contract's `verify(...)` method has extra parameters.
 
-**Note:** A transaction requires at least one `AccountSigner` to pay for the fees.
+**Note:** A transaction requires at least one `AccountSigner` to pay for the fees. A hash-only account signer can be used to build and price a transaction, but cannot be signed locally. For a hash-only multi-sig signer, provide the signing threshold and participant count (for example, `AccountSigner.calledByEntry(hash, threshold, participants)`) so the network fee can be calculated. `canSign()` reports whether the account has a decrypted single-sig key and verification script; `hasVerificationScript()` reports whether its script is available for exporting a contract parameters context. Use `getUnsignedTransaction()` and add witnesses manually for external or multi-sig signing.
 
 > A witness is a script pair that consists of an invocation and a verification script. Both scripts are sequences of NeoVM instructions. In the case of an account signer, the invocation script includes instructions to push the signature data onto the NeoVM stack. In the verification script, the corresponding public key data is pushed onto the NeoVM stack, followed by an instruction to verify the signature provided in the invocation script.
 >
@@ -60,8 +60,8 @@ TransactionBuilder builder = new TransactionBuilder(neow3j)
     .signers(AccountSigner.calledByEntry(account));
 
 // Build the transaction
-Transaction tx = builder.sign()
-                        .send();
+TransactionSubmission submission = builder.sign().send();
+Hash256 txId = submission.getTxId();
 ```
 
 To manually add witnesses to a transaction, continue reading the next section.
@@ -70,7 +70,7 @@ To manually add witnesses to a transaction, continue reading the next section.
 
 As demonstrated in the section on [Building Transactions](#/neo-n3/dapp_development/transactions?id=building-transactions), the `TransactionBuilder` offers a `sign()` method to add the correct signatures based on the provided signers. If you use an `AccountSigner` with a private key, the `sign()` method will automatically generate the required signature/witness. However, if the account does not have a key (e.g., for a multi-sig account), you'll need to provide the witness manually.
 
-`To sign manually, use `getUnsignedTransaction()` on the builder to retrieve the transaction without witnesses. Then, add the necessary witnesses by creating a witness from the serialized transaction bytes:
+To sign manually, use `getUnsignedTransaction()` on the builder to retrieve the transaction without witnesses. Then, add the necessary witnesses by creating a witness from the serialized transaction bytes:
 
 ```java
 Transaction tx = builder.getUnsignedTransaction();
@@ -119,25 +119,34 @@ signatureMap.put(pubKey2, sigData2);
 tx.addMultiSigWitness(multiSigAccount.getVerificationScript(), signatureMap);
 
 // Send the transaction
-NeoSendRawTransaction response = tx.send();
+TransactionSubmission submission = tx.send();
 ```
 
 If you need to sign a transaction manually and require a witness for a contract signer, use `Witness.createContractWitness(List<ContractParameter> verifyParams)` to create a witness for the contract signer and add it to the transaction using `addWitness(Witness witness)`.
 
 ## Tracking Transactions
 
-To track an issued transaction, use the `track()` method on the transaction instance. You can then retrieve the application log as soon as the transaction is included in a block using `getApplicationLog()`:
+`Transaction.send()` returns a `TransactionSubmission`, which retains both the submitted transaction (`getTransaction()`) and the node's raw response (`getSendResponse()`). Inspect `hasError()` or `getError()` for a rejected submission; `getTxId()` also works when the node rejects it, using the locally calculated transaction ID. The convenience `getSendRawTransaction()` accesses the raw response result.
+
+To wait for inclusion and retrieve the application log, use the submission:
 
 ```java
-tx.track().subscribe(blockIndex -> {
-    System.out.println("Transaction included in block " + blockIndex + ".");
-    NeoApplicationLog log = tx.getApplicationLog();
+TransactionSubmission submission = tx.send();
+submission.await(); // Also accepts a Duration timeout.
+NeoApplicationLog log = submission.getApplicationLog();
+if (log != null) {
     System.out.println("Transaction exited with state " + log.getExecutions().get(0).getState() + ".");
-});
+}
 ```
 
-If you call `getApplicationLog()` before the transaction is included in a block, it will throw an `RpcResponseErrorException` indicating that the transaction is unknown or could not be found.
+`await()` and RPC lookups such as `getApplicationLog()`, `getBlockHeight()`, `getBlockTime()`, and `hasHalted()` declare `IOException` for node communication failures. A missing application log returns `null`; unexpected RPC errors still throw `RpcResponseErrorException`. Waiting for inclusion does not by itself guarantee that the invocation halted successfully; inspect the log or use `hasHalted()`. Handle a wait timeout as well.
 
+For an asynchronous block notification, `track()` on the submission emits the containing block index:
+
+```java
+submission.track().subscribe(blockIndex ->
+    System.out.println("Transaction included in block " + blockIndex + "."));
+```
 
 ## Adding Additional Network Fees
 
@@ -147,8 +156,8 @@ Transactions involve two types of fees: system fee and network fee. The system f
 Transaction tx = new TransactionBuilder(neow3j)
         .script(script)
         .signers(AccountSigner.calledByEntry(acc))
-        .additionalNetworkFee(1_000_000L) // Adds 1,000,000 GAS fractions (0.01 GAS)
+        .additionalNetworkFee(1_000_000L) // Adds 1,000,000 GAS base units (0.01 GAS)
         .sign();
 ```
 
-This example adds 1,000,000 GAS fractions to the network fee for transaction priority.
+This example adds 1,000,000 GAS base units to the network fee for transaction priority.

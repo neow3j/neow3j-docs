@@ -1,37 +1,22 @@
 # Devpack
 
-The neow3j devpack provides classes, methods and annotations required for writing smart contracts in Java. For example,
-if your smart contract needs to verify a transaction signature, the devpack offers a method for that. Or, if you want to
-publish detailed information about the contract in its manifest, you can use one of the devpack's annotations.
-The following sections describe the devpack's API, frequently used concepts and constructs. Not every class is described
-here. Use the [Javadocs](https://javadoc.io/doc/io.neow3j/devpack/latest/overview-summary.html) as well to get an
-overview of the devpacks capabilities.
+The neow3j devpack provides classes, methods and annotations required for writing smart contracts in Java. For example, if your smart contract needs to verify a transaction signature, the devpack offers a method for that. Or, if you want to publish detailed information about the contract in its manifest, you can use one of the devpack's annotations. The following sections describe the devpack's API, frequently used concepts and constructs. Not every class is described here. Use the [Javadocs](https://javadoc.io/doc/io.neow3j/devpack/latest/overview-summary.html) as well to get an overview of the devpacks capabilities.
 
 ## Hashes
 
-As with neow3j SDK, the devpack provides special types for hashes. Use `Hash160` for contract and account hashes and
-`Hash256` for transaction and block hashes. The underlying stack item of both of these types is a NeoVM byte string,
-thus, changing to and from `ByteString` doesn't require an actual conversion. When you use the constructor
-`Hash160(ByteString value)` or `Hash256(ByteString value)` the devpack does **not** check if the value is a valid hash
-with correct size. Use `Hash160.isValid(Object o)` or `Hash256.isValid(Object o)` on an object if you need to check for
-validity.
+As with neow3j SDK, the devpack provides special types for hashes. Use `Hash160` for contract and account hashes and `Hash256` for transaction and block hashes. The underlying stack item of both of these types is a NeoVM byte string, thus, changing to and from `ByteString` doesn't require an actual conversion. When you use the constructor `Hash160(ByteString value)` or `Hash256(ByteString value)` the `devpack` does **not** check if the value is a valid hash with correct size. Use `Hash160.isValid(Object o)` or `Hash256.isValid(Object o)` on an object if you need to check for validity.
 
 ## Storage
 
 Every smart contract on the Neo blockchain has its own key-value store. Methods for accessing storage are on the classes `io.neow3j.devpack.Storage` and `io.neow3j.devpack.StorageMap`. They provide many `put` and `get` methods for different key and return types. Use the `StorageMap` class if you want to reserve a segment of the storage for a specific purpose. Storage maps use a prefix that is appended to every key used in that map. 
 
+Storage is scoped to the executing contract. `StorageContext` and overloads accepting a context were removed in 3.25.0; use `Storage.get(key)`, `Storage.put(key, value)`, `Storage.delete(key)`, and `new StorageMap(prefix)` without a context.
+
 Note that the size for storage keys and values is limited to 64 bytes and 65535 bytes, respectively. When using a `StorageMap` the map prefix counts towards the key size.
 
 ## Smart Contract Interfaces
 
-Your smart contract can call other contracts via the `Contract.call(Hash160 scriptHash, String method, byte callFlags,
-Object[] arguments)` method in an adhoc way. But, there is a another way of doing this, and that is by using what we
-call a contract interface. In the context of the devpack, contract interfaces are classes that provide an
-interface to deployed contracts. The word interface is not used in Java's meaning but in the meaning of a gateway to the
-actual contract instance on the blockchain. For example, the `NeoToken` class holds all methods of the native NeoToken
-contract and allows you to call it from within your own smart contract. These contract interface classes are located in
-the `io.neow3j.devpack.contracts` package. All of Neo's native contracts are represented here, plus some other classes,
-e.g., interfaces to access token contracts.
+Your smart contract can call other contracts via the `Contract.call(Hash160 scriptHash, String method, byte callFlags, Object[] arguments)` method in an adhoc way. But, there is another way of doing this, and that is by using what we call a contract interface. In the context of the devpack, contract interfaces are classes that provide an interface to deployed contracts. The word interface is not used in Java's meaning but in the meaning of a gateway to the actual contract instance on the blockchain. For example, the `NeoToken` class holds all methods of the native NeoToken contract and allows you to call it from within your own smart contract. These contract interface classes are located in the `io.neow3j.devpack.contracts` package. All of Neo's native contracts are represented here, plus some other classes, e.g., interfaces to access token contracts.
 
 If you need to call a method of a native contract, e.g., get the hash of the latest block, use the corresponding method on the contract interface.
 
@@ -41,8 +26,7 @@ If you need to call a method of a native contract, e.g., get the hash of the lat
 Hash256 blockHash = new LedgerContract().currentHash();
 ```
 
-Additionally to the existing contract interfaces, you can define your own. The requirements for a valid contract interface
-are:
+Additionally to the existing contract interfaces, you can define your own. The requirements for a valid contract interface are:
 - extend the `io.neow3j.devpack.contracts.ContractInterface` class.
 - create a constructor with a single `Hash160` parameter and call `super()` without any further logic in the constructor.
 
@@ -172,8 +156,7 @@ This method is called if your contract is invoked with the verification trigger.
 
 Use the devpack's `io.neow3j.devpack.annotations.OnVerification` annotation on the designated method. Your method's name does not have to be `verify`, but can be anything. Although, in the contract manifest it will show up under the name `verify`. The method must return a boolean and can have any number of parameters.
 
->**Note:** The Neo node does not allow the verify method to fire any event. The compiler will throw an exception
->if an event is fired within this method.
+>**Note:** The Neo node does not allow the verify method to fire any event. The compiler will throw an exception if an event is fired within this method.
 
 ### onNEP17Payment
 
@@ -244,7 +227,7 @@ If you want to allow your contract to call any other contract, use the wildcard 
 
 Trusts define what contracts can call your contract, but, in contrast to permissions they are not enforeced. I.e., you cannot deter other contracts from calling yours. Trusts are only a definition that wallets and other dApps can use to tell the user when a contract is invoked that doesn't trust the calling contract.
 
-By default the trust property is empty, i.e., no contracts are trusted. Use the `io.neow3j.devpack.annotations.Trust` annotation to define trusts like in the following example. The first entry is based on a single smart contract hash and the second one on a public key of a contract group.
+By default, the trust property is empty, i.e., no contracts are trusted. Use the `io.neow3j.devpack.annotations.Trust` annotation to define trusts like in the following example. The first entry is based on a single smart contract hash and the second one on a public key of a contract group.
 
 ```java
 @Trust(contract = "acce6fd80d44e1796aa0c2c625e9e4e0ce39efc0")
@@ -267,7 +250,6 @@ Methods that don't change state of a contract and don't fire events can be safel
 
 If your `@Safe`-annotate a method does change state or fire an event, invocations of that method will fail.
 
-
 ### Call Flags
 
 Call flags allow you to restrict the actions of a contract you call within your contract. For example, you can deny further calls to other contracts, changing blockchain state, or firing events.
@@ -279,8 +261,7 @@ The possible flags are defined and docuemented in `io.neow3j.devpack.constants.C
 
 The devpack offers the possibility to substitute strings used in a contract before compiling it. Any string literal in the main contract class can be substituted, even annotation values. Currently, this feature is not supported in auxiliary classes used in the contract class.
 
-You have to compile the contract programmatically to be able to use this feature. Checkout
-[this](neo-n3/smart_contract_development/setup_and_compilation.md#programmatic-compilation) section for information on how to compile programmatically. The `Compiler` provides a `compile` method that takes a `Map<String, String>` parameter. This is the substitution map that tells the compiler which strings are placeholder strings (the map's keys) and which values they should be replaced with (the map's values). The placeholders in the contract must follow the syntax `"${*}"` where `*` will be used as key in the substitution map.
+You have to compile the contract programmatically to be able to use this feature. Checkout [this](neo-n3/smart_contract_development/setup_and_compilation.md#programmatic-compilation) section for information on how to compile programmatically. The `Compiler` provides a `compile` method that takes a `Map<String, String>` parameter. This is the substitution map that tells the compiler which strings are placeholder strings (the map's keys) and which values they should be replaced with (the map's values). The placeholders in the contract must follow the syntax `"${*}"` where `*` will be used as key in the substitution map.
 
 ```java
     Map<String, String> substitutionMap = new HashMap<>();

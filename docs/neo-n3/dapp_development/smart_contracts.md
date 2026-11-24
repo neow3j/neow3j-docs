@@ -93,7 +93,7 @@ ContractParameter domainParam = ContractParameter.string("myname.neo");
 ContractParameter accountParam = ContractParameter.hash160(account.getScriptHash());
 String function = "register";
 
-NeoSendRawTransaction response = new SmartContract(scriptHash, neow3j)
+TransactionSubmission submission = new SmartContract(scriptHash, neow3j)
         .invokeFunction(function, domainParam, accountParam)
         .signers(AccountSigner.calledByEntry(account))
         .sign()
@@ -103,7 +103,7 @@ NeoSendRawTransaction response = new SmartContract(scriptHash, neow3j)
 Of course, it is also possible to call a smart contract function that doesn't take any parameters, for example, a contract that simply increments a number every time it gets called.
 
 ```java
-NeoSendRawTransaction response = new SmartContract(contract, neow3j)
+TransactionSubmission submission = new SmartContract(contract, neow3j)
         .invokeFunction("increment")
         .signers(AccountSigner.calledByEntry(account))
         .sign()
@@ -137,7 +137,7 @@ There are several subclasses of `SmartContract` that implement a type of interfa
 
 ### ContractManagement
 
-The `ContractManagement` contract is a native Neo contract that, as its name suggests, can be used to manage other contracts. More specifically, it allows you to deploy, update, and delete a contract. In the neow3j SDK, the update and delete methods cannot be used because they can only be called from within another contract. However, the deploy method is available and allows you to deploy new contracts with neow3j. For example:
+The `ContractManagement` contract is a native Neo contract that, as its name suggests, can be used to manage other contracts. More specifically, it allows you to deploy, update, and delete a contract. In the neow3j SDK, the update and delete methods cannot be used because they can only be called from within another contract. However, the `deploy` method is available and allows you to deploy new contracts with neow3j. For example:
 
 ```java
 Transaction tx = new ContractManagement(neow3j)
@@ -161,6 +161,18 @@ The contract also provides setters for all of these values, though they can only
 The `RoleManagement` contract is used to assign roles to nodes in the network. A node can be a state validator, an oracle node, or a NeoFS "Alphabet" node (responsible for consensus on NeoFS sidechain).
 
 The designation of a node to a role can only be done via the Neo committee. However, you can check the role assignments with the `getDesignatedRole(...)` method.
+
+## StdLib
+
+The SDK's `io.neow3j.contract.StdLib` wraps the native StdLib contract for read-only RPC invocations. It provides serialization, JSON, Base64/Base58/hex encoding, integer conversion, memory search and comparison, and string functions. This differs from `io.neow3j.devpack.contracts.StdLib`, which is used inside Java smart contracts.
+
+```java
+StdLib stdLib = new StdLib(neow3j);
+String encoded = stdLib.base64Encode("hello".getBytes(StandardCharsets.UTF_8));
+byte[] decoded = stdLib.base64Decode(encoded);
+```
+
+Its methods declare `IOException` for node communication errors; native invocation faults are reported as `InvocationFaultStateException`.
 
 ### NeoNameService
 

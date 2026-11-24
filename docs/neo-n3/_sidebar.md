@@ -1,3 +1,5 @@
+- [Upgrading from 3.24.x to 3.25.1](neo-n3/migration_3_25.md)
+
 - dApp Development
 
   - [Introduction](neo-n3/dapp_development/introduction.md)

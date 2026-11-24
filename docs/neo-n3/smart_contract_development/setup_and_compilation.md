@@ -8,9 +8,9 @@ Use the [boilerplate](https://github.com/neow3j/neow3j-boilerplate) repository f
 
 If you want to develop locally, skip the next section and continue [here](#the-build-file).
 
-## Setup in GitHub Codespace
+## Setup in GitHub Codespaces
 
-You can get started quickly by using our boilerplate in a GitHub codespace. This allows you to get started quickly without having to setup and manage your local environment. Just follow the following few steps:
+You can get started quickly by using our boilerplate in a GitHub Codespaces. This allows you to get started quickly without having to setup and manage your local environment. Just follow the following few steps:
 
 Start a new codespace in your newly created boilerplate repository. This might take a while because it downloads and runs multiple images.
 
@@ -35,7 +35,7 @@ The first block in the file applies the necessary Gradle plugins. Neow3j provide
 ```groovy
 plugins {
     id 'java'
-    id 'io.neow3j.gradle-plugin' version "3.24.2"
+    id 'io.neow3j.gradle-plugin' version "3.25.1"
 }
 ```
 
@@ -76,13 +76,13 @@ Then we need to define the dependencies, which are `io.neow3j:devpack` for writi
 
 ```groovy
 dependencies {
-    implementation 'io.neow3j:devpack:3.24.2'
+    implementation 'io.neow3j:devpack:3.25.1'
 
     testImplementation 'org.junit.jupiter:junit-jupiter:5.9.0',
-            'io.neow3j:devpack-test:3.24.2',
+            'io.neow3j:devpack-test:3.25.1',
             'ch.qos.logback:logback-classic:1.3.4'
 
-    deployImplementation 'io.neow3j:compiler:3.24.2',
+    deployImplementation 'io.neow3j:compiler:3.25.1',
             'ch.qos.logback:logback-classic:1.3.4'
 }
 ```
@@ -95,7 +95,7 @@ tasks.withType(Test) {
 }
 ```
 
-Lastly, there is a block called `neow3jCompiler`, which configures the `neow3jCompile` Gradle task. The contract that we want to compile is declared by its fully qualified name with the `className` property. There are two hidden properties not used here. The first is the `debug` property, which determines if the compilation should produce debugging inforamtion for the Neo Debugger. It is true by default. The second is `outputDir`, which specifies a directory for placing the compilation results. It is `build/neow3j` by default.
+Lastly, there is a block called `neow3jCompiler`, which configures the `neow3jCompile` Gradle task. The contract that we want to compile is declared by its fully qualified name with the `className` property. There are two hidden properties not used here. The first is the `debug` property, which determines if the compilation should produce debugging information for the Neo Debugger. It is true by default. The second is `outputDir`, which specifies a directory for placing the compilation results. It is `build/neow3j` by default.
 
 ```groovy
 neow3jCompiler {
@@ -123,7 +123,7 @@ CompilationUnit res = new Compiler().compile(
                substitutions);
 ```
 
-The compile requires the fully qualified name of the contract class to compile and will look for that class file in the project. After compilation the results are accessible in the `CompilationUnit`. It contains the NEF file, contract manifest, and other information.
+The compiler requires the fully qualified name of the contract class to compile and will look for that class file in the project. After compilation the results are accessible in the `CompilationUnit`. It contains the NEF file, contract manifest, and other information.
 
 ```java
 NefFile nef = result.getNefFile();

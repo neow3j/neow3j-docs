@@ -21,11 +21,13 @@ Most importantly, you need to specify the contracts under test via the `contract
 
 **Block Time**
 
-Smart contract tests run on an underlyig Neo blockchain implementation that produces blocks in a fixed time interval. You can change that interval with the `blockTime` property.
+Smart contract tests run on an underlying Neo blockchain implementation that produces blocks in a fixed time interval. You can change that interval with the `blockTime` property.
 
 **Batch File**
 
 Some Neo blockchain implementations, like neo-express, have a **batch** functionality that allows you to execute a series of commands that alter the blockchain state before running it. You can, thereby, initialize the blockchain to a desired state before running the tests. Place the batch file in the *resources* directory (i.e., *src/test/resources*) and set the name of the file in the `batchFile` property. The batch file is applied once before all tests.
+
+In 3.25.1, the bundled `default.neo-express` places `rpc.MaxGasInvoke` (`100000`) and `rpc.MaxFee` (`0.2`) at the root of `settings`, where Neo Express reads them. If you copied an older configuration with these keys under a consensus node, move them to `settings`; the old placement can cause deployments to fail with insufficient GAS.
 
 Checkout the official neo-express [documentation](https://github.com/neo-project/neo-express/blob/master/docs/command-reference.md#neoxp-batch) on how to write a batch file for neo-express.
 
@@ -43,14 +45,14 @@ Checkout the official neo-express [documentation](https://github.com/neo-project
 
 ## Test Extension
 
-Next to the `@ContractTest` annotation you have to add the `ContractTestExtension` to your test class. It is a JUnit 5 test extension that hooks into the before and after stages of the test class. It configures and starts the test blockchain, applies batche and checkpoint files, compiles and deploys your contract, and tears everything down after all tests were run.
+Next to the `@ContractTest` annotation you have to add the `ContractTestExtension` to your test class. It is a JUnit 5 test extension that hooks into the before and after stages of the test class. It configures and starts the test blockchain, applies batch and checkpoint files, compiles and deploys your contract, and tears everything down after all tests were run.
 
 ```java
     @RegisterExtension
     private static ContractTestExtension ext = new ContractTestExtension();
 ```
 
-The `ContractTestExtension` has a second constructor that takes an instance of `TestBlockchain`. This provides flexbility for the underlying Neo blockchain implementation used for the tests. Currently only one implementation of `TestBlockchain` exists. It uses neo-express in a docker container. In the future other implementations could be added, e.g., for running tests directly on the testnet but with limited capabilities compared to a neo-express instance.
+The `ContractTestExtension` has a second constructor that takes an instance of `TestBlockchain`. This provides flexibility for the underlying Neo blockchain implementation used for the tests. Currently only one implementation of `TestBlockchain` exists. It uses neo-express in a docker container. In the future other implementations could be added, e.g., for running tests directly on the testnet but with limited capabilities compared to a neo-express instance.
 
 The `ContractTestExtension` provides several methods to control the blockchain instance. You can halt, resume, and fast-forward block production, create new accounts or retrieve the genesis accounts with its associated private keys. Furthermore, it provides access to a `Neow3j` configured to do RPC method calls to the underlying blockchain and access to the `SmartContract` objects representing the deployed contracts. You could retrieve both in a setup method before all tests and set them as static variables on your test class.
 
@@ -64,9 +66,9 @@ The `ContractTestExtension` provides several methods to control the blockchain i
 
 ## Deployment Configuration
 
-The `devpack-test` allows you to configure the deployment of you smart contracts under test by adding a static configuration method for each contract. The methods must be annotated with `@DeployConfig` and the annotation's value must be set with the class of the contract this configuration is meant for. The method must return `DeployConfiguration` and take either no or an optional argument of type `DeployContext`. Configuration happens on the `DeployConfiguration` object. Currently, it allows you to set the deployment parameter, mappings for placeholder string substitution (described [here](neo-n3/smart_contract_development/devpack.md#placeholder-substitution)), and the signer of the deploy transaction (single and multi-sig accounts).
+The `devpack-test` allows you to configure the deployment of you smart contracts under test by adding a static configuration method for each contract. The methods must be annotated with `@DeployConfig` and the annotation's value must be set with the class of the contract this configuration is meant for. The method must return `DeployConfiguration` and take either no or an optional argument of type `DeployContext`. Configuration happens on the `DeployConfiguration` object. Currently, it allows you to set the deployment parameter, mappings for placeholder string substitution (described [here](neo-n3/smart_contract_development/devpack.md#placeholder-substitution)), and the signer of the deployment transaction (single and multi-sig accounts).
 
-The `DeployContext` parameter allows you to access contracts that are preceeding in the deployment order. It also provides the deployment transaction hashes.
+The `DeployContext` parameter allows you to access contracts that are preceding in the deployment order. It also provides the deployment transaction hashes.
 
 ```java
     @DeployConfig(ExampleContract.class)
@@ -82,7 +84,7 @@ The `DeployContext` parameter allows you to access contracts that are preceeding
     }
 ```
 
-The example shows, that you can access other contracts under test if they are preceeding in the order of deployment. This allows you to grab the contract hash and use it as a deployment parameter in another contract.
+The example shows, that you can access other contracts under test if they are preceding in the order of deployment. This allows you to grab the contract hash and use it as a deployment parameter in another contract.
 
 Note, that you can set only one deployment parameter. That is according to the standardized `_deploy` method in smart contracts. It takes only one deployment parameter. Thus, if you want to pass multiple parameters, pack them into an array parameter.
 

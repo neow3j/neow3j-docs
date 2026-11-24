@@ -4,7 +4,7 @@ You can deploy smart contracts with different tools from the Neo ecosystem, for 
 
 The [boilerplate](https://github.com/neow3j/neow3j-boilerplate) repository shows how this could look like.
 
-The central class for deployment is `ContractManagement` that was introduced [here](neo-n3/dapp_development/smart_contracts.md#ContractManagement) and is part of neow3j SDK. Thus, you need the module `io.neow3j:contract`. See the [Quickstart](README.md#quickstart) section on how to import it. Before you calling the `ContractManagement` contract, we need to compile our contract code.
+The central class for deployment is `ContractManagement` that was introduced [here](neo-n3/dapp_development/smart_contracts.md#ContractManagement) and is part of neow3j SDK. Thus, you need the module `io.neow3j:contract`. See the [Quickstart](neo-n3/README.md#quickstart) section on how to import it. Before you calling the `ContractManagement` contract, we need to compile our contract code.
 
 ```java
 CompilationUnit res = new Compiler().compile(HelloWorldSmartContract.class.getCanonicalName(), substitutions);
@@ -18,9 +18,12 @@ Hash160 owner = deploymentAccount.getScriptHash();
 TransactionBuilder builder = new ContractManagement(neow3j)
         .deploy(res.getNefFile(), res.getManifest(), hash160(owner))
         .signers(signer);
-Hash256 txHash = builder.sign().send().getSendRawTransaction().getHash();
-Await.waitUntilTransactionIsExecuted(txHash, neow3j);
+TransactionSubmission submission = builder.sign().send();
+submission.await();
+Hash256 txHash = submission.getTxId();
 ```
+
+`await()` declares `IOException` if RPC communication fails and throws if the node rejects the submission or the wait times out. If you already have a transaction ID, `Await.waitUntilTransactionIsExecuted(txHash, neow3j)` also declares `IOException`.
 
 Note that we're also passing `hash160(owner)` to the `ContractManagement`'s `deploy` method as a parameter. That parameter will be passed to the `_deploy` method of your contract, so you can use it to configure your contract at time of deployment. The `ContractManagement` contract will deploy your contract and then call the `_deploy` method on it. You can add this method to your contract by annotating a method with `@OnDeployment` (see [here](neo-n3/smart_contract_development/devpack.md#_deploy)). Here's an example for such a method.
 
